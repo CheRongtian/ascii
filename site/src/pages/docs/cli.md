@@ -148,9 +148,13 @@ npx ascii.rest list
 It starts like this:
 
 ```text
-scenes      alpine-dawn  aurora-fjord  deep-reef  desert-night  earthrise
-            kyoto-dusk  lantern-lake  marine-drive  misty-forest  night-coast
-            ocean-sunset  storm-plains  taj-dawn  tokyo-rain  varanasi-ghats
+scenes      alpine-dawn  amer-fort  aurora-fjord  black-prism  cloud-sea
+            command-city  deep-reef  desert-night  earthrise  edge-orbit
+            gangaur-ghat  green-storm  jal-mahal  jungle-falls  kite-festival
+            kyoto-dusk  lake-pichola  lantern-lake  lava-wall  marine-drive
+            misty-forest  night-coast  night-highway  ocean-sunset  planet-scale
+            prism-city  salt-flat  saturn-rise  snow-train  storm-plains
+            taj-dawn  tokyo-rain  varanasi-ghats  volcano-night
 ui          boot-log  box-frames  calendar  digital-clock  dividers  file-tree
             form-controls  not-found  progress-bar  skeleton  spinners  terminal
 ```
@@ -158,7 +162,7 @@ ui          boot-log  box-frames  calendar  digital-clock  dividers  file-tree
 And it ends with the count:
 
 ```text
-217 pieces. npx ascii.rest <piece> plays one.
+236 pieces. npx ascii.rest <piece> plays one.
 ```
 
 The lines wrap to your window, up to 100 columns wide. When the output is piped, they wrap at 80. Every name it prints works with `npx ascii.rest <piece>` and with `npx ascii.rest add`. You can also see every piece playing on [the home page](/#pieces).

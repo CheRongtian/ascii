@@ -50,7 +50,7 @@ The main import: play a piece in an element, and find any piece by its name. Gui
 ```ts
 import { canvas, isPiece, load, mount, names } from "ascii.rest";
 
-console.log(names.length); // 217
+console.log(names.length); // 236
 
 const name = new URLSearchParams(location.search).get("piece") ?? "donut";
 if (isPiece(name)) {

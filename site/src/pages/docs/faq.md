@@ -8,7 +8,7 @@ Short answers to common questions. Each one links to the page with the full deta
 
 ## What is a piece?
 
-A **piece** is one animation, such as [donut](/donut/) or [night coast](/night-coast/). The library has 217 of them. Each piece draws its picture as text. A **frame** is that picture at one moment: a few rows of characters.
+A **piece** is one animation, such as [donut](/donut/) or [night coast](/night-coast/). The library has 236 of them. Each piece draws its picture as text. A **frame** is that picture at one moment: a few rows of characters.
 
 <div class="demo"><ascii-art piece="donut"></ascii-art></div>
 
@@ -26,7 +26,7 @@ const frame = donut.default()(1.5);
 There are two kinds of piece:
 
 - 129 are **text pieces**: plain text in your page's text colour, drawn in a `<pre>`.
-- 88 are **coloured pieces**: the scenes, logos, companies and distros. They have colours of their own and draw on a `<canvas>`.
+- 107 are **coloured pieces**: the scenes, logos, companies and distros. They have colours of their own and draw on a `<canvas>`.
 
 A **banner** is your own text in block letters. `banner()` turns text into a piece, so everything on this page works for banners too. A banner with no colour is drawn like a text piece, and one with a colour like a coloured piece. To write a piece of your own, see [your own pieces](/docs/pieces/).
 
@@ -45,7 +45,7 @@ Small. Each piece is its own file, and a page downloads only the pieces it uses.
 | `ascii.rest/react`, with `mount()`, `banner()` and the list of piece names, not counting React | 12 KB |
 | the script tag: `ascii.js` and the files it loads before any piece | 13 KB |
 
-These are the files as the package ships them, gzipped and rounded to the nearest KB. A bundler that minifies your code makes them smaller still, by about a third or more. 202 of the 217 pieces are under 5 KB. All 217 together come to about 553 KB, but no page loads them all.
+These are the files as the package ships them, gzipped and rounded to the nearest KB. A bundler that minifies your code makes them smaller still, by about a third or more. 203 of the 236 pieces are under 5 KB. All 236 together come to about 698 KB, but no page loads them all.
 
 ## Does it work with server rendering?
 

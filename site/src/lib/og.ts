@@ -34,7 +34,7 @@ const SIDE = 64;
  * piece that keeps state is played up to it at its own frame rate, as a page
  * would play it.
  */
-const AT: Partial<Record<string, number>> = {};
+const AT: Partial<Record<string, number>> = { "edge-orbit": 3 };
 
 /** Pieces that read the clock see this moment, so every build draws the same card. */
 const NOW = new Date(2026, 9, 7, 10, 10, 30).getTime();
@@ -401,9 +401,10 @@ const GITHUB =
 /**
  * The bottom row: the piece's name and the site on the left, the credit on the
  * right. Returns where the left words end and the right ones begin. A page's
- * card passes the site as the name and its path as `after`, set close.
+ * card passes the site as the name and its path as `after`, set close. A piece
+ * drawn from someone's design idea credits them too, just left of the mark.
  */
-function footer(name: string, scene: boolean, after = "ascii.rest", gap = 2) {
+function footer(name: string, scene: boolean, after = "ascii.rest", gap = 2, idea?: string) {
   const size = 26, y = HEIGHT - 52;
   const title = words(MEDIUM, name, SIDE, y, size);
   const siteX = SIDE + title.width + size * ADVANCE * gap;
@@ -412,19 +413,25 @@ function footer(name: string, scene: boolean, after = "ascii.rest", gap = 2) {
   const hw = handle.length * size * ADVANCE;
   const by = words(TEXT, handle, WIDTH - SIDE - hw, y, size);
   const mark = 26, mx = WIDTH - SIDE - hw - 12 - mark, my = y - mark * 0.82;
-  const svg =
+  let svg =
     `<path fill="${INK}" d="${title.d}"/>` +
     `<path fill="${scene ? SOFT : MUTED}" d="${site.d}"/>` +
     `<path fill="${INK}" d="${by.d}"/>` +
     `<path fill="${INK}" transform="translate(${n(mx)} ${n(my)}) scale(${mark / 16})" d="${GITHUB}"/>`;
-  return { svg, left: siteX + site.width, right: mx };
+  let right = mx;
+  if (idea) {
+    const credit = `idea by @${idea}`;
+    right = mx - size * ADVANCE * gap - credit.length * size * ADVANCE;
+    svg += `<path fill="${scene ? SOFT : MUTED}" d="${words(TEXT, credit, right, y, size).d}"/>`;
+  }
+  return { svg, left: siteX + site.width, right };
 }
 
 /** The share card for one piece, as PNG bytes. */
-export async function card(slug: PieceName, name: string): Promise<Uint8Array> {
+export async function card(slug: PieceName, name: string, idea?: string): Promise<Uint8Array> {
   const { meta, lines, color } = await still(slug);
   const scene = Boolean(color && meta.ground);
-  const foot = footer(name, scene);
+  const foot = footer(name, scene, undefined, undefined, idea);
   let body: string;
   if (color && scene) {
     // A scene runs edge to edge; the bottom darkens just enough to carry the text.

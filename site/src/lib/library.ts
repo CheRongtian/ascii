@@ -123,6 +123,10 @@ export const THANKS = [
   { name: "Greptile", href: "https://www.greptile.com", logo: "greptile", height: 1.5, for: "reviews our pull requests" },
   { name: "Paper", href: "https://paper.design/mono", logo: "paper", height: 1.5, for: "Paper Mono, our typeface" },
 ] as const;
+/** Pieces drawn from someone else's design idea, credited on the piece's page and its share card. */
+export const IDEAS: Partial<Record<string, { handle: string; url: string }>> = {
+  "black-prism": { handle: "satvikxs", url: "https://github.com/satvikxs" },
+};
 export const INSTALL = "npm install ascii.rest";
 
 const optionsOf = (piece: Piece) => (piece.options && Object.keys(piece.options).length ? piece.options : null);
