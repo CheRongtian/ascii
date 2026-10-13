@@ -83,7 +83,7 @@ There are 217 pieces in 15 categories. Each one has its own page at `ascii.rest/
 
 | category | pieces | what it holds |
 | --- | --- | --- |
-| scenes | 15 | full-colour places that move: [night coast](/night-coast/), [tokyo rain](/tokyo-rain/), a misty forest, the Taj Mahal at dawn |
+| scenes | 34 | full-colour places that move: [night coast](/night-coast/), [tokyo rain](/tokyo-rain/), [saturn rise](/saturn-rise/), Amer Fort at night, the Taj Mahal at dawn |
 | ui | 12 | parts for a page: [spinners](/spinners/), progress bars, a skeleton loader, a 404, a file tree, a clock |
 | data | 10 | live charts and meters: a [bar chart](/bar-chart/), candlesticks, a gauge, sparklines, a heatmap |
 | type | 9 | moving text that takes your own words: a [typewriter](/typewriter/), a split-flap board, a marquee, a glitch |
@@ -102,7 +102,7 @@ There are 217 pieces in 15 categories. Each one has its own page at `ascii.rest/
 The pieces come in two kinds, and each kind draws in its own way:
 
 - A **text piece** is plain text in your page's colour and font, drawn in a `<pre>`. 129 pieces are text pieces.
-- A **coloured piece** has colours of its own and is drawn on a `<canvas>`. The 88 scenes, logos, companies and distros are coloured pieces.
+- A **coloured piece** has colours of its own and is drawn on a `<canvas>`. The 107 scenes, logos, companies and distros are coloured pieces.
 
 A banner with no colour is drawn like a text piece. A banner with a colour is drawn like a coloured piece.
 

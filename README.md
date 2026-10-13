@@ -23,7 +23,7 @@
 
 <br>
 
-217 pieces for React, Next.js, Astro or plain HTML.<br>
+236 pieces for React, Next.js, Astro or plain HTML.<br>
 The banner above is drawn by ascii.rest: [make your own](https://ascii.rest/banner/).
 
 [ascii.rest](https://ascii.rest) · [docs](https://ascii.rest/docs/) · [install](#install) · [make your own](#make-your-own) · [pieces](#pieces) · [contributing](CONTRIBUTING.md)
@@ -38,7 +38,7 @@ The banner above is drawn by ascii.rest: [make your own](https://ascii.rest/bann
 
 <br>
 
-Written in TypeScript by [@bas3line](https://github.com/bas3line). 217 pieces, from full-colour scenes to loaders, charts, language logos, Linux distros, spinning shapes and physics. The donut above turns on a page with one tag: `<ascii-art piece="donut"></ascii-art>`. See them all at [ascii.rest](https://ascii.rest).
+Written in TypeScript by [@bas3line](https://github.com/bas3line). 236 pieces, from full-colour scenes to loaders, charts, language logos, Linux distros, spinning shapes and physics. The donut above turns on a page with one tag: `<ascii-art piece="donut"></ascii-art>`. See them all at [ascii.rest](https://ascii.rest).
 
 <p align="center">
   <a href="https://ascii.rest/night-coast/"><img src="https://ascii.rest/og/night-coast.png" width="32%" alt="night coast"></a>

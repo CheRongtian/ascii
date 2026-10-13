@@ -26,7 +26,7 @@ const frame = donut.default()(1.5);
 There are two kinds of piece:
 
 - 129 are **text pieces**: plain text in your page's text colour, drawn in a `<pre>`.
-- 88 are **coloured pieces**: the scenes, logos, companies and distros. They have colours of their own and draw on a `<canvas>`.
+- 107 are **coloured pieces**: the scenes, logos, companies and distros. They have colours of their own and draw on a `<canvas>`.
 
 A **banner** is your own text in block letters. `banner()` turns text into a piece, so everything on this page works for banners too. A banner with no colour is drawn like a text piece, and one with a colour like a coloured piece. To write a piece of your own, see [your own pieces](/docs/pieces/).
 
