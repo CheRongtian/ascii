@@ -104,21 +104,25 @@ const description = `${pieces.length} animated ascii pieces for web pages, in Ty
     (function () {
       var hero = document.querySelector(".hero");
       var cards = document.querySelectorAll("#scenes pre[data-piece]");
-      if (hero && cards.length) {
-        var from = cards[Math.floor(Math.random() * cards.length)];
-        var pre = hero.querySelector("pre.art");
-        var well = hero.querySelector(".well");
-        var name = from.getAttribute("aria-label");
-        var ground = from.closest(".well").style.getPropertyValue("--ground");
-        pre.innerHTML = from.innerHTML;
-        pre.dataset.piece = from.dataset.piece;
-        pre.setAttribute("style", from.getAttribute("style"));
-        pre.setAttribute("aria-label", name);
-        if (ground) well.style.setProperty("--ground", ground);
-        hero.href = "/" + from.dataset.piece + "/";
-        hero.setAttribute("aria-label", name + ", one of the scenes");
+      // Whatever happens here, the hero is shown again at the end.
+      try {
+        if (hero && cards.length) {
+          var from = cards[Math.floor(Math.random() * cards.length)];
+          var pre = hero.querySelector("pre.art");
+          var well = hero.querySelector(".well");
+          var name = from.getAttribute("aria-label");
+          var ground = from.closest(".well").style.getPropertyValue("--ground");
+          pre.innerHTML = from.innerHTML;
+          pre.dataset.piece = from.dataset.piece;
+          pre.setAttribute("style", from.getAttribute("style"));
+          pre.setAttribute("aria-label", name);
+          if (ground) well.style.setProperty("--ground", ground);
+          hero.href = "/" + from.dataset.piece + "/";
+          hero.setAttribute("aria-label", name + ", one of the scenes");
+        }
+      } finally {
+        document.documentElement.classList.remove("pick-hero");
       }
-      document.documentElement.classList.remove("pick-hero");
     })();
   </script>
 </Layout>
