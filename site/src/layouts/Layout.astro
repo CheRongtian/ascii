@@ -20,9 +20,11 @@ interface Props {
   current?: string;
   /** The share card, 1200x630, when the page has its own: path and alt text. */
   card?: { path: string; alt: string };
+  /** The home page, which on a phone puts its scene before the sidebar's line of categories. */
+  home?: boolean;
 }
 
-const { title, description, path, current, card } = Astro.props;
+const { title, description, path, current, card, home } = Astro.props;
 const canonical = new URL(path, SITE);
 // The site's share card is night coast with the name and credit, made from the
 // scene itself; a piece page shows its own piece (pages/og/[slug].png.ts).
@@ -76,7 +78,7 @@ const bug = issue("bug", current ? { title: `${current}: `, where: current } : {
   </head>
 
   <body>
-    <div class="frame">
+    <div class:list={["frame", home && "home"]}>
       <aside class="side">
         <a class="home" href="/">{NAME}</a>
         <p class="by">by <a href="/author/" rel="author">@{AUTHOR.name}</a></p>

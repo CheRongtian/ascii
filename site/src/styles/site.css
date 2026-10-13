@@ -1210,6 +1210,20 @@ pre.code {
     display: none;
   }
 
+  /*
+   * On the home page a phone opened on two screens of links before the first scene, and most phone visits ended
+   * there. The categories are the page's own sections further down, so the line of them and the asks give way and
+   * the scene comes first. The search stays, and its results still show here.
+   */
+  .frame.home .side .asks,
+  .frame.home .side nav:not(.searching) {
+    display: none;
+  }
+
+  .frame.home .side .find {
+    margin-bottom: 0;
+  }
+
   /* While searching, the line of categories gives way to the pieces found, under their categories. */
   .find {
     margin-bottom: 1rem;
