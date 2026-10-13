@@ -62,18 +62,24 @@ function hash(x: number, y: number): number {
   return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
-function noise(x: number, y: number): number {
+// Value noise, wrapping every `period` lattice cells in y when period > 0.
+function noise(x: number, y: number, period = 0): number {
   const xi = Math.floor(x), yi = Math.floor(y);
   const fx = x - xi, fy = y - yi;
   const u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
-  const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+  let y0 = yi, y1 = yi + 1;
+  if (period) {
+    y0 = ((yi % period) + period) % period;
+    y1 = (y0 + 1) % period;
+  }
+  const a = hash(xi, y0), b = hash(xi + 1, y0), c = hash(xi, y1), d = hash(xi + 1, y1);
   return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
 }
 
-function fbm(x: number, y: number, octaves: number): number {
+function fbm(x: number, y: number, octaves: number, period = 0): number {
   let s = 0, n = 0, amp = 0.5, f = 1;
   for (let i = 0; i < octaves; i++) {
-    s += amp * noise(x * f, y * f);
+    s += amp * noise(x * f, y * f, period * f);
     n += amp;
     amp *= 0.5;
     f *= 2;
@@ -301,7 +307,8 @@ export default function nightHighway(): Frame {
       const beamZ = smooth(1.2, 3.5, z) / (1 + (z / 13) ** 2);
       const sheen = Math.exp(-d / 2.4);
       const texAmp = smooth(1, 9, d);
-      const zw = (z + cam) * 0.12;
+      // One loop's drive, V * T = 192, is 24 texture cells, so the ground repeats exactly when the loop does.
+      const zw = (z + cam) * 0.125;
       for (let x = 0; x < W; x++) {
         const k = r * W + x;
         const X = (x + 0.5 - VPX) * cw;
@@ -319,14 +326,14 @@ export default function nightHighway(): Frame {
         }
         let cr: number, cg: number, cb: number;
         if (road) {
-          const grit = 0.85 + 0.3 * hash(x * 7 + r, (zw * 10) | 0) * texAmp;
+          const grit = 0.85 + 0.3 * hash(x * 7 + r, ((zw * 10) | 0) % 240) * texAmp;
           const a = 0.16 * grit;
           cr = a * lr, cg = a * lg, cb = a * lb;
           // the far road shines with the sunset
           cr += sheen * (0.5 * wm + 0.12), cg += sheen * (0.24 * wm + 0.08), cb += sheen * (0.22 * wm + 0.16);
         } else {
           // sand and scrub, in streaks that run at us along the road
-          const tex = smooth(0.4, 0.72, fbm(X * 5, zw, 2));
+          const tex = smooth(0.4, 0.72, fbm(X * 5, zw, 2, 24));
           const a = 0.012 + 0.22 * tex * tex * (0.3 + 0.7 * texAmp);
           const l = (lr + lg + lb) / 3;
           cr = a * (l * 1.05 + 0.3 * beam), cg = a * (l * 0.72 + 0.2 * beam), cb = a * (l * 0.9 + 0.05 * beam);
