@@ -509,6 +509,11 @@ section + section,
   outline-offset: 4px;
 }
 
+/* The built-in scene waits, hidden, while the home page picks one at random. */
+.pick-hero .hero .art {
+  visibility: hidden;
+}
+
 .pitch {
   max-width: 72ch;
   margin-top: 1.75rem;

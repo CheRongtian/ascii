@@ -12,7 +12,8 @@ import { categories, issue, pieces } from "../lib/library";
 
 const hero = pieces.find((p) => p.slug === "aurora-fjord") ?? pieces[0];
 const example = pieces.find((p) => p.slug === "donut") ?? pieces[0];
-const scenes = pieces.filter((p) => p.category === "scenes").length;const logos = pieces.filter((p) => p.category === "logos").length;
+const scenes = pieces.filter((p) => p.category === "scenes").length;
+const logos = pieces.filter((p) => p.category === "logos").length;
 const distros = pieces.filter((p) => p.category === "distros").length;
 const companies = pieces.filter((p) => p.category === "companies").length;
 // The categories whose grid ends in a card asking for the logo someone is missing.
@@ -28,6 +29,8 @@ const description = `${pieces.length} animated ascii pieces for web pages, in Ty
   </a>
   <h1 slot="heading">animated ascii art for web pages</h1>
 
+  {/* Each visit opens on a scene picked at random (the script after the grid); until it is picked the built-in one is held hidden, so it never flashes first. */}
+  <script is:inline>document.documentElement.classList.add("pick-hero");</script>
   <a class="hero" href={`/${hero.slug}/`} aria-label={`${hero.name}, one of the scenes`}>
     <div class:list={["well big", hero.palette && "scene"]} style={hero.ground && `--ground: ${hero.ground}`}>
       <Art piece={hero} />
@@ -92,4 +95,30 @@ const description = `${pieces.length} animated ascii pieces for web pages, in Ty
       </section>
     ))}
   </div>
+
+  {/*
+    The hero takes a scene at random from the grid, which has each one's first frame built in already: its frame,
+    size, ground and link move over before the pieces start, so the one mounted is the one picked.
+  */}
+  <script is:inline>
+    (function () {
+      var hero = document.querySelector(".hero");
+      var cards = document.querySelectorAll("#scenes pre[data-piece]");
+      if (hero && cards.length) {
+        var from = cards[Math.floor(Math.random() * cards.length)];
+        var pre = hero.querySelector("pre.art");
+        var well = hero.querySelector(".well");
+        var name = from.getAttribute("aria-label");
+        var ground = from.closest(".well").style.getPropertyValue("--ground");
+        pre.innerHTML = from.innerHTML;
+        pre.dataset.piece = from.dataset.piece;
+        pre.setAttribute("style", from.getAttribute("style"));
+        pre.setAttribute("aria-label", name);
+        if (ground) well.style.setProperty("--ground", ground);
+        hero.href = "/" + from.dataset.piece + "/";
+        hero.setAttribute("aria-label", name + ", one of the scenes");
+      }
+      document.documentElement.classList.remove("pick-hero");
+    })();
+  </script>
 </Layout>
