@@ -3,7 +3,7 @@
  * The ways to put a piece on a page, as tabs. Without script every way shows,
  * one after another, under its own heading.
  */
-import { astroUsage, moduleUsage, reactUsage, readmeUsage, tagUsage, terminalUsage, type Piece } from "../lib/library";
+import { agentUsage, astroUsage, moduleUsage, reactUsage, readmeUsage, tagUsage, terminalUsage, type Piece } from "../lib/library";
 import { highlight, type Lang } from "../lib/highlight";
 import { looping } from "../lib/svg";
 
@@ -55,6 +55,12 @@ const ways: { name: string; code: string; lang: Lang; note: string }[] = [
       (logo ? " Add --mono for the terminal's own colour." : "") +
       (piece.ground ? "" : " Add --light for a light terminal.") +
       ` Add --seconds 5 to stop it on its own; npx ascii.rest list shows every piece. In a CLI of your own, play("${piece.slug}", { seconds: 2 }) from ascii.rest/terminal shows it as a splash screen.`,
+  },
+  {
+    name: "agent",
+    code: agentUsage(piece),
+    lang: "sh",
+    note: `Gives Claude Code, Cursor, Codex or another coding agent the ascii.rest skill: every piece, the snippet for your framework, and these docs to read offline. Then ask in your own words, and it adds ${piece.slug} the way your project needs. The skill is on skills.sh.`,
   },
   ...(looping(piece.category, piece.options)
     ? [

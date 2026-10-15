@@ -263,6 +263,16 @@ import { donut } from "ascii.rest/pieces";
 const stop = mount(document.querySelector("pre")!, donut, { fps: 12 });
 ```
 
+## With an AI coding agent
+
+The ascii.rest skill teaches Claude Code, Cursor, Codex and other agents every piece, the right snippet for each framework, README banners and the kit, with the docs inside it to read offline:
+
+```sh
+npx skills add bas3line/ascii
+```
+
+It is on [skills.sh](https://skills.sh/bas3line/ascii/ascii-rest). Agents that read the web can use [llms.txt](https://ascii.rest/llms.txt) or [llms-full.txt](https://ascii.rest/llms-full.txt) instead.
+
 ## API
 
 The short of it is below; [the docs](https://ascii.rest/docs/api/) have everything each module exports, `ascii.rest/banner` and `ascii.rest/svg` among them.
