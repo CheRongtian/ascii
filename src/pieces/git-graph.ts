@@ -73,8 +73,10 @@ export default function gitGraph(): Frame {
   const tops = log.flatMap((line, i) => (line.message ? [i] : []));
 
   return (t) => {
-    const step = Math.floor(t / EVERY);
-    const into = t / EVERY - step;
+    // Frame 0 is a step far enough in that its message has typed.
+    const at = t / EVERY + 0.6;
+    const step = Math.floor(at);
+    const into = at - step;
     // Each step brings a commit in at the top: the view walks back through the ring.
     const top = tops[(((-step) % tops.length) + tops.length) % tops.length];
     const out = ["$ git log --graph --oneline".padEnd(cols), " ".repeat(cols)];
