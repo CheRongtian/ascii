@@ -5,14 +5,6 @@
  */
 import type { Frame, Meta } from "../types.ts";
 
-export const meta = {
-  name: "git graph",
-  category: "ui",
-  note: "git log --graph scrolling, branches forking off main and merging back",
-  cols: 60,
-  rows: 16,
-  fps: 15,
-} satisfies Meta;
 
 const EVERY = 1.1; // seconds a line
 const TYPE = 0.55; // of which the newest message takes to type
@@ -22,8 +14,8 @@ const TYPE = 0.55; // of which the newest message takes to type
 // ends on a single lane, so they join in any order and the last wraps to the first.
 type Part = string[] | { branch: string; on: string[]; main?: string };
 const HISTORY: Part[] = [
-  { branch: "feat/search", on: ["search: rank names before notes", "search: the / key focuses the field"], main: "docs: the install page" },
-  ["fix: the sidebar keeps its scroll"],
+  { branch: "feat/search", on: ["search: rank names before notes", "search: / focuses the field"], main: "docs: the install page" },
+  ["fix: keep the sidebar's scroll"],
   { branch: "feat/stars", on: ["header: show the repo's stars", "header: wait before asking again"] },
   ["release 0.4.0", "readme: a banner in both themes"],
   { branch: "fix/safari", on: ["mount: reload on a failed import"], main: "ci: node 24" },
@@ -54,6 +46,17 @@ function lines(): Line[] {
   }
   return out;
 }
+
+export const meta = {
+  name: "git graph",
+  category: "ui",
+  note: "git log --graph scrolling, branches forking off main and merging back",
+  cols: 60,
+  rows: 16,
+  fps: 15,
+  // A commit a step, round the ring.
+  loop: EVERY * lines().filter((line) => line.message).length,
+} satisfies Meta;
 
 // Short hashes that hold still for each line, from a hash of its place.
 function sha(i: number) {
