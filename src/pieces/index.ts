@@ -158,6 +158,7 @@ export * as owl from "./owl.ts";
 export * as pendulumWave from "./pendulum-wave.ts";
 export * as perl from "./perl.ts";
 export * as php from "./php.ts";
+export * as pipeline from "./pipeline.ts";
 export * as planet from "./planet.ts";
 export * as planetScale from "./planet-scale.ts";
 export * as planetscale from "./planetscale.ts";

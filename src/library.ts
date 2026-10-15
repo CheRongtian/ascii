@@ -160,6 +160,7 @@ export const load = {
   "pendulum-wave": () => import("./pieces/pendulum-wave.ts"),
   "perl": () => import("./pieces/perl.ts"),
   "php": () => import("./pieces/php.ts"),
+  "pipeline": () => import("./pieces/pipeline.ts"),
   "planet": () => import("./pieces/planet.ts"),
   "planet-scale": () => import("./pieces/planet-scale.ts"),
   "planetscale": () => import("./pieces/planetscale.ts"),
