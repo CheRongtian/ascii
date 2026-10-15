@@ -462,6 +462,29 @@ a[aria-current="page"] {
   margin: 0 -1ch 0 auto;
 }
 
+/* [github 872]: the GitHub mark, then a star and the repo's stars. */
+.top .repo,
+.top .repo .stars {
+  display: inline-flex;
+  align-items: center;
+}
+
+.top .repo .icon {
+  margin-right: 0.6ch;
+}
+
+.top .repo > .icon {
+  margin-left: 0.3ch;
+}
+
+.top .repo .stars {
+  margin-left: 1.2ch;
+}
+
+.top .repo .stars[hidden] {
+  display: none;
+}
+
 .lede {
   max-width: 72ch;
   margin-top: 0.75rem;

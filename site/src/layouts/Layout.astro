@@ -263,7 +263,7 @@ const bug = issue("bug", current ? { title: `${current}: `, where: current } : {
           <span class="tools">
             <button id="motion" class="button" type="button" hidden><span>[play anyway]</span></button>
             <a href="/docs/">[docs]</a>
-            <a class="repo" href={REPO} aria-label={STARS === null ? undefined : `GitHub, ${STARS} stars`}>[github<span class="stars" hidden={STARS === null}> *<span>{STARS === null ? "" : stars(STARS)}</span></span>]</a>
+            <a class="repo" href={REPO} aria-label={STARS === null ? undefined : `GitHub, ${STARS} stars`}>[<Icon name="github" />github<span class="stars" hidden={STARS === null}><Icon name="star" /><span>{STARS === null ? "" : stars(STARS)}</span></span>]</a>
             <button id="theme" class="button" type="button" aria-label="Switch to dark theme" hidden><span>[dark]</span></button>
           </span>
         </div>
