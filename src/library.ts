@@ -33,6 +33,7 @@ export const load = {
   "candlesticks": () => import("./pieces/candlesticks.ts"),
   "cat": () => import("./pieces/cat.ts"),
   "centos": () => import("./pieces/centos.ts"),
+  "chat": () => import("./pieces/chat.ts"),
   "cherry-blossom": () => import("./pieces/cherry-blossom.ts"),
   "chladni": () => import("./pieces/chladni.ts"),
   "clojure": () => import("./pieces/clojure.ts"),
