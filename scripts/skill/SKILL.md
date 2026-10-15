@@ -75,7 +75,7 @@ import { Banner } from "ascii.rest/react";        // Astro: import Banner from "
 <Banner text="hello" color={["#f97316", "#f778ba"]} />
 ```
 
-In HTML the options are attributes, a list of colours joined by commas: `<ascii-banner text="hello" font="slim" color="#f97316,#f778ba"></ascii-banner>`. The options: `font` (`block`, `slim`, `tall`, `bold`, `round`, `wide`, `mixed`, `italic`), `shadow` (`double`, `single`, `heavy`, `rounded`, `ascii`, `none`), `color` (one `#rrggbb` or a list for a fade), `effect` (`glint`, `type`, `still`), `speed`, `fill`, `pad`, `max`. All of them, with what each takes: [references/docs/banners.md](references/docs/banners.md). A banner draws only the characters its font has: letters, digits, spaces and `. , ! ? ' : - + = / _`.
+In HTML, `font`, `shadow`, `fill`, `effect`, `speed`, `color` (colours joined by commas), `pixel` and `gap` are attributes: `<ascii-banner text="hello" font="slim" color="#f97316,#f778ba"></ascii-banner>`. Every other option goes in the `options` attribute as JSON, or it is ignored: `<ascii-banner text="hello" options='{"max":40,"pad":1}'></ascii-banner>`. The options: `font` (`block`, `slim`, `tall`, `bold`, `round`, `wide`, `mixed`, `italic`), `shadow` (`double`, `single`, `heavy`, `rounded`, `ascii`, `none`), `color` (one `#rrggbb` or a list for a fade), `effect` (`glint`, `type`, `still`), `speed`, `fill`, `pad`, `max`. All of them, with what each takes: [references/docs/banners.md](references/docs/banners.md). A banner draws only the characters its font has: letters, digits, spaces and `. , ! ? ' : - + = / _`.
 
 ## Put one in a GitHub README
 
@@ -88,7 +88,7 @@ GitHub runs no script, so use the animated SVGs, a light and a dark one:
 </picture>
 ```
 
-A piece is `https://ascii.rest/svg/<name>.svg` and `.dark.svg`. A banner is `https://ascii.rest/banner/<text>.svg` and `.dark.svg`, with the text URL-encoded (a space is `%20`, a comma `%2C`), up to 20 characters. Its look goes in the query, the same on both URLs: `?color=f97316,f778ba&tagline=making%20things&art=rust&effect=type`. Colours in a URL have no `#`. Every key: [references/docs/readme.md](references/docs/readme.md). The user can also make one by clicking at https://ascii.rest/banner/.
+Only the logos, companies and distros have hosted SVGs: `https://ascii.rest/svg/<name>.svg` and `.dark.svg`. Any other piece has no URL and would be a broken image: make its SVG with `svg()` from `ascii.rest/svg`, write both files into the repo and point the README at them ([references/docs/svg.md](references/docs/svg.md)). A banner is `https://ascii.rest/banner/<text>.svg` and `.dark.svg`, with the text URL-encoded (a space is `%20`, a comma `%2C`), up to 20 characters. Its look goes in the query, the same on both URLs: `?color=f97316,f778ba&tagline=making%20things&art=rust&effect=type`. Colours in a URL have no `#`. Every key: [references/docs/readme.md](references/docs/readme.md). The user can also make one by clicking at https://ascii.rest/banner/.
 
 ## Play one in a terminal
 

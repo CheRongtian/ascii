@@ -69,6 +69,7 @@ Pick the row that fits your project. Each page has a full example.
 | an SVG | a GitHub README, or anywhere scripts can't run | [github readme](https://ascii.rest/docs/readme/), [svg](https://ascii.rest/docs/svg/) |
 | the terminal | a splash screen or a banner for your CLI | [terminal](https://ascii.rest/docs/terminal/) |
 | your own image | your logo or a photo as animated ascii, made in your browser, for a page or a README | [image to ascii](https://ascii.rest/docs/images/) |
+| an AI coding agent | asking Claude Code, Cursor, Codex or another agent in words: the ascii.rest skill knows every piece and the snippet for your project | [use it with an AI coding agent](#use-it-with-an-ai-coding-agent) |
 | the kit | your own ascii art in one line: looks, motions and widgets by name, then fields, 3D scenes, particles, effects, layouts, images and SVGs | [the kit](https://ascii.rest/docs/kit/) |
 
 ## Browse the pieces
