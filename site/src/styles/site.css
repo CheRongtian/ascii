@@ -32,10 +32,11 @@
   --mono: "Paper Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --art: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "ascii.rest mono", monospace;
   /* Code, in the shades of ray.so's Resend theme: names and numbers in full ink, the rest a step back, comments
-  two. Its card is the theme's window, near white on the page. */
+  two. Its comments and label are darkened from the theme's to 4.5:1 on the card. Its card is the theme's window,
+  near white on the page. */
   --code-card: #fcfcfc;
   --code-edge: hsla(0, 0%, 24%, 0.13);
-  --code-label: #898989;
+  --code-label: #747474;
   --astro-code-background: var(--code-card);
   --astro-code-foreground: #111111;
   --astro-code-token-function: #111111;
@@ -46,7 +47,7 @@
   --astro-code-token-punctuation: #666666;
   --astro-code-token-string: #666666;
   --astro-code-token-link: #666666;
-  --astro-code-token-comment: #999999;
+  --astro-code-token-comment: #747474;
   color-scheme: light;
 }
 
@@ -68,7 +69,7 @@
   --astro-code-token-punctuation: #a7a7a7;
   --astro-code-token-string: #a7a7a7;
   --astro-code-token-link: #a7a7a7;
-  --astro-code-token-comment: #666666;
+  --astro-code-token-comment: #767676;
   color-scheme: dark;
 }
 
@@ -91,7 +92,7 @@
     --astro-code-token-punctuation: #a7a7a7;
     --astro-code-token-string: #a7a7a7;
     --astro-code-token-link: #a7a7a7;
-    --astro-code-token-comment: #666666;
+    --astro-code-token-comment: #767676;
     color-scheme: dark;
   }
 }
