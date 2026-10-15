@@ -115,7 +115,13 @@ Besides the pieces, you can turn any text into a banner. Read [banners](/docs/ba
 
 ## Use it with an AI coding agent
 
-Give your agent one of these plain-text files. Both are built from these docs pages.
+Add the ascii.rest skill to your agent. It works in Claude Code, Cursor, Codex and the other agents [skills.sh](https://skills.sh/bas3line/ascii/ascii-rest) supports, and it holds every piece, the snippet for each framework, and these docs to read offline:
+
+```sh
+npx skills add bas3line/ascii
+```
+
+Or give your agent one of these plain-text files. Both are built from these docs pages.
 
 - [ascii.rest/llms.txt](https://ascii.rest/llms.txt): an index, with one line and a link for each docs page. It includes the rules below.
 - [ascii.rest/llms-full.txt](https://ascii.rest/llms-full.txt): every docs page in one file, to read all at once.
