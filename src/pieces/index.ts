@@ -88,6 +88,7 @@ export * as galaxy from "./galaxy.ts";
 export * as gangaurGhat from "./gangaur-ghat.ts";
 export * as gauge from "./gauge.ts";
 export * as gentoo from "./gentoo.ts";
+export * as gitGraph from "./git-graph.ts";
 export * as gliderGun from "./glider-gun.ts";
 export * as glitch from "./glitch.ts";
 export * as glxgears from "./glxgears.ts";

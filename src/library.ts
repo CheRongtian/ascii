@@ -90,6 +90,7 @@ export const load = {
   "gangaur-ghat": () => import("./pieces/gangaur-ghat.ts"),
   "gauge": () => import("./pieces/gauge.ts"),
   "gentoo": () => import("./pieces/gentoo.ts"),
+  "git-graph": () => import("./pieces/git-graph.ts"),
   "glider-gun": () => import("./pieces/glider-gun.ts"),
   "glitch": () => import("./pieces/glitch.ts"),
   "glxgears": () => import("./pieces/glxgears.ts"),
