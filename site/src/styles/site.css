@@ -31,13 +31,9 @@
   --pad: 0.5ch;
   --mono: "Paper Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --art: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "ascii.rest mono", monospace;
-  /* Code, in the shades of ray.so's Resend theme: names and numbers in full ink, the rest a step back, comments
-  two. Its comments and label are darkened from the theme's to 4.5:1 on the card. Its card is the theme's window,
-  near white on the page. */
-  --code-card: #fcfcfc;
-  --code-edge: hsla(0, 0%, 24%, 0.13);
-  --code-label: #747474;
-  --astro-code-background: var(--code-card);
+  /* Code's text, in the shades of ray.so's Resend theme: names and numbers in full ink, the rest a step back,
+  comments two. It sits on the well, and its comments are darkened from the theme's to 4.5:1 there. */
+  --astro-code-background: var(--well);
   --astro-code-foreground: #111111;
   --astro-code-token-function: #111111;
   --astro-code-token-constant: #666666;
@@ -47,7 +43,7 @@
   --astro-code-token-punctuation: #666666;
   --astro-code-token-string: #666666;
   --astro-code-token-link: #666666;
-  --astro-code-token-comment: #747474;
+  --astro-code-token-comment: #6c6c6c;
   color-scheme: light;
 }
 
@@ -57,9 +53,7 @@
   --text: #c3c9d1;
   --muted: #8c95a1;
   --well: #1a1d21;
-  --code-card: #030303;
-  --code-edge: hsla(0, 0%, 100%, 0.08);
-  --code-label: #898989;
+  --astro-code-background: var(--well);
   --astro-code-foreground: #ffffff;
   --astro-code-token-function: #ffffff;
   --astro-code-token-constant: #a7a7a7;
@@ -69,7 +63,7 @@
   --astro-code-token-punctuation: #a7a7a7;
   --astro-code-token-string: #a7a7a7;
   --astro-code-token-link: #a7a7a7;
-  --astro-code-token-comment: #767676;
+  --astro-code-token-comment: #848484;
   color-scheme: dark;
 }
 
@@ -80,9 +74,7 @@
     --text: #c3c9d1;
     --muted: #8c95a1;
     --well: #1a1d21;
-    --code-card: #030303;
-    --code-edge: hsla(0, 0%, 100%, 0.08);
-    --code-label: #898989;
+    --astro-code-background: var(--well);
     --astro-code-foreground: #ffffff;
     --astro-code-token-function: #ffffff;
     --astro-code-token-constant: #a7a7a7;
@@ -92,7 +84,7 @@
     --astro-code-token-punctuation: #a7a7a7;
     --astro-code-token-string: #a7a7a7;
     --astro-code-token-link: #a7a7a7;
-    --astro-code-token-comment: #767676;
+    --astro-code-token-comment: #848484;
     color-scheme: dark;
   }
 }
@@ -966,14 +958,11 @@ pre.art {
   margin-left: auto;
 }
 
-/* Code is a card, as ray.so's Resend frame draws it: a hairline edge, rounded, the theme's ground. */
 pre.code {
   margin: 0;
   padding: 1rem 2ch;
   overflow-x: auto;
-  border: 1px solid var(--code-edge);
-  border-radius: 8px;
-  background: var(--code-card);
+  background: var(--well);
   color: var(--astro-code-foreground);
   font: inherit;
   font-size: 0.8125rem;
@@ -1152,10 +1141,7 @@ pre.code {
   margin: 1.1rem 0;
   padding: 1rem 2ch;
   overflow-x: auto;
-  border: 1px solid var(--code-edge);
-  border-radius: 8px;
-  /* Shiki sets the ground inline on its own <pre>; this holds for one it hasn't. */
-  background: var(--code-card) !important;
+  background: var(--well);
   color: var(--astro-code-foreground);
   font-family: var(--mono);
   font-size: 0.8125rem;
@@ -1163,38 +1149,18 @@ pre.code {
   tab-size: 2;
 }
 
-/* A docs block is the whole frame: a bar with its language and the [copy], then the code. */
-.docs .snippet {
-  border: 1px solid var(--code-edge);
-  border-radius: 8px;
-  background: var(--code-card);
-}
-
-.docs .snippet::before {
-  content: attr(data-language);
-  display: block;
-  height: 2.5rem;
-  padding: 0 2ch;
-  border-bottom: 1px solid var(--code-edge);
-  color: var(--code-label);
-  font-family: var(--mono);
-  font-size: 0.8125rem;
-  line-height: 2.5rem;
-}
-
 .docs .snippet pre {
   margin: 0;
-  border: 0;
-  border-radius: 0 0 8px 8px;
+  padding-right: 10ch;
 }
 
 .docs .snippet .copy {
   position: absolute;
-  top: 0;
+  top: 1rem;
   right: 2ch;
   font-family: var(--mono);
   font-size: 0.8125rem;
-  line-height: 2.5rem;
+  line-height: 1.6;
 }
 
 .docs table {
@@ -1362,6 +1328,23 @@ pre.code {
     display: flex;
     flex-wrap: wrap;
     gap: 0.15rem 2.5ch;
+  }
+
+  /* No room beside the code: the [copy] goes above it. */
+  .docs .snippet {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .docs .snippet .copy {
+    position: static;
+    order: -1;
+    align-self: flex-end;
+    margin-bottom: 0.25rem;
+  }
+
+  .docs .snippet pre {
+    padding-right: 2ch;
   }
 
   .page {
