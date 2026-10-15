@@ -81,6 +81,29 @@ export const SITE = "https://ascii.rest";
 export const NAME = "ascii.rest";
 export const REPO = "https://github.com/bas3line/ascii";
 /**
+ * The repo's stars when the site was built, for the header's [github] link; the
+ * page asks GitHub again as it opens (Layout.astro). Null when GitHub can't be
+ * reached, and the link is plain [github]. GITHUB_TOKEN, when set, lifts the
+ * build's shared rate limit.
+ */
+export const STARS: number | null = await (async () => {
+  try {
+    const token = process.env.GITHUB_TOKEN;
+    const res = await fetch(`https://api.github.com/repos/${REPO.slice("https://github.com/".length)}`, {
+      headers: { accept: "application/vnd.github+json", ...(token ? { authorization: `Bearer ${token}` } : {}) },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) throw new Error(`GitHub answered ${res.status}`);
+    const { stargazers_count } = (await res.json()) as { stargazers_count?: unknown };
+    return typeof stargazers_count === "number" ? stargazers_count : null;
+  } catch (error) {
+    console.warn(`ascii: no star count: ${(error as Error).message}`);
+    return null;
+  }
+})();
+/** 872 as "872", 1234 as "1.2k", 12345 as "12k". */
+export const stars = (n: number) => (n < 1000 ? String(n) : n < 10000 ? `${(Math.floor(n / 100) / 10).toString()}k` : `${Math.floor(n / 1000)}k`);
+/**
  * A new issue on one of the repo's forms (.github/ISSUE_TEMPLATE), opened with
  * some fields filled: GitHub fills a form's text fields, and the title, from
  * query parameters named by their ids.
