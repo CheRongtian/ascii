@@ -92,6 +92,9 @@ const sections = headings.filter((h) => h.depth === 2);
     });
     const wrap = document.createElement("div");
     wrap.className = "snippet";
+    // The bar names the language Shiki read it as, and none for plain text.
+    const lang = pre.dataset.language;
+    if (lang && lang !== "plaintext" && lang !== "text") wrap.dataset.language = lang;
     pre.replaceWith(wrap);
     wrap.append(pre, button);
   });
