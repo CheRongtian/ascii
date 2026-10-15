@@ -10,6 +10,50 @@ export interface PipelineOptions {
   stages: string[];
 }
 
+const STAGES = ["install", "lint", "test", "build", "deploy"];
+// Seconds a stage takes to play, by name; one not named takes 2.
+const TAKES = new Map([["install", 2.4], ["lint", 1.4], ["test", 3.6], ["build", 2.2], ["deploy", 2]]);
+const COMMANDS = new Map([["install", "npm ci"], ["lint", "npm run lint"], ["test", "npm test"], ["build", "npm run build"], ["deploy", "npx vercel deploy --prod"]]);
+
+interface Run {
+  branch: string;
+  sha: string;
+  /** How fast it goes: its stages take this times their usual time. */
+  speed: number;
+  /** The stage that fails, if there is one by that name, and how far through it. */
+  fail?: [string, number];
+}
+
+const RUNS: Run[] = [
+  { branch: "main", sha: "a3f9c21", speed: 1 },
+  { branch: "fix/nav", sha: "e81b4d0", speed: 0.94, fail: ["test", 0.62] },
+  { branch: "fix/nav", sha: "5c27f9a", speed: 0.97 },
+];
+const QUEUED = 0.8; // a run waits for a runner first
+const HOLD = 3; // and its result holds after
+
+// Each run laid on the loop: when it starts and ends, where each stage begins and ends
+// (null for one skipped after a failure), and which stage fails, -1 for none.
+function layout(names: string[]) {
+  let T = 0;
+  const plan = RUNS.map((run) => {
+    const fails = run.fail ? names.indexOf(run.fail[0]) : -1;
+    const reach = run.fail?.[1] ?? 1;
+    const start = T;
+    let at = start + QUEUED;
+    const spans = names.map((name, i) => {
+      if (fails >= 0 && i > fails) return null;
+      const take = (TAKES.get(name) ?? 2) * run.speed * (i === fails ? reach : 1);
+      const span = [at, at + take];
+      at += take;
+      return span;
+    });
+    T = at + HOLD;
+    return { run, start, end: at, spans, fails, reach };
+  });
+  return { plan, total: T };
+}
+
 export const meta = {
   name: "pipeline",
   category: "ui",
@@ -17,25 +61,11 @@ export const meta = {
   cols: 56,
   rows: 13,
   fps: 12,
-  options: { stages: ["install", "lint", "test", "build", "deploy"] },
+  options: { stages: STAGES },
+  // The three runs with the stages above; other stages make another length, so pass svg() its seconds.
+  loop: layout(STAGES).total,
 } satisfies Meta<PipelineOptions>;
 
-interface Run {
-  branch: string;
-  sha: string;
-  /** Seconds each stage takes to play. */
-  takes: number[];
-  /** The stage that fails, and how far through it. */
-  fail?: [number, number];
-}
-
-const RUNS: Run[] = [
-  { branch: "main", sha: "a3f9c21", takes: [2.4, 1.4, 3.6, 2.2, 2] },
-  { branch: "fix/nav", sha: "e81b4d0", takes: [2.2, 1.3, 3.4, 2.1, 1.9], fail: [2, 0.62] },
-  { branch: "fix/nav", sha: "5c27f9a", takes: [2.1, 1.3, 3.6, 2.2, 2.1] },
-];
-const QUEUED = 0.8; // a run waits for a runner first
-const HOLD = 3; // and its result holds after
 const SCALE = 3.7; // shown seconds a played second
 const BAR = 18;
 const SPIN = "|/-\\";
@@ -46,10 +76,6 @@ const LINTED = ["src/app.ts", "src/nav.ts", "src/api/user.ts", "src/api/auth.ts"
 function pace(f: number, seed: number) {
   const a = 0.3 + 0.25 * ((seed * 0.618) % 1);
   return f < a ? (f / a) * 0.55 : f < a + 0.2 ? 0.55 + ((f - a) / 0.2) * 0.05 : 0.6 + ((f - a - 0.2) / (0.8 - a)) * 0.4;
-}
-
-function command(stage: string) {
-  return { install: "npm ci", lint: "npm run lint", test: "npm test", build: "npm run build", deploy: "npx vercel deploy --prod" }[stage] ?? `npm run ${stage}`;
 }
 
 // What the stage prints, f of the way through, or ended.
@@ -75,25 +101,8 @@ const clock = (s: number) => {
 
 export default function pipeline({ stages = meta.options.stages }: Partial<PipelineOptions> = {}): Frame {
   const { cols, rows } = meta;
-  const names = stages.slice(0, 5);
-  // Each run, laid on the loop: when it starts, and where each stage begins and ends.
-  let T = 0;
-  // A run fails only at a stage there is.
-  const runs = RUNS.map((run) => (run.fail && run.fail[0] >= names.length ? { ...run, fail: undefined } : run));
-  const plan = runs.map((run) => {
-    const start = T;
-    let at = start + QUEUED;
-    const spans = names.map((_, i) => {
-      if (run.fail && i > run.fail[0]) return null;
-      const take = run.takes[i % run.takes.length] * (run.fail && i === run.fail[0] ? run.fail[1] : 1);
-      const span = [at, at + take];
-      at += take;
-      return span;
-    });
-    T = at + HOLD;
-    return { run, start, end: at, spans };
-  });
-  const total = T;
+  const names = (stages.length ? stages : STAGES).slice(0, 5);
+  const { plan, total } = layout(names);
   // Frame 0 is the first run in the middle of its tests.
   const begin = plan[0].spans[Math.min(2, names.length - 1)]![0] + 1.4;
 
@@ -106,7 +115,7 @@ export default function pipeline({ stages = meta.options.stages }: Partial<Pipel
     const p = (t + begin) % total;
     let now = plan[0];
     for (const x of plan) if (x.start <= p) now = x;
-    const { run, start, end, spans } = now;
+    const { run, start, end, spans, fails, reach } = now;
     for (const row of grid) row.fill(" ");
     for (let c = 1; c < cols - 1; c++) grid[0][c] = grid[rows - 1][c] = "─";
     for (let r = 1; r < rows - 1; r++) grid[r][0] = grid[r][cols - 1] = "│";
@@ -122,7 +131,7 @@ export default function pipeline({ stages = meta.options.stages }: Partial<Pipel
     names.forEach((name, i) => {
       const r = 2 + i;
       const span = spans[i];
-      const failed = !!run.fail && i === run.fail[0];
+      const failed = i === fails;
       text(r, 5, name.slice(0, 9));
       if (!span) {
         text(r, 3, p < end ? "·" : "-");
@@ -137,7 +146,7 @@ export default function pipeline({ stages = meta.options.stages }: Partial<Pipel
         text(r, 44, "queued");
         return;
       }
-      const shown = failed ? run.fail![1] * pace(f, i + 1) : pace(f, i + 1);
+      const shown = failed ? reach * pace(f, i + 1) : pace(f, i + 1);
       const k = Math.round(shown * BAR);
       text(r, 15, "█".repeat(k) + "░".repeat(BAR - k));
       text(r, 35, seconds(Math.min(p, span[1]) - span[0]).padStart(7));
@@ -157,16 +166,16 @@ export default function pipeline({ stages = meta.options.stages }: Partial<Pipel
     const span = spans[at];
     if (at >= 0 && span) {
       const f = Math.max(0, Math.min(1, (p - span[0]) / (span[1] - span[0])));
-      const failing = !!run.fail && at === run.fail[0];
-      text(8, 3, `$ ${command(names[at])}`);
-      text(9, 5, output(names[at], f < 1 ? pace(f, at + 1) : 1, failing && f >= 1, failing ? run.fail![1] : 1));
+      const failing = at === fails;
+      text(8, 3, `$ ${COMMANDS.get(names[at]) ?? `npm run ${names[at]}`}`);
+      text(9, 5, output(names[at], f < 1 ? pace(f, at + 1) : 1, failing && f >= 1, failing ? reach : 1));
     }
 
     let status: string;
     if (p < start + QUEUED) status = "queued · waiting for a runner";
     else if (p < end) status = `running · stage ${live + 1} of ${names.length} · ${clock(p - start - QUEUED)}`;
-    else if (run.fail) status = `failed at ${names[run.fail[0]]} · ${clock(end - start - QUEUED)}`;
-    else status = `passed · deployed in ${clock(end - start - QUEUED)}`;
+    else if (fails >= 0) status = `failed at ${names[fails]} · ${clock(end - start - QUEUED)}`;
+    else status = `passed · ${names.includes("deploy") ? "deployed" : "done"} in ${clock(end - start - QUEUED)}`;
     text(11, 3, status);
     return grid.map((row) => row.join("")).join("\n");
   };
