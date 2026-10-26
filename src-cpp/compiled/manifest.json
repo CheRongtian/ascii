@@ -1,0 +1,409 @@
+[
+  {
+    "id": "kit/compose",
+    "symbol": "kit_compose",
+    "builtins": [
+      "Array",
+      "Float32Array",
+      "Float64Array",
+      "Infinity",
+      "Int32Array",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "String",
+      "Uint8Array",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/core",
+    "symbol": "kit_core",
+    "builtins": [
+      "Array",
+      "Error",
+      "Infinity",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "Set",
+      "String",
+      "Uint16Array",
+      "Uint8Array",
+      "parseInt",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/draw",
+    "symbol": "kit_draw",
+    "builtins": [
+      "Array",
+      "Boolean",
+      "Infinity",
+      "Int32Array",
+      "JSON",
+      "Map",
+      "Math",
+      "NaN",
+      "Number",
+      "Object",
+      "String",
+      "Uint16Array",
+      "Uint8Array",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/field",
+    "symbol": "kit_field",
+    "builtins": [
+      "Array",
+      "Float64Array",
+      "JSON",
+      "Math",
+      "Number",
+      "Object",
+      "String",
+      "Uint16Array",
+      "Uint8Array",
+      "WeakMap",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/fx",
+    "symbol": "kit_fx",
+    "builtins": [
+      "Array",
+      "Boolean",
+      "Float32Array",
+      "Float64Array",
+      "Infinity",
+      "Int32Array",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "String",
+      "Uint8Array",
+      "WeakSet",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/glyphs",
+    "symbol": "kit_glyphs",
+    "builtins": []
+  },
+  {
+    "id": "kit/image",
+    "symbol": "kit_image",
+    "builtins": [
+      "Array",
+      "ArrayBuffer",
+      "Blob",
+      "DOMParser",
+      "DataView",
+      "Error",
+      "File",
+      "Float32Array",
+      "Float64Array",
+      "Image",
+      "Infinity",
+      "Int32Array",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "OffscreenCanvas",
+      "Promise",
+      "Set",
+      "String",
+      "URL",
+      "Uint16Array",
+      "Uint32Array",
+      "Uint8Array",
+      "Uint8ClampedArray",
+      "WeakMap",
+      "XMLSerializer",
+      "createImageBitmap",
+      "document",
+      "fetch",
+      "globalThis",
+      "parseFloat",
+      "parseInt",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/index",
+    "symbol": "kit_index",
+    "builtins": []
+  },
+  {
+    "id": "kit/materials",
+    "symbol": "kit_materials",
+    "builtins": [
+      "Array",
+      "Float32Array",
+      "Infinity",
+      "Int16Array",
+      "Int32Array",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "Set",
+      "String",
+      "Uint16Array",
+      "Uint8Array",
+      "WeakMap",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/math",
+    "symbol": "kit_math",
+    "builtins": [
+      "Array",
+      "Float64Array",
+      "Infinity",
+      "JSON",
+      "Math",
+      "NaN",
+      "Number",
+      "Object",
+      "String",
+      "Uint8Array",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/mirror",
+    "symbol": "kit_mirror",
+    "builtins": [
+      "Uint16Array"
+    ]
+  },
+  {
+    "id": "kit/particles",
+    "symbol": "kit_particles",
+    "builtins": [
+      "Array",
+      "Float64Array",
+      "Infinity",
+      "Int16Array",
+      "Int32Array",
+      "JSON",
+      "Math",
+      "Number",
+      "Object",
+      "Set",
+      "String",
+      "Uint16Array",
+      "Uint8Array",
+      "WeakMap",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/shapes3d",
+    "symbol": "kit_shapes3d",
+    "builtins": [
+      "Array",
+      "Float32Array",
+      "Float64Array",
+      "Infinity",
+      "Int32Array",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "Object",
+      "Set",
+      "String",
+      "Uint16Array",
+      "Uint32Array",
+      "Uint8Array",
+      "WeakMap",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/vector",
+    "symbol": "kit_vector",
+    "builtins": [
+      "Array",
+      "Boolean",
+      "Float32Array",
+      "Float64Array",
+      "Infinity",
+      "Int16Array",
+      "Int32Array",
+      "Int8Array",
+      "JSON",
+      "Map",
+      "Math",
+      "NaN",
+      "Number",
+      "Object",
+      "Set",
+      "String",
+      "Uint16Array",
+      "Uint32Array",
+      "Uint8Array",
+      "WeakMap",
+      "parseFloat",
+      "parseInt",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/recipes/checks",
+    "symbol": "kit_recipes_checks",
+    "builtins": [
+      "Array",
+      "Infinity",
+      "JSON",
+      "Math",
+      "Number",
+      "Object",
+      "String",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/recipes/index",
+    "symbol": "kit_recipes_index",
+    "builtins": []
+  },
+  {
+    "id": "kit/recipes/looks",
+    "symbol": "kit_recipes_looks",
+    "builtins": [
+      "Array",
+      "JSON",
+      "Map",
+      "Math",
+      "NaN",
+      "Number",
+      "Object",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/recipes/motion",
+    "symbol": "kit_recipes_motion",
+    "builtins": [
+      "Array",
+      "Infinity",
+      "Math",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/recipes/palettes",
+    "symbol": "kit_recipes_palettes",
+    "builtins": [
+      "Array",
+      "JSON",
+      "Object"
+    ]
+  },
+  {
+    "id": "kit/recipes/widgets",
+    "symbol": "kit_recipes_widgets",
+    "builtins": [
+      "Array",
+      "Date",
+      "Math",
+      "Number",
+      "Object",
+      "String",
+      "undefined"
+    ]
+  },
+  {
+    "id": "kit/recipes/words",
+    "symbol": "kit_recipes_words",
+    "builtins": [
+      "Array",
+      "Boolean",
+      "Math",
+      "undefined"
+    ]
+  },
+  {
+    "id": "banner",
+    "symbol": "banner",
+    "builtins": [
+      "Array",
+      "Boolean",
+      "Error",
+      "JSON",
+      "Math",
+      "Number",
+      "Object",
+      "String",
+      "Uint8Array",
+      "parseInt",
+      "undefined"
+    ]
+  },
+  {
+    "id": "svg",
+    "symbol": "svg",
+    "builtins": [
+      "Array",
+      "Error",
+      "Infinity",
+      "JSON",
+      "Map",
+      "Math",
+      "Number",
+      "RegExp",
+      "Set",
+      "String",
+      "Uint8Array",
+      "console",
+      "parseInt",
+      "undefined"
+    ]
+  },
+  {
+    "id": "print",
+    "symbol": "print",
+    "builtins": [
+      "parseInt"
+    ]
+  },
+  {
+    "id": "terminal",
+    "symbol": "terminal",
+    "builtins": [
+      "Array",
+      "Error",
+      "Float32Array",
+      "Int32Array",
+      "Map",
+      "Math",
+      "Object",
+      "Uint8Array",
+      "parseInt",
+      "undefined"
+    ]
+  },
+  {
+    "id": "pieces/index",
+    "symbol": "pieces_index",
+    "builtins": []
+  }
+]
