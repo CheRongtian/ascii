@@ -8,6 +8,7 @@ extension Notification.Name {
 struct ContentView: View {
     @ObservedObject var model: PlayerModel
     @State private var visibility: NavigationSplitViewVisibility = .all
+    @State private var visibilityBeforeCreation: NavigationSplitViewVisibility = .all
     @State private var showSettings = false
     @FocusState private var searchFocused: Bool
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -15,14 +16,22 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView(columnVisibility: $visibility) {
             sidebar.navigationSplitViewColumnWidth(min: 290, ideal: 320, max: 380)
+                .disabled(model.isCreating)
         } detail: {
-            player
+            HStack(spacing: 0) {
+                player.frame(minWidth: 590)
+                if model.isCreating, let creation = model.creation {
+                    Divider()
+                    CreationPanel(creation: creation, player: model)
+                }
+            }
         }
         .navigationSplitViewStyle(.balanced)
-        .frame(minWidth: 1020, minHeight: 720)
+        .frame(minWidth: model.isCreating ? 1120 : 1020, minHeight: 720)
         .preferredColorScheme(.light)
         .tint(PlayerStyle.accent)
         .onReceive(NotificationCenter.default.publisher(for: .asciiFocusSearch)) { _ in
+            guard !model.isCreating else { return }
             visibility = .all
             searchFocused = true
         }
@@ -32,6 +41,15 @@ struct ContentView: View {
         }
         .onChange(of: reduceMotion) { _, enabled in
             if enabled { model.isPlaying = false }
+        }
+        .onChange(of: model.isCreating) { _, creating in
+            showSettings = false
+            if creating {
+                visibilityBeforeCreation = visibility
+                visibility = .detailOnly
+            } else {
+                visibility = visibilityBeforeCreation
+            }
         }
         .onDisappear { model.stop() }
     }
@@ -135,7 +153,7 @@ struct ContentView: View {
                         if !group.isEmpty {
                             Section {
                                 ForEach(group) { piece in
-                                    LibraryPieceRow(piece: piece, selected: piece.id == model.selectedID,
+                                    LibraryPieceRow(piece: piece, selected: piece.id == model.selectedPiece?.id,
                                                     favorite: model.favorites.contains(piece.id),
                                                     select: { model.selectedID = piece.id; searchFocused = false },
                                                     toggleFavorite: { model.toggleFavorite(piece.id) })
@@ -184,7 +202,7 @@ struct ContentView: View {
             pieceHeading.padding(.bottom, 20)
             ArtworkStage(model: model).frame(maxHeight: .infinity)
             HStack {
-                Text("\(model.filteredPieces.count) 个作品可切换")
+                Text(model.isCreating ? "创作预览 · 草稿" : "\(model.filteredPieces.count) 个作品可切换")
                 Spacer()
                 Text(model.elapsedLabel).font(.system(size: 12, design: .monospaced)).monospacedDigit()
             }
@@ -193,7 +211,7 @@ struct ContentView: View {
             PlaybackControls(model: model)
             HStack(spacing: 16) {
                 shortcutHint("SPACE", "播放 / 暂停")
-                shortcutHint("← →", "切换作品")
+                if !model.isCreating { shortcutHint("← →", "切换作品") }
                 Spacer(minLength: 0)
                 Text("ascii.rest").font(.system(size: 12, design: .monospaced)).foregroundStyle(PlayerStyle.secondary)
             }.padding(.horizontal, 2).padding(.top, 15)
@@ -204,11 +222,13 @@ struct ContentView: View {
 
     private var workspaceToolbar: some View {
         HStack(spacing: 8) {
-            PlayerActionButton(title: "作品库", icon: "sidebar.left",
-                               selected: visibility != .detailOnly, help: "展开或收起作品库") {
-                visibility = visibility == .detailOnly ? .all : .detailOnly
+            if !model.isCreating {
+                PlayerActionButton(title: "作品库", icon: "sidebar.left",
+                                   selected: visibility != .detailOnly, help: "展开或收起作品库") {
+                    visibility = visibility == .detailOnly ? .all : .detailOnly
+                }
             }
-            if let id = model.selectedID {
+            if !model.isCreating, let id = model.selectedID {
                 let favorite = model.favorites.contains(id)
                 PlayerActionButton(title: favorite ? "取消收藏" : "收藏", icon: favorite ? "star.fill" : "star",
                                    selected: favorite, help: "收藏当前作品 · ⌘D") { model.toggleFavorite(id) }
@@ -216,21 +236,25 @@ struct ContentView: View {
             PlayerActionButton(title: model.alwaysOnTop ? "取消置顶" : "窗口置顶", icon: model.alwaysOnTop ? "pin.fill" : "pin",
                                selected: model.alwaysOnTop) { model.alwaysOnTop.toggle() }
             PlayerActionButton(title: "全屏", icon: "arrow.up.left.and.arrow.down.right", help: "全屏 · ⌃⌘F") { model.toggleFullscreen() }
-            PlayerActionButton(title: "显示设置", icon: "slider.horizontal.3", bordered: true) { showSettings.toggle() }
-                .popover(isPresented: $showSettings, arrowEdge: .bottom) {
-                    SettingsPanel(model: model) { showSettings = false }
-                }
+            if !model.isCreating {
+                PlayerActionButton(title: "创作", icon: "pencil.and.outline", showTitle: true,
+                                   help: "创作 Wave Text 文字波浪 · ⌘N") { model.beginCreation() }
+                PlayerActionButton(title: "显示设置", icon: "slider.horizontal.3", bordered: true) { showSettings.toggle() }
+                    .popover(isPresented: $showSettings, arrowEdge: .bottom) {
+                        SettingsPanel(model: model) { showSettings = false }
+                    }
+            }
         }
     }
 
     private var pieceHeading: some View {
         HStack(alignment: .top, spacing: 16) {
             VStack(alignment: .leading, spacing: 9) {
-                Text("现在播放").font(.system(size: 12, weight: .medium)).foregroundStyle(PlayerStyle.secondary)
-                Text(model.selectedPiece?.title ?? "选择一个作品")
+                Text(model.isCreating ? "创作预览" : "现在播放").font(.system(size: 12, weight: .medium)).foregroundStyle(PlayerStyle.secondary)
+                Text(model.previewWork?.title ?? model.selectedPiece?.title ?? "选择一个作品")
                     .font(.system(size: 30, weight: .medium, design: .monospaced)).tracking(-0.7)
                     .lineLimit(1).minimumScaleFactor(0.75)
-                Text(model.selectedPiece?.displayNote ?? "从作品库选择一幅画面，开始你的字符艺术之旅。")
+                Text(model.isCreating ? "基于 Wave Text 模板创作" : model.selectedPiece?.displayNote ?? "从作品库选择一幅画面，开始你的字符艺术之旅。")
                     .font(.system(size: 13)).foregroundStyle(PlayerStyle.secondary).lineLimit(2)
             }
             Spacer(minLength: 0)

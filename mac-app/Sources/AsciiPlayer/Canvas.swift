@@ -14,8 +14,9 @@ struct ArtCanvas: NSViewRepresentable {
 
     func updateNSView(_ view: AsciiCanvasView, context: Context) {
         model.surface.view = view
-        view.configure(piece: model.selectedPiece, background: model.background.hex,
-                       ink: model.canvasInk.rgbHex, mono: model.mono, font: model.font, zoom: model.zoom)
+        let appearance = model.playbackAppearance
+        view.configure(piece: model.selectedPiece, background: appearance.background.hex,
+                       ink: model.canvasInk.rgbHex, mono: appearance.mono, font: appearance.font, zoom: appearance.zoom)
     }
 }
 

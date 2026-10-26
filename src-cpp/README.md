@@ -104,4 +104,4 @@ node --disable-warning=ExperimentalWarning src-cpp/tools/translate.mjs
 
 `direct.mjs` 更新 157 个具体类型作品实现，保留原有 83 个直接实现。维护时需要现有 TypeScript 编译器，可通过 `ASCII_TYPESCRIPT_PATH` 指定 `typescript.js`；正常构建无需该编译器。`translate.mjs` 只更新独立 SDK 工具模块，不能覆盖作品计算。新增作品还需补充元数据和注册入口。原 `src/` 继续服务网页库；修改它不会在桌面启动时自动转换，桌面直接使用 `src-cpp/`。
 
-分批进度见 [MIGRATION.md](MIGRATION.md)。自由创作界面继续暂缓。作品源自 ascii.rest，沿用 MIT 许可。
+分批进度见 [MIGRATION.md](MIGRATION.md)。Swift 播放器已接入 Wave Text 参数创作预览，使用现有 JSON 选项创建独立草稿实例；本地作品保存、其余创作模板和自由绘制继续按后续批次实现。作品源自 ascii.rest，沿用 MIT 许可。

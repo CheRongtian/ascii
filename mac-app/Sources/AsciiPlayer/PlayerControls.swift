@@ -10,11 +10,12 @@ struct PlaybackControls: View {
             PlayerActionButton(title: model.shuffle ? "随机已开" : "随机", icon: "shuffle", showTitle: true,
                                selected: model.shuffle) { model.shuffle.toggle() }
                 .frame(width: 100, alignment: .leading)
+                .disabled(model.isCreating)
             Spacer(minLength: 4)
             HStack(spacing: 8) {
                 PlayerActionButton(title: "从头播放", icon: "arrow.counterclockwise", help: "从头播放 · ⌘R") { model.restart() }
                 PlayerActionButton(title: "上一个", icon: "backward.end.fill", help: "上一个 · ←") { model.move(-1) }
-                    .disabled(model.filteredPieces.isEmpty)
+                    .disabled(model.isCreating || model.filteredPieces.isEmpty)
                 Button { model.togglePlayback() } label: {
                     Image(systemName: model.isPlaying ? "pause.fill" : "play.fill")
                         .font(.system(size: 19, weight: .semibold)).frame(width: 64, height: 48)
@@ -25,13 +26,14 @@ struct PlaybackControls: View {
                 .accessibilityLabel(model.isPlaying ? "暂停播放" : "继续播放")
                 .help("播放 / 暂停 · 空格")
                 PlayerActionButton(title: "下一个", icon: "forward.end.fill", help: "下一个 · →") { model.move(1) }
-                    .disabled(model.filteredPieces.isEmpty)
+                    .disabled(model.isCreating || model.filteredPieces.isEmpty)
             }
             Spacer(minLength: 4)
             PlayerActionButton(title: model.autoAdvance ? "轮播 \(Int(model.interval))s" : "自动轮播",
                                icon: "repeat", showTitle: true, selected: model.autoAdvance,
                                help: "按当前搜索、分类与收藏筛选自动切换") { model.autoAdvance.toggle() }
                 .frame(width: 108, alignment: .trailing)
+                .disabled(model.isCreating)
         }
         .padding(12)
         .background(PlayerStyle.surface, in: RoundedRectangle(cornerRadius: 14))

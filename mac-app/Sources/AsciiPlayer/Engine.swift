@@ -7,6 +7,8 @@ struct FrameSnapshot: Sendable {
 
 struct FrameRequest: Sendable {
     let piece: Piece
+    let instanceID: String
+    let optionsJSON: String?
     let time: Double
     let mono: Bool
     let paper: Bool
@@ -94,11 +96,11 @@ final class AnimationEngine: @unchecked Sendable {
             }
             catch {
                 if !token.isCancelled {
-                    instances.removeValue(forKey: request.piece.id)
-                    recency.removeAll { $0 == request.piece.id }
+                    instances.removeValue(forKey: request.instanceID)
+                    recency.removeAll { $0 == request.instanceID }
                     stateLock.withLock {
-                        previews.removeValue(forKey: request.piece.id)
-                        cacheEligible.remove(request.piece.id)
+                        previews.removeValue(forKey: request.instanceID)
+                        cacheEligible.remove(request.instanceID)
                     }
                     FileHandle.standardError.write(Data("[ASCII Player] \(request.piece.id)：\(error.localizedDescription)\n".utf8))
                 }
@@ -121,31 +123,31 @@ final class AnimationEngine: @unchecked Sendable {
 
     private func draw(_ request: FrameRequest, cancellation: NativeCancellation) throws -> FrameSnapshot {
         let native: NativePiece
-        if let cached = instances[request.piece.id] {
+        if let cached = instances[request.instanceID] {
             native = cached
             native.useCancellation(cancellation)
         } else {
-            native = try NativePiece(id: request.piece.id, cancellation: cancellation)
+            native = try NativePiece(id: request.piece.id, optionsJSON: request.optionsJSON, cancellation: cancellation)
         }
         // Scenes keep their own ground; monochrome follows the selected canvas background.
         let paper = request.piece.ground != nil && !request.mono ? false : request.paper
         let colored = !request.mono && request.piece.palette != nil
         try stateLock.withLock {
             guard !cancellation.isCancelled else { throw EngineFailure(message: "Cancelled") }
-            instances[request.piece.id] = native
-            if cacheEligible.contains(request.piece.id) { retainCachedPiece(request.piece.id) }
+            instances[request.instanceID] = native
+            if cacheEligible.contains(request.instanceID) { retainCachedPiece(request.instanceID) }
             // Keep time monotonic even if a simulation frame is interrupted.
-            if var preview = previews[request.piece.id] {
+            if var preview = previews[request.instanceID] {
                 preview.time = request.time
-                previews[request.piece.id] = preview
+                previews[request.instanceID] = preview
             } else {
-                previews[request.piece.id] = Preview(time: request.time, paper: paper, colored: colored)
+                previews[request.instanceID] = Preview(time: request.time, paper: paper, colored: colored)
             }
         }
         let frame = try native.render(at: request.time, paper: paper, colored: colored)
         try stateLock.withLock {
             guard !cancellation.isCancelled else { throw EngineFailure(message: "Cancelled") }
-            previews[request.piece.id] = Preview(time: request.time, frame: frame, paper: paper, colored: colored)
+            previews[request.instanceID] = Preview(time: request.time, frame: frame, paper: paper, colored: colored)
         }
         return frame
     }

@@ -41,6 +41,9 @@ final class PlayerModel: ObservableObject {
     @Published private(set) var isLoading = true
     @Published private(set) var elapsedLabel = "00:00"
     @Published private(set) var generation = 0
+    @Published private(set) var creation: CreationModel?
+    @Published private(set) var isCreating = false
+    @Published private(set) var previewWork: UserWork?
 
     var isSleeping = false
     private var ticker: DispatchSourceTimer?
@@ -53,6 +56,7 @@ final class PlayerModel: ObservableObject {
     private var history: [String] = []
     private var historyIndex = -1
     private var navigatingHistory = false
+    private var previewOptionsJSON: String?
 
     init() {
         engine = AnimationEngine()
@@ -85,7 +89,18 @@ final class PlayerModel: ObservableObject {
         if let selectedID { history = [selectedID]; historyIndex = 0 }
     }
 
-    var selectedPiece: Piece? { pieces.first { $0.id == selectedID } }
+    var selectedPiece: Piece? {
+        let id = isCreating ? previewWork?.templateID : selectedID
+        return pieces.first { $0.id == id }
+    }
+    var playbackAppearance: WorkAppearance {
+        if isCreating, let previewWork { return previewWork.appearance }
+        return WorkAppearance(background: background, inkHex: inkHex, mono: mono,
+                              font: font, zoom: zoom, fpsLimit: fpsLimit)
+    }
+    private var playbackInstanceID: String? {
+        isCreating ? previewWork?.instanceID : selectedID
+    }
     var filteredPieces: [Piece] {
         let words = query.lowercased().split(whereSeparator: \.isWhitespace).map(String.init)
         return pieces.filter {
@@ -95,11 +110,13 @@ final class PlayerModel: ObservableObject {
     }
     var effectiveFPS: Int {
         guard let piece = selectedPiece, piece.fps > 0 else { return 0 }
-        return fpsLimit == 0 ? piece.fps : min(piece.fps, fpsLimit)
+        let limit = playbackAppearance.fpsLimit
+        return limit == 0 ? piece.fps : min(piece.fps, limit)
     }
     var canvasInk: NSColor {
-        if background.isLight && inkHex == "#a1efbf" { return NSColor(hex: "#26392d") }
-        return NSColor(hex: inkHex)
+        let appearance = playbackAppearance
+        if appearance.background.isLight && appearance.inkHex == "#a1efbf" { return NSColor(hex: "#26392d") }
+        return NSColor(hex: appearance.inkHex)
     }
 
     func start() {
@@ -114,32 +131,118 @@ final class PlayerModel: ObservableObject {
         source.resume()
     }
 
-    func stop() { ticker?.cancel(); ticker = nil }
+    func stop() {
+        ticker?.cancel()
+        ticker = nil
+        creation?.cancelPendingPreview()
+        engine.cancel()
+    }
 
     func toggleFavorite(_ id: String) {
+        guard !isCreating else { return }
         if favorites.contains(id) { favorites.remove(id) } else { favorites.insert(id) }
     }
 
     func togglePlayback() { isPlaying.toggle() }
 
     func preparationDidWait(for generation: Int) {
-        guard generation == self.generation, isLoading, let selectedID else { return }
+        guard !isCreating, generation == self.generation, isLoading, let selectedID else { return }
         engine.cachePreparedPiece(selectedID)
     }
 
     func restart() {
+        if isCreating, let creation, creation.isPreviewPending {
+            creation.flushPreview()
+            return
+        }
         engine.cancel()
-        if let selectedID { engine.removeCachedPiece(selectedID) }
+        if let id = playbackInstanceID { engine.removeCachedPiece(id) }
+        resetTimeline(clearFrame: true)
+    }
+
+    func beginCreation() {
+        guard !isCreating else { return }
+        do {
+            if creation == nil {
+                let json = try NativePiece.defaultOptions(for: "wave-text")
+                let parameters = try JSONDecoder().decode(WaveTextParameters.self, from: Data(json.utf8)).normalized()
+                let draft = UserWork(name: "我的文字波浪", parameters: .waveText(parameters),
+                                     appearance: playbackAppearance)
+                creation = CreationModel(draft: draft, onParametersChange: { [weak self] work in
+                    self?.applyCreationParameters(work)
+                }, onPresentationChange: { [weak self] work in
+                    self?.applyCreationPresentation(work)
+                })
+            }
+            guard let creation else { return }
+            let work = creation.draft
+            let json = try work.parameters.engineJSON()
+            creation.cancelPendingPreview()
+            engine.cancel()
+            isCreating = true
+            previewWork = work
+            previewOptionsJSON = json
+            resetTimeline(clearFrame: true)
+        } catch {
+            self.error = "无法打开创作预览。\n\(error.localizedDescription)"
+        }
+    }
+
+    func endCreation() {
+        guard isCreating else { return }
+        closeCreationPreview()
+        restoreSelectedPlayback()
+    }
+
+    private func closeCreationPreview() {
+        creation?.cancelPendingPreview()
+        if let id = previewWork?.instanceID { engine.removeCachedPiece(id) }
+        isCreating = false
+        previewWork = nil
+        previewOptionsJSON = nil
+    }
+
+    private func applyCreationParameters(_ work: UserWork) {
+        guard isCreating else { return }
+        do {
+            let json = try work.parameters.engineJSON()
+            engine.cancel()
+            if let id = previewWork?.instanceID { engine.removeCachedPiece(id) }
+            previewWork = work
+            previewOptionsJSON = json
+            resetTimeline(clearFrame: false)
+        } catch {
+            self.error = "无法更新创作预览。\n\(error.localizedDescription)"
+            isLoading = false
+        }
+    }
+
+    private func applyCreationPresentation(_ work: UserWork) {
+        guard isCreating, var current = previewWork else { return }
+        let previous = current.appearance
+        current.name = work.name
+        current.note = work.note
+        current.appearance = work.appearance
+        previewWork = current
+        if previous.mono != work.appearance.mono ||
+            previous.background.isLight != work.appearance.background.isLight {
+            invalidateFrame()
+        }
+        if previous.fpsLimit != work.appearance.fpsLimit { nextFrameAt = 0 }
+    }
+
+    private func resetTimeline(clearFrame: Bool) {
         elapsed = 0
         advanceTime = 0
         elapsedLabel = "00:00"
         error = nil
-        surface.publish(nil)
+        if clearFrame { surface.publish(nil) }
         isLoading = true
         invalidateFrame()
     }
 
     func move(_ direction: Int) {
+        guard !isCreating else { return }
         let candidates = filteredPieces
         guard !candidates.isEmpty else { return }
         if shuffle && direction < 0 && historyIndex > 0,
@@ -159,6 +262,7 @@ final class PlayerModel: ObservableObject {
     }
 
     func selectRandom() {
+        guard !isCreating else { return }
         let candidates = filteredPieces.filter { $0.id != selectedID }
         if let next = candidates.randomElement() { selectedID = next.id }
     }
@@ -168,12 +272,17 @@ final class PlayerModel: ObservableObject {
 
     private func selectionChanged() {
         guard let selectedID else { return }
+        if isCreating { closeCreationPreview() }
         defaults.set(selectedID, forKey: "selectedID")
         if !navigatingHistory {
             history = Array(history.prefix(historyIndex + 1))
             history.append(selectedID)
             historyIndex = history.count - 1
         }
+        restoreSelectedPlayback()
+    }
+
+    private func restoreSelectedPlayback() {
         engine.cancel()
         let cached = selectedPiece.flatMap {
             engine.cachedPlayback(for: $0, mono: mono, paper: background.isLight)
@@ -206,7 +315,7 @@ final class PlayerModel: ObservableObject {
             let seconds = Int(elapsed)
             let label = String(format: "%02d:%02d", seconds / 60, seconds % 60)
             if label != elapsedLabel { elapsedLabel = label }
-            if autoAdvance && advanceTime >= interval && filteredPieces.count > 1 {
+            if !isCreating && autoAdvance && advanceTime >= interval && filteredPieces.count > 1 {
                 move(1)
                 return
             }
@@ -217,9 +326,11 @@ final class PlayerModel: ObservableObject {
     }
 
     private func requestFrame(at now: Double) {
-        guard let piece = selectedPiece else { return }
+        guard let piece = selectedPiece, let instanceID = playbackInstanceID else { return }
         let stamp = generation
-        let request = FrameRequest(piece: piece, time: elapsed, mono: mono, paper: background.isLight)
+        let appearance = playbackAppearance
+        let request = FrameRequest(piece: piece, instanceID: instanceID, optionsJSON: previewOptionsJSON,
+                                   time: elapsed, mono: appearance.mono, paper: appearance.background.isLight)
         needsFrame = false
         inFlight = true
         if effectiveFPS > 0 {

@@ -44,12 +44,27 @@ final class NativePiece {
         }
     }
 
-    init(id: String, cancellation: NativeCancellation) throws {
+    static func defaultOptions(for id: String) throws -> String {
+        guard let metadata = id.withCString({ ascii_piece_find($0) }) else { throw Self.failure() }
+        return metadata.pointee.options.json.map { String(cString: $0) } ?? "{}"
+    }
+
+    init(id: String, optionsJSON: String? = nil, cancellation: NativeCancellation) throws {
         self.cancellation = cancellation
         guard let metadata = id.withCString({ ascii_piece_find($0) }) else { throw Self.failure() }
         var options = metadata.pointee.options
         options.cancellation = cancellation.handle
-        guard let handle = id.withCString({ ascii_piece_create($0, &options) }) else {
+        let created: OpaquePointer?
+        if let optionsJSON {
+            // The C++ constructor consumes JSON before this buffer is released.
+            created = optionsJSON.withCString { json in
+                options.json = json
+                return id.withCString { ascii_piece_create($0, &options) }
+            }
+        } else {
+            created = id.withCString { ascii_piece_create($0, &options) }
+        }
+        guard let handle = created else {
             throw Self.failure()
         }
         self.handle = handle

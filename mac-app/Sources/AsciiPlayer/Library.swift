@@ -70,7 +70,7 @@ struct PieceCategory: Identifiable, Hashable, Sendable {
     ]
 }
 
-enum CanvasBackground: String, CaseIterable, Identifiable {
+enum CanvasBackground: String, CaseIterable, Identifiable, Codable, Sendable {
     case midnight, charcoal, paper
     var id: String { rawValue }
     var title: String {
@@ -82,7 +82,7 @@ enum CanvasBackground: String, CaseIterable, Identifiable {
     var isLight: Bool { self == .paper }
 }
 
-enum ArtFont: String, CaseIterable, Identifiable {
+enum ArtFont: String, CaseIterable, Identifiable, Codable, Sendable {
     case paper = "Paper Mono", menlo = "Menlo", monaco = "Monaco"
     var id: String { rawValue }
 }

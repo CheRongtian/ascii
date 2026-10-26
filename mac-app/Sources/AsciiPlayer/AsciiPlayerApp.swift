@@ -15,11 +15,16 @@ struct AsciiPlayerApp: App {
         .defaultSize(width: 1320, height: 880)
         .windowResizability(.contentMinSize)
         .commands {
-            CommandGroup(replacing: .newItem) {}
+            CommandGroup(replacing: .newItem) {
+                Button("文字创作") { model.beginCreation() }
+                    .keyboardShortcut("n", modifiers: .command)
+                    .disabled(model.isCreating)
+            }
             CommandGroup(after: .textEditing) {
                 Button("搜索作品") {
                     NotificationCenter.default.post(name: .asciiFocusSearch, object: nil)
                 }.keyboardShortcut("f", modifiers: .command)
+                    .disabled(model.isCreating)
             }
             CommandMenu("播放") {
                 Button(model.isPlaying ? "暂停" : "继续播放") { model.togglePlayback() }
@@ -27,14 +32,20 @@ struct AsciiPlayerApp: App {
                 Button("从头播放") { model.restart() }.keyboardShortcut("r", modifiers: .command)
                 Divider()
                 Button("上一个") { model.move(-1) }.keyboardShortcut(.leftArrow, modifiers: .command)
+                    .disabled(model.isCreating)
                 Button("下一个") { model.move(1) }.keyboardShortcut(.rightArrow, modifiers: .command)
+                    .disabled(model.isCreating)
                 Button("随机选择作品") { model.selectRandom() }.keyboardShortcut("s", modifiers: [.command, .shift])
+                    .disabled(model.isCreating)
                 Divider()
                 Toggle("自动轮播", isOn: $model.autoAdvance)
+                    .disabled(model.isCreating)
                 Toggle("随机顺序", isOn: $model.shuffle)
+                    .disabled(model.isCreating)
                 if let id = model.selectedID {
                     Button(model.favorites.contains(id) ? "取消收藏" : "收藏当前作品") { model.toggleFavorite(id) }
                         .keyboardShortcut("d", modifiers: .command)
+                        .disabled(model.isCreating)
                 }
             }
             CommandGroup(after: .windowArrangement) {
@@ -58,12 +69,12 @@ final class PlayerAppDelegate: NSObject, NSApplicationDelegate {
             let handled = MainActor.assumeIsolated {
                 guard let model = self?.model,
                       event.window === model.surface.view?.window,
-                      !(NSApp.keyWindow?.firstResponder is NSTextView),
+                      NSApp.keyWindow?.firstResponder === model.surface.view,
                       event.modifierFlags.intersection([.command, .control, .option, .shift]).isEmpty else { return false }
                 switch event.keyCode {
                 case 49: model.togglePlayback(); return true
-                case 123: model.move(-1); return true
-                case 124: model.move(1); return true
+                case 123: guard !model.isCreating else { return false }; model.move(-1); return true
+                case 124: guard !model.isCreating else { return false }; model.move(1); return true
                 default: return false
                 }
             }
