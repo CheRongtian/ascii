@@ -9,6 +9,6 @@ ASCII_APP="$ASCII_BUILD_DIR/ASCII Player.app"
 ASCII_EXECUTABLE="$ASCII_APP/Contents/MacOS/AsciiPlayer"
 
 cmake -S "$ASCII_ROOT" -B "$ASCII_BUILD_DIR" -DCMAKE_BUILD_TYPE=Release
-cmake --build "$ASCII_BUILD_DIR" --config Release --target AsciiPlayer --parallel 4
+cmake --build "$ASCII_BUILD_DIR" --config Release --target AsciiPlayer --parallel 8
 
 exec "$ASCII_EXECUTABLE"

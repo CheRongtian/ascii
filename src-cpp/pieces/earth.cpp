@@ -115,12 +115,12 @@ for(;d::truth((_n_c_8460<_n_MW_8424));(void)((_n_c_8460++))){d::check_cancel();(
 }}
 }}
 this->_n_m_8440=d::hypot(std::initializer_list<double>{(-d::number(0.42)),0.28,0.86});
-auto _n_binding_8522=std::array<double,3>{((-d::number(0.42))/this->_n_m_8440),(0.28/this->_n_m_8440),(0.86/this->_n_m_8440)};
+auto _n_binding_8522=d::Array<double,false>{((-d::number(0.42))/this->_n_m_8440),(0.28/this->_n_m_8440),(0.86/this->_n_m_8440)};
 this->_n_lx_8441=d::at(_n_binding_8522,0.0);
 this->_n_ly_8442=d::at(_n_binding_8522,1.0);
 this->_n_lz_8443=d::at(_n_binding_8522,2.0);
 this->_n_hm_8444=d::hypot(std::initializer_list<double>{this->_n_lx_8441,this->_n_ly_8442,(this->_n_lz_8443+1.0)});
-auto _n_binding_8523=std::array<double,3>{(this->_n_lx_8441/this->_n_hm_8444),(this->_n_ly_8442/this->_n_hm_8444),((this->_n_lz_8443+1.0)/this->_n_hm_8444)};
+auto _n_binding_8523=d::Array<double,false>{(this->_n_lx_8441/this->_n_hm_8444),(this->_n_ly_8442/this->_n_hm_8444),((this->_n_lz_8443+1.0)/this->_n_hm_8444)};
 this->_n_hx_8445=d::at(_n_binding_8523,0.0);
 this->_n_hy_8446=d::at(_n_binding_8523,1.0);
 this->_n_hz_8447=d::at(_n_binding_8523,2.0);

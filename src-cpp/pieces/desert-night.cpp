@@ -206,7 +206,7 @@ d::Array<float,true> _n_sB_7343{};
 d::Array<float,true> _n_crest_7344{};
 d::Array<int16_t,true> _n_top_7345{};
 d::Array<float,true> _n_bark_7346{};
-d::Array<std::array<double,3>,false> _n_lamps_7347{};
+d::Array<d::Array<double,false>,false> _n_lamps_7347{};
 d::Array<float,true> _n_kR_7348{};
 d::Array<float,true> _n_kG_7349{};
 d::Array<float,true> _n_kB_7350{};
@@ -364,8 +364,8 @@ return ([&]()->bool{auto _n_logical_7695=(_n_py_7481>_n_topY_7483);return d::tru
 
 }
 };
-auto&& _n_fork_7485=std::array<double,2>{(_n_ACACIA_7312+0.3),(_n_base_7475-5.0)};
-d::Array<std::shared_ptr<std::tuple<std::array<double,2>,std::array<double,2>,double>>,false> _n_limbs_7486=d::Array<std::shared_ptr<std::tuple<std::array<double,2>,std::array<double,2>,double>>,false>{std::make_shared<std::tuple<std::array<double,2>,std::array<double,2>,double>>(std::array<double,2>{_n_ACACIA_7312,(_n_base_7475+1.0)},_n_fork_7485,1.3),std::make_shared<std::tuple<std::array<double,2>,std::array<double,2>,double>>(_n_fork_7485,std::array<double,2>{(_n_ACACIA_7312-9.0),(_n_canopyTop_7476+3.0)},0.8),std::make_shared<std::tuple<std::array<double,2>,std::array<double,2>,double>>(_n_fork_7485,std::array<double,2>{(_n_ACACIA_7312+1.5),(_n_canopyTop_7476+2.0)},0.75),std::make_shared<std::tuple<std::array<double,2>,std::array<double,2>,double>>(_n_fork_7485,std::array<double,2>{(_n_ACACIA_7312+10.0),(_n_canopyTop_7476+3.2)},0.8),std::make_shared<std::tuple<std::array<double,2>,std::array<double,2>,double>>(_n_fork_7485,std::array<double,2>{(_n_ACACIA_7312-4.0),(_n_canopyTop_7476+2.6)},0.55),std::make_shared<std::tuple<std::array<double,2>,std::array<double,2>,double>>(std::array<double,2>{(_n_ACACIA_7312-4.0),(_n_base_7475-9.0)},std::array<double,2>{(_n_ACACIA_7312-14.0),(_n_canopyTop_7476+3.5)},0.55),std::make_shared<std::tuple<std::array<double,2>,std::array<double,2>,double>>(std::array<double,2>{(_n_ACACIA_7312+3.0),(_n_base_7475-8.0)},std::array<double,2>{(_n_ACACIA_7312+15.0),(_n_canopyTop_7476+3.6)},0.5)};
+d::Array<double,false> _n_fork_7485=d::Array<double,false>{(_n_ACACIA_7312+0.3),(_n_base_7475-5.0)};
+d::Array<std::shared_ptr<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>,false> _n_limbs_7486=d::Array<std::shared_ptr<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>,false>{std::make_shared<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>(d::Array<double,false>{_n_ACACIA_7312,(_n_base_7475+1.0)},_n_fork_7485,1.3),std::make_shared<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>(_n_fork_7485,d::Array<double,false>{(_n_ACACIA_7312-9.0),(_n_canopyTop_7476+3.0)},0.8),std::make_shared<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>(_n_fork_7485,d::Array<double,false>{(_n_ACACIA_7312+1.5),(_n_canopyTop_7476+2.0)},0.75),std::make_shared<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>(_n_fork_7485,d::Array<double,false>{(_n_ACACIA_7312+10.0),(_n_canopyTop_7476+3.2)},0.8),std::make_shared<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>(_n_fork_7485,d::Array<double,false>{(_n_ACACIA_7312-4.0),(_n_canopyTop_7476+2.6)},0.55),std::make_shared<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>(d::Array<double,false>{(_n_ACACIA_7312-4.0),(_n_base_7475-9.0)},d::Array<double,false>{(_n_ACACIA_7312-14.0),(_n_canopyTop_7476+3.5)},0.55),std::make_shared<std::tuple<d::Array<double,false>,d::Array<double,false>,double>>(d::Array<double,false>{(_n_ACACIA_7312+3.0),(_n_base_7475-8.0)},d::Array<double,false>{(_n_ACACIA_7312+15.0),(_n_canopyTop_7476+3.6)},0.5)};
 {double _n_r_7487=d::maximum({0.0,(_n_canopyTop_7476-3.0)});
 for(;d::truth((_n_r_7487<=(_n_base_7475+1.0)));(void)((_n_r_7487++))){d::check_cancel();{double _n_x_7488=(_n_ACACIA_7312-26.0);
 for(;d::truth((_n_x_7488<=(_n_ACACIA_7312+26.0)));(void)((_n_x_7488++))){d::check_cancel();if((d::truth((_n_x_7488<0.0))||d::truth((_n_x_7488>=_n_W_7302)))){d::check_cancel();continue;
@@ -408,16 +408,16 @@ double _n_dy_7506=((_n_r_7502-d::at(_n_CORE_7309,1.0))*1.3);
 }}
 
 }
-this->_n_lamps_7347=d::Array<std::array<double,3>,false>{};
+this->_n_lamps_7347=d::Array<d::Array<double,false>,false>{};
 {double _n_x_7507=(d::at(_n_TOWN_7308,0.0)-9.0);
 for(;(d::truth((_n_x_7507<=(d::at(_n_TOWN_7308,0.0)+9.0)))&&d::truth((double(this->_n_lamps_7347.size())<5.0)));(void)((_n_x_7507++))){d::check_cancel();double _n_r_7508=d::at(this->_n_top_7345,_n_x_7507);
 if(((d::truth((_n_r_7508>=_n_H_7303))||d::truth((d::at(this->_n_depth_7340,((_n_r_7508*_n_W_7302)+_n_x_7507))<140.0)))||d::truth((_n_hash_7316(_n_x_7507,91.0)>0.45)))){d::check_cancel();continue;
 }
-if(d::truth(d::some(this->_n_lamps_7347,[&]( std::array<double,3> _a0) mutable ->bool{auto _n_binding_7706=_a0;
+if(d::truth(d::some(this->_n_lamps_7347,[&]( d::Array<double,false> _a0) mutable ->bool{auto _n_binding_7706=_a0;
 double _n_k_7509=d::at(_n_binding_7706,0.0);
 return (std::fabs((d::mod(_n_k_7509,_n_W_7302)-_n_x_7507))<2.0);}))){d::check_cancel();continue;
 }
-(void)(this->_n_lamps_7347.push(std::array<double,3>{((_n_r_7508*_n_W_7302)+_n_x_7507),(_n_hash_7316(_n_x_7507,92.0)*6.28),(0.7+(_n_hash_7316(_n_x_7507,93.0)*1.4))}));
+(void)(this->_n_lamps_7347.push(d::Array<double,false>{((_n_r_7508*_n_W_7302)+_n_x_7507),(_n_hash_7316(_n_x_7507,92.0)*6.28),(0.7+(_n_hash_7316(_n_x_7507,93.0)*1.4))}));
 }}
 this->_n_kR_7348=d::Array<float,true>(size_t(this->_n_N_7329));
 this->_n_kG_7349=d::Array<float,true>(size_t(this->_n_N_7329));

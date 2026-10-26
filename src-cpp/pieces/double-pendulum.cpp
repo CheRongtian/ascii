@@ -87,15 +87,15 @@ double _n_SX_8289{};
 double _n_E0_8290{};
 d::Array<d::String,false> _n_grid_8291{};
 d::Array<double,false> _n_s_8292{};
-d::Array<std::array<double,2>,false> _n_trail_8293{};
+d::Array<d::Array<double,false>,false> _n_trail_8293{};
 double _n_steps_8294{};
 double _n_acc_8295{};
 double _n_last_8296{};
 std::function<d::String(double,std::shared_ptr<_n_Record_8377>)> _render;
-std::array<double,2> _n_tip_8297(d::Array<double,false> _a0){auto _n_binding_8400=_a0;
+d::Array<double,false> _n_tip_8297(d::Array<double,false> _a0){auto _n_binding_8400=_a0;
 double _n_a_8329=d::at(_n_binding_8400,0.0);
 double _n_b_8330=d::at(_n_binding_8400,1.0);
-return std::array<double,2>{(this->_n_cx_8286+(this->_n_SX_8289*([&](){auto _n_left_8401=std::sin(_n_a_8329);auto _n_right_8402=std::sin(_n_b_8330);return (_n_left_8401+_n_right_8402);})())),(this->_n_cy_8287+(this->_n_SY_8288*([&](){auto _n_left_8403=std::cos(_n_a_8329);auto _n_right_8404=std::cos(_n_b_8330);return (_n_left_8403+_n_right_8404);})()))};}
+return d::Array<double,false>{(this->_n_cx_8286+(this->_n_SX_8289*([&](){auto _n_left_8401=std::sin(_n_a_8329);auto _n_right_8402=std::sin(_n_b_8330);return (_n_left_8401+_n_right_8402);})())),(this->_n_cy_8287+(this->_n_SY_8288*([&](){auto _n_left_8403=std::cos(_n_a_8329);auto _n_right_8404=std::cos(_n_b_8330);return (_n_left_8403+_n_right_8404);})()))};}
 
 void _n_step_8298(){{
 (void)((this->_n_s_8292=_n_rk4_8281(this->_n_s_8292)));
@@ -115,7 +115,7 @@ if(d::truth((double(this->_n_trail_8293.size())>_n_TRAIL_8276))){d::check_cancel
 
 void _n_reset_8299(){{
 (void)((this->_n_s_8292=_n_START_8278.slice()));
-(void)((this->_n_trail_8293=d::Array<std::array<double,2>,false>{}));
+(void)((this->_n_trail_8293=d::Array<d::Array<double,false>,false>{}));
 (void)((this->_n_steps_8294=0.0));
 (void)((this->_n_acc_8295=0.0));
 (void)((this->_n_last_8296=0.0));

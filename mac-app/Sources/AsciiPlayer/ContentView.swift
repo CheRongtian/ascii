@@ -313,7 +313,7 @@ private struct ArtworkStage: View {
                     }
                     .foregroundStyle(PlayerStyle.foreground).padding(24)
                     .background(PlayerStyle.surface, in: RoundedRectangle(cornerRadius: 12)).padding(24)
-                } else if showLoading {
+                } else if model.isLoading && showLoading {
                     HStack(spacing: 12) {
                         ProgressView().controlSize(.small)
                         Text("正在准备画面…").font(.system(size: 13))
@@ -327,11 +327,14 @@ private struct ArtworkStage: View {
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(.black.opacity(0.12)))
         .shadow(color: .black.opacity(0.08), radius: 18, x: 0, y: 8)
-        .task(id: model.isLoading) {
+        .task(id: model.generation) {
+            let generation = model.generation
             showLoading = false
             guard model.isLoading else { return }
             do { try await Task.sleep(for: .milliseconds(200)) } catch { return }
-            if model.isLoading { showLoading = true }
+            guard !Task.isCancelled, model.generation == generation, model.isLoading else { return }
+            showLoading = true
+            model.preparationDidWait(for: generation)
         }
     }
 }

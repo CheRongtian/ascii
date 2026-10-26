@@ -324,6 +324,10 @@ extern "C" AsciiPiece *ascii_piece_create(const char *id, const AsciiPieceOption
 
 extern "C" void ascii_piece_destroy(AsciiPiece *piece) { delete piece; }
 
+extern "C" void ascii_piece_set_cancellation(AsciiPiece *piece, AsciiCancellation *cancellation) {
+    if (piece) piece->cancellation = cancellation ? cancellation->flag : nullptr;
+}
+
 extern "C" AsciiCancellation *ascii_cancellation_create(void) { return new AsciiCancellation; }
 extern "C" void ascii_cancellation_cancel(AsciiCancellation *cancellation) {
     if(cancellation)cancellation->flag->store(true,std::memory_order_relaxed);

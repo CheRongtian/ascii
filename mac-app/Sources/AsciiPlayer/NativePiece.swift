@@ -20,7 +20,7 @@ final class NativeCancellation: @unchecked Sendable {
 // Owned by AnimationEngine; render calls stay on its existing serial queue.
 final class NativePiece {
     private let handle: OpaquePointer
-    let cancellation: NativeCancellation
+    private(set) var cancellation: NativeCancellation
 
     static func supports(_ id: String) -> Bool {
         id.withCString { ascii_piece_find($0) != nil }
@@ -56,6 +56,12 @@ final class NativePiece {
     }
 
     deinit { ascii_piece_destroy(handle) }
+
+    func useCancellation(_ cancellation: NativeCancellation) {
+        guard self.cancellation !== cancellation else { return }
+        ascii_piece_set_cancellation(handle, cancellation.handle)
+        self.cancellation = cancellation
+    }
 
     func render(at time: Double, paper: Bool, colored: Bool) throws -> FrameSnapshot {
         var output = AsciiFrame()

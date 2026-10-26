@@ -59,11 +59,11 @@ std::function<d::String(double,std::shared_ptr<_n_Record_9847>)> _render;
 double _n_axis_9765(double _a0,double _a1){double _n_k_9783=_a0;
 double _n_m_9784=_a1;
 {
-auto _n_binding_9893=(d::truth((_n_m_9784==0.0))?std::array<double,2>{0.0,1.0}:std::array<double,2>{d::at(d::at(_n_MAPS_9759,_n_m_9784),1.0),d::at(d::at(_n_MAPS_9759,_n_m_9784),3.0)});
+auto _n_binding_9893=(d::truth((_n_m_9784==0.0))?d::Array<double,false>{0.0,1.0}:d::Array<double,false>{d::at(d::at(_n_MAPS_9759,_n_m_9784),1.0),d::at(d::at(_n_MAPS_9759,_n_m_9784),3.0)});
 double _n_u_9785=d::at(_n_binding_9893,0.0);
 double _n_v_9786=d::at(_n_binding_9893,1.0);
 {double _n_s_9787=0.0;
-for(;d::truth((_n_s_9787<_n_k_9783));(void)((_n_s_9787++))){d::check_cancel();(void)(([&](){auto _n_unpack_9894=std::array<double,2>{((0.85*_n_u_9785)+(0.04*_n_v_9786)),(((-d::number(0.04))*_n_u_9785)+(0.85*_n_v_9786))};_n_u_9785=d::at(_n_unpack_9894,0.0);_n_v_9786=d::at(_n_unpack_9894,1.0);return _n_unpack_9894;})());
+for(;d::truth((_n_s_9787<_n_k_9783));(void)((_n_s_9787++))){d::check_cancel();(void)(([&](){auto _n_unpack_9894=d::Array<double,false>{((0.85*_n_u_9785)+(0.04*_n_v_9786)),(((-d::number(0.04))*_n_u_9785)+(0.85*_n_v_9786))};_n_u_9785=d::at(_n_unpack_9894,0.0);_n_v_9786=d::at(_n_unpack_9894,1.0);return _n_unpack_9894;})());
 }}
 return std::atan2(_n_u_9785,_n_v_9786);
 
@@ -96,7 +96,7 @@ double _n_c_9797=d::at(_n_binding_9852,2.0);
 double _n_d_9798=d::at(_n_binding_9852,3.0);
 double _n_e_9799=d::at(_n_binding_9852,4.0);
 double _n_f_9800=d::at(_n_binding_9852,5.0);
-(void)(([&](){auto _n_unpack_9853=std::array<double,2>{(((_n_a_9795*this->_n_x_9770)+(_n_b_9796*this->_n_y_9771))+_n_e_9799),(((_n_c_9797*this->_n_x_9770)+(_n_d_9798*this->_n_y_9771))+_n_f_9800)};this->_n_x_9770=d::at(_n_unpack_9853,0.0);this->_n_y_9771=d::at(_n_unpack_9853,1.0);return _n_unpack_9853;})());
+(void)(([&](){auto _n_unpack_9853=d::Array<double,false>{(((_n_a_9795*this->_n_x_9770)+(_n_b_9796*this->_n_y_9771))+_n_e_9799),(((_n_c_9797*this->_n_x_9770)+(_n_d_9798*this->_n_y_9771))+_n_f_9800)};this->_n_x_9770=d::at(_n_unpack_9853,0.0);this->_n_y_9771=d::at(_n_unpack_9853,1.0);return _n_unpack_9853;})());
 if(d::truth((_n_j_9793==1.0))){d::check_cancel();(void)((this->_n_k_9772=d::minimum({60.0,(this->_n_k_9772+1.0)})));
 }else {d::check_cancel();(void)(((this->_n_k_9772=0.0),(this->_n_m_9773=_n_j_9793)));
 }
@@ -105,10 +105,10 @@ if(d::truth((_n_i_9791>=0.0))){d::check_cancel();(void)(((([&](){auto&& _n_array
 }}
 this->_n_spine_9774=d::Array<std::array<double,2>,false>{std::array<double,2>{_n_SHIFT_9760,0.0}};
 {double _n_k_9801=0.0;
-auto _n_binding_9863=std::array<double,2>{0.0,0.0};
+auto _n_binding_9863=d::Array<double,false>{0.0,0.0};
 double _n_sx_9802=d::at(_n_binding_9863,0.0);
 double _n_sy_9803=d::at(_n_binding_9863,1.0);
-for(;d::truth((_n_k_9801<60.0));(void)((_n_k_9801++))){d::check_cancel();(void)(([&](){auto _n_unpack_9864=std::array<double,2>{((0.85*_n_sx_9802)+(0.04*_n_sy_9803)),((((-d::number(0.04))*_n_sx_9802)+(0.85*_n_sy_9803))+1.6)};_n_sx_9802=d::at(_n_unpack_9864,0.0);_n_sy_9803=d::at(_n_unpack_9864,1.0);return _n_unpack_9864;})());
+for(;d::truth((_n_k_9801<60.0));(void)((_n_k_9801++))){d::check_cancel();(void)(([&](){auto _n_unpack_9864=d::Array<double,false>{((0.85*_n_sx_9802)+(0.04*_n_sy_9803)),((((-d::number(0.04))*_n_sx_9802)+(0.85*_n_sy_9803))+1.6)};_n_sx_9802=d::at(_n_unpack_9864,0.0);_n_sy_9803=d::at(_n_unpack_9864,1.0);return _n_unpack_9864;})());
 (void)(this->_n_spine_9774.push(std::array<double,2>{(_n_sx_9802+_n_SHIFT_9760),_n_sy_9803}));
 }}
 this->_n_S_9775=((this->_n_rows_9763-3.8)/10.0);
@@ -132,13 +132,13 @@ return ([&](){auto _n_left_9869=(((_n_sway_9810*_n_h_9813)*std::sqrt(_n_h_9813))
 
 }
 };
-auto _n_place_9814=[&]( double _a0,double _a1) mutable ->std::array<double,2>{double _n_u0_9815=_a0;
+auto _n_place_9814=[&]( double _a0,double _a1) mutable ->d::Array<double,false>{double _n_u0_9815=_a0;
 double _n_v0_9816=_a1;
 {
 double _n_a_9817=_n_bend_9811(_n_v0_9816);
 double _n_ca_9818=std::cos(_n_a_9817);
 double _n_sa_9819=std::sin(_n_a_9817);
-return std::array<double,2>{(this->_n_ROOT_C_9777+((((_n_u0_9815*_n_ca_9818)+(_n_v0_9816*_n_sa_9819))*2.0)*_n_scale_9808)),(this->_n_ROOT_R_9776-((((-d::number(_n_u0_9815))*_n_sa_9819)+(_n_v0_9816*_n_ca_9818))*_n_scale_9808))};
+return d::Array<double,false>{(this->_n_ROOT_C_9777+((((_n_u0_9815*_n_ca_9818)+(_n_v0_9816*_n_sa_9819))*2.0)*_n_scale_9808)),(this->_n_ROOT_R_9776-((((-d::number(_n_u0_9815))*_n_sa_9819)+(_n_v0_9816*_n_ca_9818))*_n_scale_9808))};
 
 }
 };
@@ -164,7 +164,7 @@ double _n_a_9830=(0.5*std::atan2(d::at(this->_n_ss_9780,_n_k_9829),d::at(this->_
 double _n_sure_9831=(d::hypot(std::initializer_list<double>{d::at(this->_n_ss_9780,_n_k_9829),d::at(this->_n_sc_9779,_n_k_9829)})/d::at(this->_n_n0_9778,_n_k_9829));
 (void)(([&](){auto&& _n_array_9881=_n_out_9828;auto _n_index_9882=_n_k_9829;auto _n_value_9883=((d::truth((d::at(this->_n_n0_9778,_n_k_9829)<(6.0*_n_full_9827)))||d::truth((_n_sure_9831<0.5)))?d::String(u"."):(d::truth((std::fabs(_n_a_9830)<0.33))?d::String(u"|"):(d::truth((std::fabs(_n_a_9830)>1.25))?d::String(u"-"):(d::truth((_n_a_9830>0.0))?d::String(u"/"):d::String(u"\\")))));d::put(_n_array_9881,_n_index_9882,_n_value_9883);return _n_value_9883;})());
 }}
-d::Array<std::array<double,2>,false> _n_pts_9832=d::map(this->_n_spine_9774,[&]( std::array<double,2> _a0) mutable ->std::array<double,2>{auto _n_binding_9884=_a0;
+d::Array<d::Array<double,false>,false> _n_pts_9832=d::map(this->_n_spine_9774,[&]( std::array<double,2> _a0) mutable ->d::Array<double,false>{auto _n_binding_9884=_a0;
 double _n_u0_9833=d::at(_n_binding_9884,0.0);
 double _n_v0_9834=d::at(_n_binding_9884,1.0);
 return _n_place_9814(_n_u0_9833,_n_v0_9834);});

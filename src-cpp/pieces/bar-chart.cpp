@@ -166,7 +166,7 @@ return (d::truth((_n_i_2238==_n_live_2233))?(d::string((d::string(d::String(u"["
 (void)(d::forEach(([&](){d::Array<d::String,false> _n_array_2311;for(const auto &_v:_n_tabs_2236)_n_array_2311.push(_v);return _n_array_2311;})(),[&]( d::String _a0,double _a1) mutable ->d::String{d::String _n_ch_2239=_a0;
 double _n_i_2240=_a1;
 return ([&](){auto&& _n_array_2312=d::at(this->_n_grid_2199,1.0);auto _n_index_2313=((((this->_n_AX_2192+this->_n_PW_2190)+1.0)-double(_n_tabs_2236.size()))+_n_i_2240);auto _n_value_2314=_n_ch_2239;d::put(_n_array_2312,_n_index_2313,_n_value_2314);return _n_value_2314;})();}));
-d::Array<std::array<double,2>,false> _n_tops_2241=d::Array<std::array<double,2>,false>{};
+d::Array<d::Array<double,false>,false> _n_tops_2241=d::Array<d::Array<double,false>,false>{};
 {double _n_i_2242=0.0;
 for(;d::truth((_n_i_2242<this->_n_n_2182));(void)((_n_i_2242++))){d::check_cancel();double _n_v_2243=((([&]()->double{auto _n_logical_2315=d::at(_n_a_2230->_p_values,_n_i_2242);return d::has(_n_a_2230->_p_values,_n_i_2242)?_n_logical_2315:0.0;})()*(1.0-_n_e_2232))+(([&]()->double{auto _n_logical_2316=d::at(_n_b_2231->_p_values,_n_i_2242);return d::has(_n_b_2231->_p_values,_n_i_2242)?_n_logical_2316:0.0;})()*_n_e_2232));
 double _n_h_2244=d::round((((_n_v_2243/this->_n_top_2185)*_n_PH_2170)*8.0));
@@ -181,7 +181,7 @@ if(d::truth(_n_part_2246)){d::check_cancel();{double _n_c_2249=0.0;
 for(;d::truth((_n_c_2249<_n_BW_2171));(void)((_n_c_2249++))){d::check_cancel();(void)(([&](){auto&& _n_array_2320=d::at(this->_n_grid_2199,((this->_n_AY_2194-1.0)-_n_full_2245));auto _n_index_2321=(d::at(this->_n_bx_2193,_n_i_2242)+_n_c_2249);auto _n_value_2322=d::at(_n_EIGHTHS_2169,(_n_part_2246-1.0));d::put(_n_array_2320,_n_index_2321,_n_value_2322);return _n_value_2322;})());
 }}
 }
-(void)(_n_tops_2241.push(std::array<double,2>{_n_v_2243,(((this->_n_AY_2194-1.0)-_n_full_2245)-(d::truth(_n_part_2246)?1.0:0.0))}));
+(void)(_n_tops_2241.push(d::Array<double,false>{_n_v_2243,(((this->_n_AY_2194-1.0)-_n_full_2245)-(d::truth(_n_part_2246)?1.0:0.0))}));
 }}
 for(auto &&_n_item_2323:this->_n_gridRows_2195){d::check_cancel();double _n_r_2250=_n_item_2323;
 {double _n_c_2251=(this->_n_AX_2192+1.0);
@@ -192,7 +192,7 @@ if(d::truth((!d::truth(_n_near_2252)))){d::check_cancel();(void)(([&](){auto&& _
 }
 }}
 }
-(void)(d::forEach(_n_tops_2241,[&]( std::array<double,2> _a0,double _a1) mutable ->void{auto _n_binding_2329=_a0;
+(void)(d::forEach(_n_tops_2241,[&]( d::Array<double,false> _a0,double _a1) mutable ->void{auto _n_binding_2329=_a0;
 double _n_v_2255=d::at(_n_binding_2329,0.0);
 double _n_lr_2256=d::at(_n_binding_2329,1.0);
 double _n_i_2257=_a1;

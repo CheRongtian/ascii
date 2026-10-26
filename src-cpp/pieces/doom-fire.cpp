@@ -29,7 +29,7 @@ const double _n_MAX_8148=[](){return 36.0;}();
 const d::String _n_RAMP_8149=[](){return d::String(u" .:;!+*#%@");}();
 const double _n_RATE_8150=[](){return 24.0;}();
 const double _n_BED_8151=[](){return 0.72;}();
-d::Array<std::array<double,3>,false> _n_TONGUES_8152=[](){return d::Array<std::array<double,3>,false>{std::array<double,3>{(-d::number(0.66)),1.05,11.0},std::array<double,3>{(-d::number(0.18)),2.1,15.0},std::array<double,3>{0.3,1.6,13.0},std::array<double,3>{0.73,0.95,9.0}};}();
+d::Array<d::Array<double,false>,false> _n_TONGUES_8152=[](){return d::Array<d::Array<double,false>,false>{d::Array<double,false>{(-d::number(0.66)),1.05,11.0},d::Array<double,false>{(-d::number(0.18)),2.1,15.0},d::Array<double,false>{0.3,1.6,13.0},d::Array<double,false>{0.73,0.95,9.0}};}();
 const double _n_DRIFT_8153=[](){return 34.0;}();
 const double _n_FLOOR_8154=[](){return 0.16;}();
 std::function<double()> _n_mulberry32_8155(double _a0){double _n_seed_8173=_a0;
@@ -95,7 +95,7 @@ std::function<d::String(double,std::shared_ptr<_n_Record_8235>)> _render;
 void _n_step_8169(){{
 (void)((this->_n_n_8168++));
 (void)(this->_n_tall_8166.fill(0.28));
-(void)(d::forEach(_n_TONGUES_8152,[&]( std::array<double,3> _a0,double _a1) mutable ->void{auto _n_binding_8249=_a0;
+(void)(d::forEach(_n_TONGUES_8152,[&]( d::Array<double,false> _a0,double _a1) mutable ->void{auto _n_binding_8249=_a0;
 double _n_at_8193=d::at(_n_binding_8249,0.0);
 double _n_top_8194=d::at(_n_binding_8249,1.0);
 double _n_half_8195=d::at(_n_binding_8249,2.0);

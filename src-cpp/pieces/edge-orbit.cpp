@@ -155,7 +155,7 @@ d::Array<float,true> _n_depth_8773{};
 d::Array<float,true> _n_toSun_8774{};
 d::Array<float,true> _n_stars_8775{};
 d::Array<double,false> _n_HUBS_8776{};
-d::Array<std::array<double,3>,false> _n_unit_8777{};
+d::Array<d::Array<double,false>,false> _n_unit_8777{};
 d::Array<d::Array<double,false>,false> _n_near_8778{};
 d::Array<double,true> _n_tmp_8780{};
 d::Array<float,true> _n_aO_8782{};
@@ -525,10 +525,10 @@ this->_n_HUBS_8776=d::filter(d::map(_n_CITIES_8746,[&]( d::Array<double,false> _
 double _n_i_8918=_a1;
 return (d::truth((d::at(_n_c_8917,2.0)>=0.5))?_n_i_8918:(-d::number(1.0)));}),[&]( double _a0) mutable ->bool{double _n_i_8919=_a0;
 return (_n_i_8919>=0.0);});
-this->_n_unit_8777=d::map(_n_CITIES_8746,[&]( d::Array<double,false> _a0) mutable ->std::array<double,3>{auto _n_binding_9125=_a0;
+this->_n_unit_8777=d::map(_n_CITIES_8746,[&]( d::Array<double,false> _a0) mutable ->d::Array<double,false>{auto _n_binding_9125=_a0;
 double _n_lon_8920=d::at(_n_binding_9125,0.0);
 double _n_lat_8921=d::at(_n_binding_9125,1.0);
-return std::array<double,3>{([&](){auto _n_left_9126=std::cos((_n_lat_8921*_n_DEG_8733));auto _n_right_9127=std::cos((_n_lon_8920*_n_DEG_8733));return (_n_left_9126*_n_right_9127);})(),([&](){auto _n_left_9128=std::cos((_n_lat_8921*_n_DEG_8733));auto _n_right_9129=std::sin((_n_lon_8920*_n_DEG_8733));return (_n_left_9128*_n_right_9129);})(),std::sin((_n_lat_8921*_n_DEG_8733))};});
+return d::Array<double,false>{([&](){auto _n_left_9126=std::cos((_n_lat_8921*_n_DEG_8733));auto _n_right_9127=std::cos((_n_lon_8920*_n_DEG_8733));return (_n_left_9126*_n_right_9127);})(),([&](){auto _n_left_9128=std::cos((_n_lat_8921*_n_DEG_8733));auto _n_right_9129=std::sin((_n_lon_8920*_n_DEG_8733));return (_n_left_9128*_n_right_9129);})(),std::sin((_n_lat_8921*_n_DEG_8733))};});
 this->_n_near_8778=d::map(_n_CITIES_8746,[&]( d::Array<double,false> _a0,double _a1) mutable ->d::Array<double,false>{d::Array<double,false> _n___8922=_a0;
 double _n_a_8923=_a1;
 {

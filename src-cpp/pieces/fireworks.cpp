@@ -174,7 +174,7 @@ if(d::truth((_n_s_10358->_p_kind==d::String(u"peony")))){d::check_cancel();(void
 }else {d::check_cancel();if(d::truth((_n_s_10358->_p_kind==d::String(u"saturn")))){d::check_cancel();(void)((_n_ring_10374(24.0,30.0,([&](){auto _n_object_10495=std::make_shared<_n_Record_10360>();_n_object_10495->_p_look=d::String(u"ring");_n_object_10495->_p_life=std::optional<double>(1.5);return _n_object_10495;})(),0.5),_n_sphere_10364(9.0,10.0,([&](){auto _n_object_10497=std::make_shared<_n_Record_10360>();_n_object_10497->_p_look=d::String(u"core");_n_object_10497->_p_life=std::optional<double>(1.1);return _n_object_10497;})(),std::optional<bool>{})));
 }else {d::check_cancel();{double _n_j_10385=0.0;
 for(;d::truth((_n_j_10385<7.0));(void)((_n_j_10385++))){d::check_cancel();double _n_a_10386=(((ascii::PI/2.0)+(((_n_j_10385-3.0)/3.0)*1.15))+((_n_r_10354()-0.5)*0.08));
-(void)(([&](){auto _n_argument_10498=(std::cos(_n_a_10386)*36.0);auto _n_argument_10499=(std::sin(_n_a_10386)*36.0);auto _n_argument_10500=([&](){auto _n_object_10502=std::make_shared<_n_Record_10490>();_n_object_10502->_p_look=d::String(u"palm");_n_object_10502->_p_k=2.2;_n_object_10502->_p_life=1.9;return _n_object_10502;})();return _n_add_10359(_n_argument_10498,_n_argument_10499,([&](){auto _n_record_10503=_n_argument_10500;auto _n_record_10504=std::make_shared<_n_Record_10360>();_n_record_10504->_p_k=std::optional<double>(_n_record_10503->_p_k);_n_record_10504->_p_life=std::optional<double>(_n_record_10503->_p_life);_n_record_10504->_p_look=_n_record_10503->_p_look;return _n_record_10504;})());})());
+(void)(([&](){auto _n_argument_10498=(std::cos(_n_a_10386)*36.0);auto _n_argument_10499=(std::sin(_n_a_10386)*36.0);auto _n_argument_10500=([&](){auto _n_object_10502=std::make_shared<_n_Record_10490>();_n_object_10502->_p_look=d::String(u"palm");_n_object_10502->_p_k=2.2;_n_object_10502->_p_life=1.9;return _n_object_10502;})();return _n_add_10359(_n_argument_10498,_n_argument_10499,([&](){auto _n_record_10504=_n_argument_10500;auto _n_record_10505=std::make_shared<_n_Record_10360>();_n_record_10505->_p_k=std::optional<double>(_n_record_10504->_p_k);_n_record_10505->_p_life=std::optional<double>(_n_record_10504->_p_life);_n_record_10505->_p_look=_n_record_10504->_p_look;return _n_record_10505;})());})());
 }}
 }
 }
@@ -195,7 +195,7 @@ double _n_lead_10344{};
 std::function<d::String(double,std::shared_ptr<_n_Record_10461>)> _render;
 std::shared_ptr<_n_Record_10331> _n_get_10338(double _a0){double _n_i_10387=_a0;
 {
-if(d::truth((!d::truth(this->_n_cache_10337.has(_n_i_10387))))){d::check_cancel();(void)(([&](){auto _n_argument_10540=_n_i_10387;auto _n_argument_10541=_n_shell_10330(_n_i_10387,this->_n_cols_10333,this->_n_H_10335);return this->_n_cache_10337.set(_n_argument_10540,_n_argument_10541);})());
+if(d::truth((!d::truth(this->_n_cache_10337.has(_n_i_10387))))){d::check_cancel();(void)(([&](){auto _n_argument_10541=_n_i_10387;auto _n_argument_10542=_n_shell_10330(_n_i_10387,this->_n_cols_10333,this->_n_H_10335);return this->_n_cache_10337.set(_n_argument_10541,_n_argument_10542);})());
 }
 return d::read(this->_n_cache_10337.get(_n_i_10387));
 
@@ -217,18 +217,18 @@ double _n_y_10393=_a1;
 d::String _n_ch_10394=_a2;
 {
 double _n_k_10395=this->_n_cell_10339(_n_x_10392,_n_y_10393);
-if(d::truth((_n_k_10395>=0.0))){d::check_cancel();(void)(([&](){auto&& _n_array_10542=this->_n_grid_10336;auto _n_index_10543=_n_k_10395;auto _n_value_10544=_n_ch_10394;d::put(_n_array_10542,_n_index_10543,_n_value_10544);return _n_value_10544;})());
+if(d::truth((_n_k_10395>=0.0))){d::check_cancel();(void)(([&](){auto&& _n_array_10543=this->_n_grid_10336;auto _n_index_10544=_n_k_10395;auto _n_value_10545=_n_ch_10394;d::put(_n_array_10543,_n_index_10544,_n_value_10545);return _n_value_10545;})());
 }
 
 }
 }
 
-std::array<double,2> _n_at_10341(std::shared_ptr<_n_Record_10331> _a0,std::shared_ptr<_n_Record_10332> _a1,double _a2){std::shared_ptr<_n_Record_10331> _n_s_10396=_a0;
+d::Array<double,false> _n_at_10341(std::shared_ptr<_n_Record_10331> _a0,std::shared_ptr<_n_Record_10332> _a1,double _a2){std::shared_ptr<_n_Record_10331> _n_s_10396=_a0;
 std::shared_ptr<_n_Record_10332> _n_p_10397=_a1;
 double _n_b_10398=_a2;
 {
 double _n_e_10399=((1.0-std::exp(((-d::number(_n_p_10397->_p_k))*_n_b_10398)))/_n_p_10397->_p_k);
-return std::array<double,2>{((_n_s_10396->_p_x0+(_n_s_10396->_p_drift*_n_s_10396->_p_rise))+(_n_p_10397->_p_vx*_n_e_10399)),((_n_s_10396->_p_top+(_n_p_10397->_p_vy*_n_e_10399))-((_n_G_10323/_n_p_10397->_p_k)*(_n_b_10398-_n_e_10399)))};
+return d::Array<double,false>{((_n_s_10396->_p_x0+(_n_s_10396->_p_drift*_n_s_10396->_p_rise))+(_n_p_10397->_p_vx*_n_e_10399)),((_n_s_10396->_p_top+(_n_p_10397->_p_vy*_n_e_10399))-((_n_G_10323/_n_p_10397->_p_k)*(_n_b_10398-_n_e_10399)))};
 
 }
 }
@@ -247,22 +247,22 @@ std::function<d::String(double,double,double,double)> _n_style_10407=_a4;
 if(d::truth((_n_b1_10406<=_n_b0_10405))){d::check_cancel();return;
 }
 double _n_n_10412=24.0;
-double _n_last_10413=([&](){auto _n_arguments_10545=this->_n_at_10341(_n_s_10403,_n_p_10404,_n_b1_10406);return this->_n_cell_10339(d::at(_n_arguments_10545,0.0),d::at(_n_arguments_10545,1.0));})();
+double _n_last_10413=([&](){auto _n_arguments_10546=this->_n_at_10341(_n_s_10403,_n_p_10404,_n_b1_10406);return this->_n_cell_10339(d::at(_n_arguments_10546,0.0),d::at(_n_arguments_10546,1.0));})();
 double _n_m_10414=0.0;
 {double _n_j_10415=1.0;
 for(;d::truth((_n_j_10415<=_n_n_10412));(void)((_n_j_10415++))){d::check_cancel();double _n_b_10416=(_n_b1_10406-(((_n_b1_10406-_n_b0_10405)*_n_j_10415)/_n_n_10412));
-auto _n_binding_10546=this->_n_at_10341(_n_s_10403,_n_p_10404,_n_b_10416);
-double _n_x_10417=d::at(_n_binding_10546,0.0);
-double _n_y_10418=d::at(_n_binding_10546,1.0);
-auto _n_binding_10547=this->_n_at_10341(_n_s_10403,_n_p_10404,(_n_b_10416+0.01));
-double _n_nx_10419=d::at(_n_binding_10547,0.0);
-double _n_ny_10420=d::at(_n_binding_10547,1.0);
+auto _n_binding_10547=this->_n_at_10341(_n_s_10403,_n_p_10404,_n_b_10416);
+double _n_x_10417=d::at(_n_binding_10547,0.0);
+double _n_y_10418=d::at(_n_binding_10547,1.0);
+auto _n_binding_10548=this->_n_at_10341(_n_s_10403,_n_p_10404,(_n_b_10416+0.01));
+double _n_nx_10419=d::at(_n_binding_10548,0.0);
+double _n_ny_10420=d::at(_n_binding_10548,1.0);
 double _n_k_10421=this->_n_cell_10339(_n_x_10417,_n_y_10418);
 if((d::truth((_n_k_10421<0.0))||d::truth((_n_k_10421==_n_last_10413)))){d::check_cancel();continue;
 }
 (void)((_n_last_10413=_n_k_10421));
-d::String _n_g_10422=([&](){auto _n_argument_10548=(_n_j_10415/_n_n_10412);auto _n_argument_10549=(_n_nx_10419-_n_x_10417);auto _n_argument_10550=(_n_ny_10420-_n_y_10418);auto _n_argument_10551=(_n_m_10414++);return _n_style_10407(_n_argument_10548,_n_argument_10549,_n_argument_10550,_n_argument_10551);})();
-if(d::truth(_n_g_10422)){d::check_cancel();(void)(([&](){auto&& _n_array_10552=this->_n_grid_10336;auto _n_index_10553=_n_k_10421;auto _n_value_10554=_n_g_10422;d::put(_n_array_10552,_n_index_10553,_n_value_10554);return _n_value_10554;})());
+d::String _n_g_10422=([&](){auto _n_argument_10549=(_n_j_10415/_n_n_10412);auto _n_argument_10550=(_n_nx_10419-_n_x_10417);auto _n_argument_10551=(_n_ny_10420-_n_y_10418);auto _n_argument_10552=(_n_m_10414++);return _n_style_10407(_n_argument_10549,_n_argument_10550,_n_argument_10551,_n_argument_10552);})();
+if(d::truth(_n_g_10422)){d::check_cancel();(void)(([&](){auto&& _n_array_10553=this->_n_grid_10336;auto _n_index_10554=_n_k_10421;auto _n_value_10555=_n_g_10422;d::put(_n_array_10553,_n_index_10554,_n_value_10555);return _n_value_10555;})());
 }
 }}
 
@@ -270,13 +270,13 @@ if(d::truth(_n_g_10422)){d::check_cancel();(void)(([&](){auto&& _n_array_10552=t
 }
 
 explicit Native_fireworks(const AsciiPieceOptions &_input){ascii::Options _options(_input);
-auto _n_binding_10505=_n_meta_10321;
-this->_n_cols_10333=_n_binding_10505->_p_cols;
-this->_n_rows_10334=_n_binding_10505->_p_rows;
+auto _n_binding_10506=_n_meta_10321;
+this->_n_cols_10333=_n_binding_10506->_p_cols;
+this->_n_rows_10334=_n_binding_10506->_p_rows;
 this->_n_H_10335=(this->_n_rows_10334*2.0);
 this->_n_grid_10336=d::Array<d::String,false>(size_t((this->_n_cols_10333*this->_n_rows_10334)));
 this->_n_cache_10337=d::Map<double,std::shared_ptr<_n_Record_10331>>();
-this->_n_lead_10344=(([&](){auto _n_left_10506=this->_n_get_10338(0.0)->_p_at;auto _n_right_10507=this->_n_get_10338(0.0)->_p_rise;return (_n_left_10506+_n_right_10507);})()+_n_OPEN_10327);
+this->_n_lead_10344=(([&](){auto _n_left_10507=this->_n_get_10338(0.0)->_p_at;auto _n_right_10508=this->_n_get_10338(0.0)->_p_rise;return (_n_left_10507+_n_right_10508);})()+_n_OPEN_10327);
 _render=[=]( double _a0,std::shared_ptr<_n_Record_10461> _a1) mutable ->d::String{double _n_time_10423=_a0;
 {
 (void)(this->_n_grid_10336.fill(d::String(u" ")));
@@ -290,56 +290,56 @@ if(d::truth((_n_age_10429<0.0))){d::check_cancel();continue;
 }
 if(d::truth((_n_age_10429<_n_s_10428->_p_rise))){d::check_cancel();double _n_g_10430=((2.0*_n_s_10428->_p_top)/(_n_s_10428->_p_rise*_n_s_10428->_p_rise));
 double _n_v0_10431=(_n_g_10430*_n_s_10428->_p_rise);
-auto _n_pos_10432=[&]( double _a0) mutable ->std::array<double,2>{double _n_a_10433=_a0;
-return std::array<double,2>{(_n_s_10428->_p_x0+(_n_s_10428->_p_drift*_n_a_10433)),((_n_v0_10431*_n_a_10433)-(((_n_g_10430*_n_a_10433)*_n_a_10433)/2.0))};};
+auto _n_pos_10432=[&]( double _a0) mutable ->d::Array<double,false>{double _n_a_10433=_a0;
+return d::Array<double,false>{(_n_s_10428->_p_x0+(_n_s_10428->_p_drift*_n_a_10433)),((_n_v0_10431*_n_a_10433)-(((_n_g_10430*_n_a_10433)*_n_a_10433)/2.0))};};
 {double _n_j_10434=5.0;
 for(;d::truth((_n_j_10434>=1.0));(void)((_n_j_10434--))){d::check_cancel();double _n_a_10435=(_n_age_10429-(_n_j_10434*0.05));
 if((d::truth((_n_a_10435<0.0))||d::truth((d::mod(((_n_tick_10425+_n_j_10434)+_n_i_10427),3.0)==0.0)))){d::check_cancel();continue;
 }
-auto _n_binding_10508=_n_pos_10432(_n_a_10435);
-double _n_x_10436=d::at(_n_binding_10508,0.0);
-double _n_y_10437=d::at(_n_binding_10508,1.0);
+auto _n_binding_10509=_n_pos_10432(_n_a_10435);
+double _n_x_10436=d::at(_n_binding_10509,0.0);
+double _n_y_10437=d::at(_n_binding_10509,1.0);
 (void)(this->_n_put_10340((_n_x_10436+((d::mod(((_n_tick_10425*7.0)+_n_j_10434),3.0)-1.0)*0.4)),(_n_y_10437-(_n_j_10434*0.3)),(d::truth((_n_j_10434>3.0))?d::String(u"."):d::String(u":"))));
 }}
-(void)(([&](){auto _n_arguments_10509=_n_pos_10432(_n_age_10429);return this->_n_put_10340(d::at(_n_arguments_10509,0.0),d::at(_n_arguments_10509,1.0),d::String(u"|"));})());
+(void)(([&](){auto _n_arguments_10510=_n_pos_10432(_n_age_10429);return this->_n_put_10340(d::at(_n_arguments_10510,0.0),d::at(_n_arguments_10510,1.0),d::String(u"|"));})());
 continue;
 }
 double _n_a_10438=(_n_age_10429-_n_s_10428->_p_rise);
 d::Array<std::shared_ptr<std::tuple<double,double,d::String>>,false> _n_heads_10439=d::Array<std::shared_ptr<std::tuple<double,double,d::String>>,false>{};
-for(auto &&_n_item_10510:_n_s_10428->_p_sparks){d::check_cancel();std::shared_ptr<_n_Record_10332> _n_p_10440=_n_item_10510;
+for(auto &&_n_item_10511:_n_s_10428->_p_sparks){d::check_cancel();std::shared_ptr<_n_Record_10332> _n_p_10440=_n_item_10511;
 {
 if(d::truth((_n_a_10438>_n_p_10440->_p_life))){d::check_cancel();continue;
 }
 double _n_f_10441=(_n_a_10438/_n_p_10440->_p_life);
-double _n_h_10442=([&](){auto _n_argument_10511=double(d::i32(_n_p_10440->_p_seed)^d::i32(d::imul(_n_tick_10425,2654435761.0)));auto _n_argument_10512=2246822507.0;return d::imul(_n_argument_10511,_n_argument_10512);})();
+double _n_h_10442=([&](){auto _n_argument_10512=double(d::i32(_n_p_10440->_p_seed)^d::i32(d::imul(_n_tick_10425,2654435761.0)));auto _n_argument_10513=2246822507.0;return d::imul(_n_argument_10512,_n_argument_10513);})();
 (void)((_n_h_10442=(d::mod(double(d::u32(double(d::i32(_n_h_10442)^d::i32(double(d::u32(_n_h_10442)>>(d::u32(13.0)&31)))))>>(d::u32(0.0)&31)),1000.0)/1000.0)));
 if((d::truth((_n_f_10441>0.7))&&d::truth((_n_h_10442<((_n_f_10441-0.7)*3.0))))){d::check_cancel();continue;
 }
 if(d::truth((_n_a_10438<0.1))){d::check_cancel();continue;
 }
-auto _n_binding_10513=this->_n_at_10341(_n_s_10428,_n_p_10440,_n_a_10438);
-double _n_x_10443=d::at(_n_binding_10513,0.0);
-double _n_y_10444=d::at(_n_binding_10513,1.0);
-if(d::truth((_n_p_10440->_p_look==d::String(u"peony")))){d::check_cancel();if((d::truth((!d::truth(_n_p_10440->_p_inner)))&&d::truth((_n_a_10438<0.75)))){d::check_cancel();(void)(([&](){auto _n_argument_10514=_n_s_10428;auto _n_argument_10515=_n_p_10440;auto _n_argument_10516=([&](){auto _n_argument_10517=this->_n_back_10342(_n_p_10440,_n_a_10438,0.6);auto _n_argument_10518=(_n_a_10438-0.12);return d::maximum({_n_argument_10517,_n_argument_10518});})();auto _n_argument_10519=_n_a_10438;auto _n_argument_10520=[=]( double _a0,double _a1,double _a2) mutable ->d::String{double _n___10445=_a0;
+auto _n_binding_10514=this->_n_at_10341(_n_s_10428,_n_p_10440,_n_a_10438);
+double _n_x_10443=d::at(_n_binding_10514,0.0);
+double _n_y_10444=d::at(_n_binding_10514,1.0);
+if(d::truth((_n_p_10440->_p_look==d::String(u"peony")))){d::check_cancel();if((d::truth((!d::truth(_n_p_10440->_p_inner)))&&d::truth((_n_a_10438<0.75)))){d::check_cancel();(void)(([&](){auto _n_argument_10515=_n_s_10428;auto _n_argument_10516=_n_p_10440;auto _n_argument_10517=([&](){auto _n_argument_10518=this->_n_back_10342(_n_p_10440,_n_a_10438,0.6);auto _n_argument_10519=(_n_a_10438-0.12);return d::maximum({_n_argument_10518,_n_argument_10519});})();auto _n_argument_10520=_n_a_10438;auto _n_argument_10521=[=]( double _a0,double _a1,double _a2) mutable ->d::String{double _n___10445=_a0;
 double _n_dx_10446=_a1;
 double _n_dy_10447=_a2;
-return _n_streak_10329(_n_dx_10446,_n_dy_10447);};return this->_n_stroke_10343(_n_argument_10514,_n_argument_10515,_n_argument_10516,_n_argument_10519,[_n_callable_10521=_n_argument_10520](double _p0,double _p1,double _p2,double _p3)mutable->d::String{return _n_callable_10521(_p0,_p1,_p2);});})());
+return _n_streak_10329(_n_dx_10446,_n_dy_10447);};return this->_n_stroke_10343(_n_argument_10515,_n_argument_10516,_n_argument_10517,_n_argument_10520,[_n_callable_10522=_n_argument_10521](double _p0,double _p1,double _p2,double _p3)mutable->d::String{return _n_callable_10522(_p0,_p1,_p2);});})());
 }
 (void)(_n_heads_10439.push(std::make_shared<std::tuple<double,double,d::String>>(_n_x_10443,_n_y_10444,(d::truth((_n_a_10438<0.7))?d::String(u"*"):(d::truth((_n_f_10441<0.6))?d::String(u"+"):d::String(u"."))))));
 }else {d::check_cancel();if(d::truth((_n_p_10440->_p_look==d::String(u"ring")))){d::check_cancel();if(d::truth((_n_a_10438<0.15))){d::check_cancel();continue;
 }
 (void)(_n_heads_10439.push(std::make_shared<std::tuple<double,double,d::String>>(_n_x_10443,_n_y_10444,((d::truth((_n_a_10438<0.3))||d::truth((_n_f_10441>0.6)))?d::String(u"."):d::String(u"o")))));
 }else {d::check_cancel();if(d::truth((_n_p_10440->_p_look==d::String(u"core")))){d::check_cancel();(void)(_n_heads_10439.push(std::make_shared<std::tuple<double,double,d::String>>(_n_x_10443,_n_y_10444,(d::truth((_n_f_10441<0.5))?d::String(u"+"):d::String(u".")))));
-}else {d::check_cancel();if(d::truth((_n_p_10440->_p_look==d::String(u"willow")))){d::check_cancel();(void)(([&](){auto _n_argument_10522=_n_s_10428;auto _n_argument_10523=_n_p_10440;auto _n_argument_10524=([&](){auto _n_argument_10525=this->_n_back_10342(_n_p_10440,_n_a_10438,0.45);auto _n_argument_10526=(_n_a_10438-1.6);return d::maximum({_n_argument_10525,_n_argument_10526});})();auto _n_argument_10527=_n_a_10438;auto _n_argument_10528=[=]( double _a0,double _a1,double _a2,double _a3) mutable ->d::String{double _n_u_10448=_a0;
+}else {d::check_cancel();if(d::truth((_n_p_10440->_p_look==d::String(u"willow")))){d::check_cancel();(void)(([&](){auto _n_argument_10523=_n_s_10428;auto _n_argument_10524=_n_p_10440;auto _n_argument_10525=([&](){auto _n_argument_10526=this->_n_back_10342(_n_p_10440,_n_a_10438,0.45);auto _n_argument_10527=(_n_a_10438-1.6);return d::maximum({_n_argument_10526,_n_argument_10527});})();auto _n_argument_10528=_n_a_10438;auto _n_argument_10529=[=]( double _a0,double _a1,double _a2,double _a3) mutable ->d::String{double _n_u_10448=_a0;
 double _n_dx_10449=_a1;
 double _n_dy_10450=_a2;
 double _n_m_10451=_a3;
-return (d::truth((_n_u_10448<0.6))?_n_streak_10329(_n_dx_10449,_n_dy_10450):(d::truth(d::mod(_n_m_10451,2.0))?d::String(u""):d::String(u".")));};return this->_n_stroke_10343(_n_argument_10522,_n_argument_10523,_n_argument_10524,_n_argument_10527,_n_argument_10528);})());
+return (d::truth((_n_u_10448<0.6))?_n_streak_10329(_n_dx_10449,_n_dy_10450):(d::truth(d::mod(_n_m_10451,2.0))?d::String(u""):d::String(u".")));};return this->_n_stroke_10343(_n_argument_10523,_n_argument_10524,_n_argument_10525,_n_argument_10528,_n_argument_10529);})());
 (void)(_n_heads_10439.push(std::make_shared<std::tuple<double,double,d::String>>(_n_x_10443,_n_y_10444,(d::truth((_n_f_10441<0.25))?d::String(u"*"):d::String(u".")))));
-}else {d::check_cancel();(void)(([&](){auto _n_argument_10529=_n_s_10428;auto _n_argument_10530=_n_p_10440;auto _n_argument_10531=([&](){auto _n_argument_10532=this->_n_back_10342(_n_p_10440,_n_a_10438,0.45);auto _n_argument_10533=(_n_a_10438-1.0);return d::maximum({_n_argument_10532,_n_argument_10533});})();auto _n_argument_10534=_n_a_10438;auto _n_argument_10535=[=]( double _a0,double _a1,double _a2) mutable ->d::String{double _n_u_10452=_a0;
+}else {d::check_cancel();(void)(([&](){auto _n_argument_10530=_n_s_10428;auto _n_argument_10531=_n_p_10440;auto _n_argument_10532=([&](){auto _n_argument_10533=this->_n_back_10342(_n_p_10440,_n_a_10438,0.45);auto _n_argument_10534=(_n_a_10438-1.0);return d::maximum({_n_argument_10533,_n_argument_10534});})();auto _n_argument_10535=_n_a_10438;auto _n_argument_10536=[=]( double _a0,double _a1,double _a2) mutable ->d::String{double _n_u_10452=_a0;
 double _n_dx_10453=_a1;
 double _n_dy_10454=_a2;
-return (d::truth((_n_u_10452<0.9))?_n_streak_10329(_n_dx_10453,_n_dy_10454):d::String(u"."));};return this->_n_stroke_10343(_n_argument_10529,_n_argument_10530,_n_argument_10531,_n_argument_10534,[_n_callable_10536=_n_argument_10535](double _p0,double _p1,double _p2,double _p3)mutable->d::String{return _n_callable_10536(_p0,_p1,_p2);});})());
+return (d::truth((_n_u_10452<0.9))?_n_streak_10329(_n_dx_10453,_n_dy_10454):d::String(u"."));};return this->_n_stroke_10343(_n_argument_10530,_n_argument_10531,_n_argument_10532,_n_argument_10535,[_n_callable_10537=_n_argument_10536](double _p0,double _p1,double _p2,double _p3)mutable->d::String{return _n_callable_10537(_p0,_p1,_p2);});})());
 (void)(_n_heads_10439.push(std::make_shared<std::tuple<double,double,d::String>>(_n_x_10443,_n_y_10444,(d::truth((_n_a_10438<0.2))?d::String(u"*"):(d::truth((_n_a_10438<0.45))?d::String(u"@"):(d::truth((_n_f_10441<0.75))?d::String(u"o"):d::String(u".")))))));
 }
 }
@@ -348,16 +348,16 @@ return (d::truth((_n_u_10452<0.9))?_n_streak_10329(_n_dx_10453,_n_dy_10454):d::S
 
 }
 }
-for(auto &&_n_item_10537:_n_heads_10439){d::check_cancel();auto _n_binding_10538=_n_item_10537;
-double _n_x_10455=std::get<0>(*_n_binding_10538);
-double _n_y_10456=std::get<1>(*_n_binding_10538);
-d::String _n_g_10457=std::get<2>(*_n_binding_10538);
+for(auto &&_n_item_10538:_n_heads_10439){d::check_cancel();auto _n_binding_10539=_n_item_10538;
+double _n_x_10455=std::get<0>(*_n_binding_10539);
+double _n_y_10456=std::get<1>(*_n_binding_10539);
+d::String _n_g_10457=std::get<2>(*_n_binding_10539);
 (void)(this->_n_put_10340(_n_x_10455,_n_y_10456,_n_g_10457));
 }
 if(d::truth((_n_a_10438<0.12))){d::check_cancel();(void)(this->_n_put_10340((_n_s_10428->_p_x0+(_n_s_10428->_p_drift*_n_s_10428->_p_rise)),_n_s_10428->_p_top,(d::truth((_n_a_10438<0.06))?d::String(u"@"):d::String(u"*"))));
 }
 }}
-for(auto &&_n_item_10539:this->_n_cache_10337.keys()){d::check_cancel();double _n_i_10458=_n_item_10539;
+for(auto &&_n_item_10540:this->_n_cache_10337.keys()){d::check_cancel();double _n_i_10458=_n_item_10540;
 if(d::truth((_n_i_10458<(_n_last_10426-5.0)))){d::check_cancel();(void)(this->_n_cache_10337.erase(_n_i_10458));
 }
 }

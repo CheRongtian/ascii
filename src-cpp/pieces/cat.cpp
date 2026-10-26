@@ -26,8 +26,8 @@ d::Array<d::Array<std::shared_ptr<std::tuple<double,double,d::String>>,false>,fa
 d::Array<std::shared_ptr<std::tuple<double,double,d::String>>,false> _n_EAR_BACK_4097=[](){return d::Array<std::shared_ptr<std::tuple<double,double,d::String>>,false>{std::make_shared<std::tuple<double,double,d::String>>(3.0,44.0,d::String(u"  _")),std::make_shared<std::tuple<double,double,d::String>>(4.0,43.0,d::String(u".-' \\"))};}();
 const double _n_LOOP_4098=[](){return 16.0;}();
 const double _n_BREATH_4099=[](){return 4.0;}();
-d::Array<std::array<double,2>,false> _n_FLICK_4100=[](){return d::Array<std::array<double,2>,false>{std::array<double,2>{1.9,3.4},std::array<double,2>{10.4,11.6}};}();
-d::Array<std::array<double,2>,false> _n_TWITCH_4101=[](){return d::Array<std::array<double,2>,false>{std::array<double,2>{4.5,4.8},std::array<double,2>{4.95,5.3},std::array<double,2>{12.8,13.1}};}();
+d::Array<d::Array<double,false>,false> _n_FLICK_4100=[](){return d::Array<d::Array<double,false>,false>{d::Array<double,false>{1.9,3.4},d::Array<double,false>{10.4,11.6}};}();
+d::Array<d::Array<double,false>,false> _n_TWITCH_4101=[](){return d::Array<d::Array<double,false>,false>{d::Array<double,false>{4.5,4.8},d::Array<double,false>{4.95,5.3},d::Array<double,false>{12.8,13.1}};}();
 const double _n_Z_EVERY_4102=[](){return 1.6;}();
 const double _n_Z_LIFE_4103=[](){return 3.2;}();
 
@@ -36,9 +36,9 @@ double _n_cols_4104{};
 double _n_rows_4105{};
 d::Array<d::Array<d::String,false>,false> _n_art_4106{};
 std::function<d::String(double,std::shared_ptr<_n_Record_4146>)> _render;
-bool _n_within_4107(double _a0,d::Array<std::array<double,2>,false> _a1){double _n_u_4110=_a0;
-d::Array<std::array<double,2>,false> _n_spans_4111=_a1;
-return d::some(_n_spans_4111,[&]( std::array<double,2> _a0) mutable ->bool{auto _n_binding_4169=_a0;
+bool _n_within_4107(double _a0,d::Array<d::Array<double,false>,false> _a1){double _n_u_4110=_a0;
+d::Array<d::Array<double,false>,false> _n_spans_4111=_a1;
+return d::some(_n_spans_4111,[&]( d::Array<double,false> _a0) mutable ->bool{auto _n_binding_4169=_a0;
 double _n_a_4112=d::at(_n_binding_4169,0.0);
 double _n_b_4113=d::at(_n_binding_4169,1.0);
 return ([&]()->bool{auto _n_logical_4170=(_n_u_4110>=_n_a_4112);return d::truth(_n_logical_4170)?(_n_u_4110<_n_b_4113):_n_logical_4170;})();});}
@@ -65,7 +65,7 @@ double _n_rise_4125=(d::truth((_n_p_4124<0.35))?std::pow(std::sin(((ascii::PI/2.
 (void)(d::forEach(d::at(_n_BACK_4095,(d::truth((_n_rise_4125<0.3))?0.0:(d::truth((_n_rise_4125<0.75))?1.0:2.0))),[&]( d::String _a0,double _a1) mutable ->void{d::String _n_line_4126=_a0;
 double _n_i_4127=_a1;
 _n_put_4118((3.0+_n_i_4127),0.0,_n_line_4126);}));
-std::optional<std::array<double,2>> _n_fl_4128=d::find(_n_FLICK_4100,[&]( std::array<double,2> _a0) mutable ->bool{auto _n_binding_4158=_a0;
+std::optional<d::Array<double,false>> _n_fl_4128=d::find(_n_FLICK_4100,[&]( d::Array<double,false> _a0) mutable ->bool{auto _n_binding_4158=_a0;
 double _n_a_4129=d::at(_n_binding_4158,0.0);
 double _n_b_4130=d::at(_n_binding_4158,1.0);
 return ([&]()->bool{auto _n_logical_4159=(_n_u_4115>=_n_a_4129);return d::truth(_n_logical_4159)?(_n_u_4115<_n_b_4130):_n_logical_4159;})();});

@@ -143,7 +143,7 @@ d::Array<std::shared_ptr<_n_Record_5339>,false> _n_parts_5338{};
 std::shared_ptr<_n_Record_5339> _n_mid_5340{};
 double _n_LCX_5341{};
 double _n_LCY_5342{};
-d::Array<std::array<double,2>,false> _n_dots_5345{};
+d::Array<d::Array<double,false>,false> _n_dots_5345{};
 double _n_rsum_5349{};
 double _n_rn_5350{};
 double _n_RMID_5351{};
@@ -244,7 +244,7 @@ double _n_squareAt_5348(double _a0,double _a1){double _n_u_5482=_a0;
 double _n_v_5483=_a1;
 return ([&](){auto _n_argument_5813=0.3;auto _n_argument_5814=0.7;auto _n_argument_5815=this->_n_sample_5346(this->_n_fill_5336,_n_u_5482,_n_v_5483);return _n_smooth_5325(_n_argument_5813,_n_argument_5814,_n_argument_5815);})();}
 
-std::array<double,2> _n_route_5358(double _a0,double _a1){double _n_u_5495=_a0;
+d::Array<double,false> _n_route_5358(double _a0,double _a1){double _n_u_5495=_a0;
 double _n_v_5496=_a1;
 {
 double _n_bi_5497=0.0;
@@ -258,15 +258,15 @@ auto _n_binding_5816=d::at(this->_n_dots_5345,_n_bi_5497);
 double _n_du_5501=d::at(_n_binding_5816,0.0);
 double _n_dv_5502=d::at(_n_binding_5816,1.0);
 bool _n_inward_5503=([&]()->bool{auto _n_logical_5817=([&](){auto _n_left_5820=d::sign((-d::number(_n_du_5501)));auto _n_right_5821=d::sign((_n_u_5495-_n_du_5501));return (_n_left_5820==_n_right_5821);})();return d::truth(_n_logical_5817)?([&](){auto _n_left_5818=d::sign((-d::number(_n_dv_5502)));auto _n_right_5819=d::sign((_n_v_5496-_n_dv_5502));return (_n_left_5818==_n_right_5819);})():_n_logical_5817;})();
-if((d::truth((!d::truth(_n_inward_5503)))&&d::truth((_n_bd_5498<(this->_n_RMID_5351*1.9))))){d::check_cancel();return std::array<double,2>{((std::atan2((_n_v_5496-_n_dv_5502),(_n_u_5495-_n_du_5501))*this->_n_RMID_5351)+(_n_bi_5497*97.0)),(_n_bd_5498-this->_n_RMID_5351)};
+if((d::truth((!d::truth(_n_inward_5503)))&&d::truth((_n_bd_5498<(this->_n_RMID_5351*1.9))))){d::check_cancel();return d::Array<double,false>{((std::atan2((_n_v_5496-_n_dv_5502),(_n_u_5495-_n_du_5501))*this->_n_RMID_5351)+(_n_bi_5497*97.0)),(_n_bd_5498-this->_n_RMID_5351)};
 }
 double _n_hy_5504=([&](){auto _n_argument_5822=std::fabs((_n_v_5496-d::at(this->_n_barY_5357,0.0)));auto _n_argument_5823=std::fabs((_n_v_5496-d::at(this->_n_barY_5357,1.0)));return d::minimum({_n_argument_5822,_n_argument_5823});})();
 double _n_vx_5505=([&](){auto _n_argument_5824=std::fabs((_n_u_5495-d::at(this->_n_barX_5356,0.0)));auto _n_argument_5825=std::fabs((_n_u_5495-d::at(this->_n_barX_5356,1.0)));return d::minimum({_n_argument_5824,_n_argument_5825});})();
 if(d::truth((_n_hy_5504<_n_vx_5505))){d::check_cancel();double _n_by_5506=(d::truth(([&](){auto _n_left_5826=std::fabs((_n_v_5496-d::at(this->_n_barY_5357,0.0)));auto _n_right_5827=std::fabs((_n_v_5496-d::at(this->_n_barY_5357,1.0)));return (_n_left_5826<_n_right_5827);})())?d::at(this->_n_barY_5357,0.0):d::at(this->_n_barY_5357,1.0));
-return std::array<double,2>{(_n_u_5495+300.0),(_n_v_5496-_n_by_5506)};
+return d::Array<double,false>{(_n_u_5495+300.0),(_n_v_5496-_n_by_5506)};
 }
 double _n_bx_5507=(d::truth(([&](){auto _n_left_5828=std::fabs((_n_u_5495-d::at(this->_n_barX_5356,0.0)));auto _n_right_5829=std::fabs((_n_u_5495-d::at(this->_n_barX_5356,1.0)));return (_n_left_5828<_n_right_5829);})())?d::at(this->_n_barX_5356,0.0):d::at(this->_n_barX_5356,1.0));
-return std::array<double,2>{(_n_v_5496+600.0),(_n_u_5495-_n_bx_5507)};
+return d::Array<double,false>{(_n_v_5496+600.0),(_n_u_5495-_n_bx_5507)};
 
 }
 }
@@ -337,8 +337,8 @@ return (_n_b_5460->_p_n-_n_a_5459->_p_n);}));
 this->_n_mid_5340=d::at(this->_n_parts_5338,1.0);
 this->_n_LCX_5341=this->_n_mid_5340->_p_c;
 this->_n_LCY_5342=this->_n_mid_5340->_p_r;
-this->_n_dots_5345=d::map(this->_n_parts_5338.slice(2.0,6.0),[&]( std::shared_ptr<_n_Record_5339> _a0) mutable ->std::array<double,2>{std::shared_ptr<_n_Record_5339> _n_p_5463=_a0;
-return std::array<double,2>{this->_n_gx_5343(_n_p_5463->_p_c),this->_n_gy_5344(_n_p_5463->_p_r)};});
+this->_n_dots_5345=d::map(this->_n_parts_5338.slice(2.0,6.0),[&]( std::shared_ptr<_n_Record_5339> _a0) mutable ->d::Array<double,false>{std::shared_ptr<_n_Record_5339> _n_p_5463=_a0;
+return d::Array<double,false>{this->_n_gx_5343(_n_p_5463->_p_c),this->_n_gy_5344(_n_p_5463->_p_r)};});
 this->_n_rsum_5349=0.0;
 this->_n_rn_5350=0.0;
 for(auto &&_n_item_5661:this->_n_dots_5345){d::check_cancel();auto _n_binding_5662=_n_item_5661;
@@ -366,13 +366,13 @@ if((d::truth((_n_a_5487>=0.0))&&d::truth((_n_b_5488>_n_a_5487)))){d::check_cance
 }
 }
 this->_n_RMID_5351=(this->_n_rsum_5349/this->_n_rn_5350);
-this->_n_left_5352=([&](){d::Array<double> _n_numbers_5664;for(auto _x:d::map(this->_n_dots_5345,[&]( std::array<double,2> _a0) mutable ->double{auto&& _n_d_5491=_a0;
+this->_n_left_5352=([&](){d::Array<double> _n_numbers_5664;for(auto _x:d::map(this->_n_dots_5345,[&]( d::Array<double,false> _a0) mutable ->double{d::Array<double,false> _n_d_5491=_a0;
 return d::at(_n_d_5491,0.0);}))_n_numbers_5664.push(_x);return d::minimum(_n_numbers_5664);})();
-this->_n_right_5353=([&](){d::Array<double> _n_numbers_5665;for(auto _x:d::map(this->_n_dots_5345,[&]( std::array<double,2> _a0) mutable ->double{auto&& _n_d_5492=_a0;
+this->_n_right_5353=([&](){d::Array<double> _n_numbers_5665;for(auto _x:d::map(this->_n_dots_5345,[&]( d::Array<double,false> _a0) mutable ->double{d::Array<double,false> _n_d_5492=_a0;
 return d::at(_n_d_5492,0.0);}))_n_numbers_5665.push(_x);return d::maximum(_n_numbers_5665);})();
-this->_n_top_5354=([&](){d::Array<double> _n_numbers_5666;for(auto _x:d::map(this->_n_dots_5345,[&]( std::array<double,2> _a0) mutable ->double{auto&& _n_d_5493=_a0;
+this->_n_top_5354=([&](){d::Array<double> _n_numbers_5666;for(auto _x:d::map(this->_n_dots_5345,[&]( d::Array<double,false> _a0) mutable ->double{d::Array<double,false> _n_d_5493=_a0;
 return d::at(_n_d_5493,1.0);}))_n_numbers_5666.push(_x);return d::minimum(_n_numbers_5666);})();
-this->_n_bottom_5355=([&](){d::Array<double> _n_numbers_5667;for(auto _x:d::map(this->_n_dots_5345,[&]( std::array<double,2> _a0) mutable ->double{auto&& _n_d_5494=_a0;
+this->_n_bottom_5355=([&](){d::Array<double> _n_numbers_5667;for(auto _x:d::map(this->_n_dots_5345,[&]( d::Array<double,false> _a0) mutable ->double{d::Array<double,false> _n_d_5494=_a0;
 return d::at(_n_d_5494,1.0);}))_n_numbers_5667.push(_x);return d::maximum(_n_numbers_5667);})();
 this->_n_barX_5356=d::Array<double,false>{(this->_n_left_5352+this->_n_RMID_5351),(this->_n_right_5353-this->_n_RMID_5351)};
 this->_n_barY_5357=d::Array<double,false>{(this->_n_top_5354+this->_n_RMID_5351),(this->_n_bottom_5355-this->_n_RMID_5351)};

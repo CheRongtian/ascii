@@ -29,7 +29,7 @@ const double _n_RT_5021=[](){return 6.2;}();
 const double _n_HC_5022=[](){return (_n_H_5020-0.55);}();
 const double _n_PERIOD_5023=[](){return 6.0;}();
 d::Array<std::array<double,5>,false> _n_WISPS_5024=[](){return d::Array<std::array<double,5>,false>{std::array<double,5>{(-d::number(2.4)),0.6,11.0,0.0,(-d::number(0.12))},std::array<double,5>{0.3,(-d::number(1.4)),14.0,2.2,0.05},std::array<double,5>{2.9,0.5,10.0,4.1,0.15}};}();
-d::Array<std::array<double,2>,false> _n_SAUCER_5025=[](){return d::Array<std::array<double,2>,false>{std::array<double,2>{0.0,0.0},std::array<double,2>{4.4,0.0},std::array<double,2>{6.5,0.12},std::array<double,2>{8.7,0.45},std::array<double,2>{9.9,0.78},std::array<double,2>{10.4,0.92},std::array<double,2>{10.6,0.8},std::array<double,2>{10.55,0.55},std::array<double,2>{10.2,0.4}};}();
+d::Array<d::Array<double,false>,false> _n_SAUCER_5025=[](){return d::Array<d::Array<double,false>,false>{d::Array<double,false>{0.0,0.0},d::Array<double,false>{4.4,0.0},d::Array<double,false>{6.5,0.12},d::Array<double,false>{8.7,0.45},d::Array<double,false>{9.9,0.78},d::Array<double,false>{10.4,0.92},d::Array<double,false>{10.6,0.8},d::Array<double,false>{10.55,0.55},d::Array<double,false>{10.2,0.4}};}();
 double _n_cupR_5026(double _a0){double _n_h_5066=_a0;
 return (_n_RT_5021*(0.62+(0.38*std::sin(((ascii::PI/2.0)*([&](){auto _n_argument_5203=1.0;auto _n_argument_5204=(d::maximum({0.0,_n_h_5066})/_n_H_5020);return d::minimum({_n_argument_5203,_n_argument_5204});})())))));}
 
@@ -82,14 +82,14 @@ d::Array<std::optional<std::variant<d::String,double>>,false> _n_still_5058{};
 d::Array<double,false> _n_kind_5059{};
 double _n_foot_5060{};
 d::Array<double,false> _n_was_5061{};
-d::Array<std::array<double,2>,false> _n_ring_5062{};
+d::Array<d::Array<double,false>,false> _n_ring_5062{};
 double _n_top_5063{};
-d::Array<std::array<double,2>,false> _n_W0_5064{};
+d::Array<d::Array<double,false>,false> _n_W0_5064{};
 std::function<d::String(double,std::shared_ptr<_n_Record_5199>)> _render;
-std::array<double,2> _n_toCell_5044(double _a0,double _a1,double _a2){double _n_x_5075=_a0;
+d::Array<double,false> _n_toCell_5044(double _a0,double _a1,double _a2){double _n_x_5075=_a0;
 double _n_y_5076=_a1;
 double _n_z_5077=_a2;
-return std::array<double,2>{(this->_n_CX_5041+(2.0*_n_x_5075)),(this->_n_BASE_5042-((_n_y_5076*this->_n_cs_5039)-(_n_z_5077*this->_n_sn_5040)))};}
+return d::Array<double,false>{(this->_n_CX_5041+(2.0*_n_x_5075)),(this->_n_BASE_5042-((_n_y_5076*this->_n_cs_5039)-(_n_z_5077*this->_n_sn_5040)))};}
 
 void _n_plot_5046(double _a0,double _a1,double _a2,std::array<double,3> _a3,double _a4,std::optional<double> _a5){double _n_x_5078=_a0;
 double _n_y_5079=_a1;
@@ -137,8 +137,8 @@ return false;
 }
 }
 
-std::array<double,2> _n_loop_5057(double _a0){double _n_u_5133=_a0;
-return std::array<double,2>{(this->_n_X0_5056+(this->_n_AX_5053*std::cos(_n_u_5133))),(this->_n_HY_5052+(this->_n_AY_5054*std::sin(_n_u_5133)))};}
+d::Array<double,false> _n_loop_5057(double _a0){double _n_u_5133=_a0;
+return d::Array<double,false>{(this->_n_X0_5056+(this->_n_AX_5053*std::cos(_n_u_5133))),(this->_n_HY_5052+(this->_n_AY_5054*std::sin(_n_u_5133)))};}
 
 double _n_colAt_5065(double _a0,double _a1,double _a2){double _n_i_5164=_a0;
 double _n_s_5165=_a1;
@@ -229,7 +229,7 @@ for(;d::truth((_n_p_5128<this->_n_RC_5051));(void)((_n_p_5128=(_n_p_5128+0.08)))
 for(;d::truth((_n_a_5129<(2.0*ascii::PI)));(void)((_n_a_5129=(_n_a_5129+(0.08/d::maximum({_n_p_5128,0.5})))))){d::check_cancel();double _n_x_5130=(_n_p_5128*std::cos(_n_a_5129));
 double _n_z_5131=(_n_p_5128*std::sin(_n_a_5129));
 double _n_shine_5132=std::exp((-d::number((std::pow(((_n_x_5130+2.4)/1.1),2.0)+std::pow(((_n_z_5131+1.4)/0.8),2.0)))));
-(void)(([&](){auto _n_argument_5241=_n_x_5130;auto _n_argument_5242=_n_HC_5022;auto _n_argument_5243=_n_z_5131;auto _n_argument_5244=std::array<double,3>{0.0,1.0,0.0};auto _n_argument_5245=(0.04+(0.16*_n_smooth_5027((0.82*this->_n_RC_5051),this->_n_RC_5051,_n_p_5128)));auto _n_argument_5246=(0.85*_n_shine_5132);return this->_n_plot_5046(_n_argument_5241,_n_argument_5242,_n_argument_5243,_n_argument_5244,_n_argument_5245,std::optional<double>(_n_argument_5246));})());
+(void)(([&](){auto _n_argument_5241=_n_x_5130;auto _n_argument_5242=_n_HC_5022;auto _n_argument_5243=_n_z_5131;auto _n_argument_5244=d::Array<double,false>{0.0,1.0,0.0};auto _n_argument_5245=(0.04+(0.16*_n_smooth_5027((0.82*this->_n_RC_5051),this->_n_RC_5051,_n_p_5128)));auto _n_argument_5246=(0.85*_n_shine_5132);return this->_n_plot_5046(_n_argument_5241,_n_argument_5242,_n_argument_5243,d::fixedArray<double,3>(_n_argument_5244),_n_argument_5245,std::optional<double>(_n_argument_5246));})());
 }}
 }}
 this->_n_HY_5052=4.1;
@@ -276,7 +276,7 @@ if((d::truth((d::at(this->_n_was_5061,(_n_k_5147-this->_n_cols_5029))==2.0))&&d:
 }
 }
 }}
-this->_n_ring_5062=d::Array<std::array<double,2>,false>{};
+this->_n_ring_5062=d::Array<d::Array<double,false>,false>{};
 {double _n_u_5148=(-d::number(2.1));
 for(;d::truth((_n_u_5148<=2.1));(void)((_n_u_5148=(_n_u_5148+0.02)))){d::check_cancel();(void)(this->_n_ring_5062.push(this->_n_loop_5057(_n_u_5148)));
 }}
@@ -309,7 +309,7 @@ if((d::truth(_n_inside_5161)&&d::truth((d::at(this->_n_kind_5059,_n_k_5149)!=2.0
 }
 }}
 this->_n_top_5063=std::floor(d::at(this->_n_toCell_5044(0.0,_n_HC_5022,0.0),1.0));
-this->_n_W0_5064=d::map(_n_WISPS_5024,[&]( std::array<double,5> _a0) mutable ->std::array<double,2>{auto _n_binding_5268=_a0;
+this->_n_W0_5064=d::map(_n_WISPS_5024,[&]( std::array<double,5> _a0) mutable ->d::Array<double,false>{auto _n_binding_5268=_a0;
 double _n_x_5162=d::at(_n_binding_5268,0.0);
 double _n_z_5163=d::at(_n_binding_5268,1.0);
 return this->_n_toCell_5044(_n_x_5162,_n_HC_5022,_n_z_5163);});

@@ -189,7 +189,7 @@ d::Array<float,true> _n_cv_6513{};
 d::Array<float,true> _n_cw_6514{};
 std::function<double(double)> _n_leftTop_6516{};
 std::function<double(double)> _n_rightTop_6517{};
-d::Array<std::array<double,4>,false> _n_domes_6519{};
+d::Array<d::Array<double,false>,false> _n_domes_6519{};
 d::Array<d::Array<double,false>,false> _n_coral_6520{};
 d::Array<double,false> _n_rock_6521{};
 d::Array<d::Array<double,false>,false> _n_BOMMIES_6522{};
@@ -308,10 +308,10 @@ this->_n_CS_6497=(this->_n_CT_6495/this->_n_CC_6496);
 this->_n_caus_6498=d::Array<float,true>(size_t((this->_n_CT_6495*this->_n_CT_6495)));
 {
 std::function<double()> _n_rnd_6595=_n_prng_6490(7.0);
-d::Array<std::array<double,2>,false> _n_pts_6596=d::Array<std::array<double,2>,false>{};
+d::Array<d::Array<double,false>,false> _n_pts_6596=d::Array<d::Array<double,false>,false>{};
 {double _n_j_6597=0.0;
 for(;d::truth((_n_j_6597<this->_n_CC_6496));(void)((_n_j_6597++))){d::check_cancel();{double _n_i_6598=0.0;
-for(;d::truth((_n_i_6598<this->_n_CC_6496));(void)((_n_i_6598++))){d::check_cancel();(void)(_n_pts_6596.push(std::array<double,2>{(((_n_i_6598+0.15)+(0.7*_n_rnd_6595()))*this->_n_CS_6497),(((_n_j_6597+0.15)+(0.7*_n_rnd_6595()))*this->_n_CS_6497)}));
+for(;d::truth((_n_i_6598<this->_n_CC_6496));(void)((_n_i_6598++))){d::check_cancel();(void)(_n_pts_6596.push(d::Array<double,false>{(((_n_i_6598+0.15)+(0.7*_n_rnd_6595()))*this->_n_CS_6497),(((_n_j_6597+0.15)+(0.7*_n_rnd_6595()))*this->_n_CS_6497)}));
 }}
 }}
 {double _n_y_6599=0.0;
@@ -376,12 +376,12 @@ this->_n_leftTop_6516=[=]( double _a0) mutable ->double{double _n_x_6633=_a0;
 return ([&](){auto _n_left_6922=([&](){auto _n_left_6924=(47.0+(56.0*this->_n_dome_6515(d::minimum({1.0,(_n_x_6633/86.0)}))));auto _n_right_6925=(8.0*_n_fbm_6485((_n_x_6633*0.06),3.1,4.0));return (_n_left_6924-_n_right_6925);})();auto _n_right_6923=(3.0*d::maximum({0.0,((10.0-_n_x_6633)/10.0)}));return (_n_left_6922+_n_right_6923);})();};
 this->_n_rightTop_6517=[=]( double _a0) mutable ->double{double _n_x_6634=_a0;
 return ([&](){auto _n_left_6926=([&](){auto _n_left_6928=(69.0+(34.0*this->_n_dome_6515(d::minimum({1.0,((196.0-_n_x_6634)/48.0)}))));auto _n_right_6929=(5.0*_n_fbm_6485((_n_x_6634*0.08),8.3,3.0));return (_n_left_6928-_n_right_6929);})();auto _n_right_6927=(3.0*std::exp((-d::number(std::pow(((_n_x_6634-191.0)/6.0),2.0)))));return (_n_left_6926-_n_right_6927);})();};
-this->_n_domes_6519=d::map(d::Array<d::Array<double,false>,false>{d::Array<double,false>{16.0,3.0,7.0,0.0},d::Array<double,false>{41.0,2.5,6.5,1.0},d::Array<double,false>{53.0,2.0,4.5,3.0},d::Array<double,false>{65.0,2.0,5.0,2.0},d::Array<double,false>{158.0,2.0,4.0,2.0},d::Array<double,false>{186.0,3.0,5.0,1.0},d::Array<double,false>{196.0,3.0,4.5,3.0}},[&]( d::Array<double,false> _a0) mutable ->std::array<double,4>{auto _n_binding_6930=_a0;
+this->_n_domes_6519=d::map(d::Array<d::Array<double,false>,false>{d::Array<double,false>{16.0,3.0,7.0,0.0},d::Array<double,false>{41.0,2.5,6.5,1.0},d::Array<double,false>{53.0,2.0,4.5,3.0},d::Array<double,false>{65.0,2.0,5.0,2.0},d::Array<double,false>{158.0,2.0,4.0,2.0},d::Array<double,false>{186.0,3.0,5.0,1.0},d::Array<double,false>{196.0,3.0,4.5,3.0}},[&]( d::Array<double,false> _a0) mutable ->d::Array<double,false>{auto _n_binding_6930=_a0;
 double _n_x_6636=d::at(_n_binding_6930,0.0);
 double _n_d_6637=d::at(_n_binding_6930,1.0);
 double _n_r_6638=d::at(_n_binding_6930,2.0);
 double _n_kind_6639=d::at(_n_binding_6930,3.0);
-return std::array<double,4>{_n_x_6636,((d::truth((_n_x_6636<100.0))?this->_n_leftTop_6516(_n_x_6636):this->_n_rightTop_6517(_n_x_6636))+_n_d_6637),_n_r_6638,_n_kind_6639};});
+return d::Array<double,false>{_n_x_6636,((d::truth((_n_x_6636<100.0))?this->_n_leftTop_6516(_n_x_6636):this->_n_rightTop_6517(_n_x_6636))+_n_d_6637),_n_r_6638,_n_kind_6639};});
 this->_n_coral_6520=d::Array<d::Array<double,false>,false>{d::Array<double,false>{0.86,0.36,0.44},d::Array<double,false>{0.93,0.55,0.3},d::Array<double,false>{0.6,0.36,0.72},d::Array<double,false>{0.78,0.7,0.35}};
 this->_n_rock_6521=d::Array<double,false>{0.016,0.03,0.042};
 this->_n_BOMMIES_6522=d::Array<d::Array<double,false>,false>{d::Array<double,false>{114.0,69.0,9.0,0.18,0.0},d::Array<double,false>{94.0,63.6,4.0,0.5,2.0},d::Array<double,false>{139.0,64.4,4.0,0.42,1.0}};

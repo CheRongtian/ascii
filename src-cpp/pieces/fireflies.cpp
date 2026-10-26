@@ -59,7 +59,7 @@ std::shared_ptr<_n_Record_10147> _n_meta_10146=[](){return ([&](){auto _n_object
 d::Array<d::String,false> _n_MOON_10149=[](){return d::Array<d::String,false>{d::String(u"   _.._"),d::String(u" .' .-'"),d::String(u"/  /"),d::String(u"|  |"),d::String(u"\\  \\"),d::String(u" `._`-.")};}();
 d::Array<d::String,false> _n_TREES_10150=[](){return d::Array<d::String,false>{d::String(u"                  .-.                         _"),d::String(u"     .-.   .--. .'   `.  .-.       .--.    .-' `-.   .-."),d::String(u"__.-'   `-'    `       `-'   `-.__.'    `--'      `-'   `-._")};}();
 d::Array<std::shared_ptr<std::tuple<double,d::String>>,false> _n_GLOW_10151=[](){return d::Array<std::shared_ptr<std::tuple<double,d::String>>,false>{std::make_shared<std::tuple<double,d::String>>(0.6,d::String(u"*")),std::make_shared<std::tuple<double,d::String>>(0.34,d::String(u"+")),std::make_shared<std::tuple<double,d::String>>(0.17,d::String(u"·")),std::make_shared<std::tuple<double,d::String>>(0.07,d::String(u"."))};}();
-d::Array<std::array<double,3>,false> _n_HALO_10152=[](){return d::Array<std::array<double,3>,false>{std::array<double,3>{0.0,0.0,1.0},std::array<double,3>{(-d::number(1.0)),0.0,0.45},std::array<double,3>{1.0,0.0,0.45},std::array<double,3>{(-d::number(2.0)),0.0,0.13},std::array<double,3>{2.0,0.0,0.13},std::array<double,3>{0.0,(-d::number(1.0)),0.16},std::array<double,3>{0.0,1.0,0.16}};}();
+d::Array<d::Array<double,false>,false> _n_HALO_10152=[](){return d::Array<d::Array<double,false>,false>{d::Array<double,false>{0.0,0.0,1.0},d::Array<double,false>{(-d::number(1.0)),0.0,0.45},d::Array<double,false>{1.0,0.0,0.45},d::Array<double,false>{(-d::number(2.0)),0.0,0.13},d::Array<double,false>{2.0,0.0,0.13},d::Array<double,false>{0.0,(-d::number(1.0)),0.16},d::Array<double,false>{0.0,1.0,0.16}};}();
 const double _n_WAVE_10153=[](){return 11.0;}();
 const double _n_SPEED_10154=[](){return 13.0;}();
 const double _n_START_10155=[](){return 2.4;}();
@@ -87,16 +87,16 @@ double _n_rows_10163{};
 std::function<double()> _n_rnd_10164{};
 double _n_TAU_10165{};
 d::Array<d::Array<d::String,false>,false> _n_sky_10166{};
-d::Array<std::array<double,3>,false> _n_stars_10167{};
+d::Array<d::Array<double,false>,false> _n_stars_10167{};
 d::Array<std::shared_ptr<_n_Record_10169>,false> _n_blades_10168{};
 d::Array<d::Array<double,false>,false> _n_FANS_10170{};
 d::Array<std::shared_ptr<_n_Record_10172>,false> _n_flies_10171{};
 d::Map<double,d::Array<std::shared_ptr<_n_Record_10176>,false>> _n_hits_10175{};
 d::Array<float,true> _n_field_10179{};
 std::function<d::String(double,std::shared_ptr<_n_Record_10259>)> _render;
-std::array<double,2> _n_place_10173(std::shared_ptr<_n_Record_10172> _a0,double _a1){std::shared_ptr<_n_Record_10172> _n_f_10199=_a0;
+d::Array<double,false> _n_place_10173(std::shared_ptr<_n_Record_10172> _a0,double _a1){std::shared_ptr<_n_Record_10172> _n_f_10199=_a0;
 double _n_s_10200=_a1;
-return std::array<double,2>{([&](){auto _n_left_10308=(_n_f_10199->_p_x+(6.0*std::sin(((d::at(_n_f_10199->_p_w,0.0)*_n_s_10200)+d::at(_n_f_10199->_p_p,0.0)))));auto _n_right_10309=(2.5*std::sin(((d::at(_n_f_10199->_p_w,1.0)*_n_s_10200)+d::at(_n_f_10199->_p_p,1.0))));return (_n_left_10308+_n_right_10309);})(),([&](){auto _n_left_10310=(_n_f_10199->_p_y+(1.4*std::sin(((d::at(_n_f_10199->_p_w,2.0)*_n_s_10200)+d::at(_n_f_10199->_p_p,2.0)))));auto _n_right_10311=(0.6*std::sin((((d::at(_n_f_10199->_p_w,1.0)*1.7)*_n_s_10200)+d::at(_n_f_10199->_p_p,0.0))));return (_n_left_10310+_n_right_10311);})()};}
+return d::Array<double,false>{([&](){auto _n_left_10308=(_n_f_10199->_p_x+(6.0*std::sin(((d::at(_n_f_10199->_p_w,0.0)*_n_s_10200)+d::at(_n_f_10199->_p_p,0.0)))));auto _n_right_10309=(2.5*std::sin(((d::at(_n_f_10199->_p_w,1.0)*_n_s_10200)+d::at(_n_f_10199->_p_p,1.0))));return (_n_left_10308+_n_right_10309);})(),([&](){auto _n_left_10310=(_n_f_10199->_p_y+(1.4*std::sin(((d::at(_n_f_10199->_p_w,2.0)*_n_s_10200)+d::at(_n_f_10199->_p_p,2.0)))));auto _n_right_10311=(0.6*std::sin((((d::at(_n_f_10199->_p_w,1.0)*1.7)*_n_s_10200)+d::at(_n_f_10199->_p_p,0.0))));return (_n_left_10310+_n_right_10311);})()};}
 
 double _n_glow_10174(double _a0){double _n_ph_10201=_a0;
 return (d::truth((_n_ph_10201<0.04))?(_n_ph_10201/0.04):std::exp(((-d::number((_n_ph_10201-0.04)))/0.13)));}
@@ -105,12 +105,12 @@ d::Array<std::shared_ptr<_n_Record_10176>,false> _n_sweep_10177(double _a0){doub
 {
 if(d::truth(this->_n_hits_10175.has(_n_w_10202))){d::check_cancel();return d::read(this->_n_hits_10175.get(_n_w_10202));
 }
-d::Array<std::array<double,2>,false> _n_at_10203=d::map(this->_n_flies_10171,[&]( std::shared_ptr<_n_Record_10172> _a0) mutable ->std::array<double,2>{std::shared_ptr<_n_Record_10172> _n_f_10204=_a0;
+d::Array<d::Array<double,false>,false> _n_at_10203=d::map(this->_n_flies_10171,[&]( std::shared_ptr<_n_Record_10172> _a0) mutable ->d::Array<double,false>{std::shared_ptr<_n_Record_10172> _n_f_10204=_a0;
 return this->_n_place_10173(_n_f_10204,(_n_w_10202*_n_WAVE_10153));});
-auto&& _n_o_10205=d::reduce(_n_at_10203,[&]( std::array<double,2> _a0,std::array<double,2> _a1) mutable ->std::array<double,2>{auto&& _n_b_10206=_a0;
-auto&& _n_p_10207=_a1;
+d::Array<double,false> _n_o_10205=d::reduce(_n_at_10203,[&]( d::Array<double,false> _a0,d::Array<double,false> _a1) mutable ->d::Array<double,false>{d::Array<double,false> _n_b_10206=_a0;
+d::Array<double,false> _n_p_10207=_a1;
 return (d::truth((d::truth(double(d::i32(_n_w_10202)&d::i32(1.0)))?(d::at(_n_p_10207,0.0)>d::at(_n_b_10206,0.0)):(d::at(_n_p_10207,0.0)<d::at(_n_b_10206,0.0))))?_n_p_10207:_n_b_10206);});
-d::Array<std::shared_ptr<_n_Record_10176>,false> _n_out_10208=d::map(_n_at_10203,[&]( std::array<double,2> _a0,double _a1) mutable ->std::shared_ptr<_n_Record_10176>{auto _n_binding_10312=_a0;
+d::Array<std::shared_ptr<_n_Record_10176>,false> _n_out_10208=d::map(_n_at_10203,[&]( d::Array<double,false> _a0,double _a1) mutable ->std::shared_ptr<_n_Record_10176>{auto _n_binding_10312=_a0;
 double _n_x_10210=d::at(_n_binding_10312,0.0);
 double _n_y_10211=d::at(_n_binding_10312,1.0);
 double _n_i_10212=_a1;
@@ -168,7 +168,7 @@ this->_n_rows_10163=_n_binding_10270->_p_rows;
 this->_n_rnd_10164=_n_mulberry32_10158(this->_n_seed_10160);
 this->_n_TAU_10165=(ascii::PI*2.0);
 this->_n_sky_10166=d::Array<d::Array<d::String,false>,false>(d::from(this->_n_rows_10163,[&]( ) mutable ->d::Array<d::String,false>{return d::Array<d::String,false>(size_t(this->_n_cols_10162)).fill(d::String(u" "));}));
-this->_n_stars_10167=d::Array<std::array<double,3>,false>(d::from(16.0,[&]( ) mutable ->std::array<double,3>{return std::array<double,3>{std::floor((this->_n_rnd_10164()*5.0)),std::floor((this->_n_rnd_10164()*(this->_n_cols_10162-14.0))),this->_n_rnd_10164()};}));
+this->_n_stars_10167=d::Array<d::Array<double,false>,false>(d::from(16.0,[&]( ) mutable ->d::Array<double,false>{return d::Array<double,false>{std::floor((this->_n_rnd_10164()*5.0)),std::floor((this->_n_rnd_10164()*(this->_n_cols_10162-14.0))),this->_n_rnd_10164()};}));
 (void)(d::forEach(_n_MOON_10149,[&]( d::String _a0,double _a1) mutable ->void{d::String _n_line_10186=_a0;
 double _n_i_10187=_a1;
 d::forEach(([&](){d::Array<d::String,false> _n_array_10271;for(const auto &_v:_n_line_10186)_n_array_10271.push(_v);return _n_array_10271;})(),[&]( d::String _a0,double _a1) mutable ->std::variant<d::String,bool>{d::String _n_ch_10188=_a0;

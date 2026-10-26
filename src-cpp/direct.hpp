@@ -57,36 +57,51 @@ template<class T> T absent(){return Missing<T>::get();}
 template<class T,bool Typed=false> struct Array {
     using value_type=T;
     std::shared_ptr<std::vector<T>> storage=std::make_shared<std::vector<T>>();
+    // An empty bitmap denotes dense storage. Copies and subarrays share it.
+    std::shared_ptr<std::vector<uint8_t>> slots=[](){if constexpr(Typed)return std::shared_ptr<std::vector<uint8_t>>{};else return std::make_shared<std::vector<uint8_t>>();}();
     size_t offset=0,extent=SIZE_MAX;
     Array()=default;
-    explicit Array(size_t n):storage(std::make_shared<std::vector<T>>(n,Typed?T{}:absent<T>())){}
+    explicit Array(size_t n):storage(std::make_shared<std::vector<T>>(n,Typed?T{}:absent<T>())){if constexpr(!Typed)slots->resize(n,0);}
     Array(std::initializer_list<T> items):storage(std::make_shared<std::vector<T>>(items)){}
-    template<class A> explicit Array(const A&a):Array(a.size()){for(size_t i=0;i<a.size();++i)(*storage)[i]=cast<T>(a[i]);}
+    template<class U,bool B> explicit Array(const Array<U,B>&a):Array(a.size()){for(size_t i=0;i<a.size();++i)if(Typed||a.hasIndex(i))write(i,cast<T>(a[i]));}
+    template<class A> explicit Array(const A&a):Array(a.size()){for(size_t i=0;i<a.size();++i)write(i,cast<T>(a[i]));}
     size_t size()const{return !storage?0:extent==SIZE_MAX?storage->size()-offset:extent;}
     bool empty()const{return size()==0;}
+    bool hasIndex(size_t i)const{if(i>=size())return false;if constexpr(Typed)return true;else return slots->empty()||(*slots)[offset+i]!=0;}
+    void write(size_t i,T value){(*storage)[offset+i]=std::move(value);if constexpr(!Typed)if(!slots->empty())(*slots)[offset+i]=1;}
     T *data(){return storage->data()+offset;}const T *data()const{return storage->data()+offset;}
     decltype(auto) operator[](size_t i){return (*storage)[offset+i];}decltype(auto) operator[](size_t i)const{return (*storage)[offset+i];}
     auto begin(){return storage->begin()+offset;}auto end(){return begin()+size();}
     auto begin()const{return storage->begin()+offset;}auto end()const{return begin()+size();}
-    void resize(size_t n){storage->resize(offset+n,Typed?T{}:absent<T>());extent=SIZE_MAX;}
-    template<class...U> double push(U&&...v){(storage->push_back(cast<T>(std::forward<U>(v))),...);return double(size());}
-    T pop(){if(empty())return absent<T>();T v=storage->back();storage->pop_back();return v;}
-    T shift(){if(empty())return absent<T>();T v=(*this)[0];storage->erase(storage->begin()+offset);return v;}
-    template<class U> double unshift(const U &v){storage->insert(storage->begin()+offset,T(v));return double(size());}
+    void resize(size_t n){if constexpr(!Typed){if(slots->empty()&&offset+n>storage->size())slots->resize(storage->size(),1);if(!slots->empty()||offset+n>storage->size())slots->resize(offset+n,0);}storage->resize(offset+n,Typed?T{}:absent<T>());extent=SIZE_MAX;}
+    void append(T value){storage->push_back(std::move(value));if constexpr(!Typed)if(!slots->empty())slots->push_back(1);}
+    template<class...U> double push(U&&...v){(append(cast<T>(std::forward<U>(v))),...);return double(size());}
+    T pop(){if(empty())return absent<T>();T v=storage->back();storage->pop_back();if constexpr(!Typed)if(!slots->empty())slots->pop_back();return v;}
+    T shift(){if(empty())return absent<T>();T v=(*this)[0];storage->erase(storage->begin()+offset);if constexpr(!Typed)if(!slots->empty())slots->erase(slots->begin()+offset);return v;}
+    template<class U> double unshift(const U &v){storage->insert(storage->begin()+offset,T(v));if constexpr(!Typed)if(!slots->empty())slots->insert(slots->begin()+offset,1);return double(size());}
     int bound(double n)const{const auto i=int(n);return i<0?std::max(0,int(size())+i):std::min(int(size()),i);}
-    template<class U> Array &fill(U value,double start=0,double end=INFINITY){T v=cast<T>(value);const int a=bound(start),b=std::isinf(end)?int(size()):bound(end);for(int i=a;i<b;++i)(*this)[i]=v;return *this;}
-    Array slice(double from=0,double to=INFINITY)const{const int a=bound(from),b=std::isinf(to)?int(size()):bound(to);Array out;for(int i=a;i<b;++i)out.push((*this)[i]);return out;}
+    template<class U> Array &fill(U value,double start=0,double end=INFINITY){T v=cast<T>(value);const int a=bound(start),b=std::isinf(end)?int(size()):bound(end);for(int i=a;i<b;++i)write(i,v);if constexpr(!Typed)if(a==0&&size_t(b)==storage->size()&&offset==0)slots->clear();return *this;}
+    Array slice(double from=0,double to=INFINITY)const{const int a=bound(from),b=std::isinf(to)?int(size()):bound(to);Array out(size_t(std::max(0,b-a)));for(int i=a;i<b;++i)if(hasIndex(i))out.write(i-a,(*this)[i]);return out;}
     Array subarray(double from=0,double to=INFINITY)const{Array out=*this;const int a=bound(from),b=std::isinf(to)?int(size()):bound(to);out.offset+=a;out.extent=std::max(0,b-a);return out;}
-    template<class U,bool B> void set(const Array<U,B>&a,double at=0){for(size_t i=0;i<a.size();++i)(*this)[size_t(at)+i]=T(a[i]);}
-    Array &reverse(){std::reverse(begin(),end());return *this;}
-    template<class F> Array &sort(F f){std::stable_sort(begin(),end(),[&](const auto&a,const auto&b){return f(a,b)<0;});return *this;}
-    Array &sort(){std::stable_sort(begin(),end());return *this;}
+    template<class U,bool B> void set(const Array<U,B>&a,double at=0){for(size_t i=0;i<a.size();++i)write(size_t(at)+i,T(a[i]));}
+    Array &reverse(){std::reverse(begin(),end());if constexpr(!Typed)if(!slots->empty())std::reverse(slots->begin()+offset,slots->begin()+offset+size());return *this;}
+    template<class F> Array &sortWith(F compare){
+        if constexpr(!Typed)if(!slots->empty()){
+            std::vector<T> values;values.reserve(size());for(size_t i=0;i<size();++i)if(hasIndex(i))values.push_back((*this)[i]);
+            std::stable_sort(values.begin(),values.end(),compare);
+            for(size_t i=0;i<size();++i){(*storage)[offset+i]=i<values.size()?values[i]:absent<T>();(*slots)[offset+i]=i<values.size();}
+            return *this;
+        }
+        std::stable_sort(begin(),end(),compare);return *this;
+    }
+    template<class F> Array &sort(F f){return sortWith([&](const auto&a,const auto&b){return f(a,b)<0;});}
+    Array &sort(){return sortWith(std::less<T>{});}
     bool includes(const T &x)const{return std::find(begin(),end(),x)!=end();}
-    double indexOf(const T &x,double start=0)const{for(int i=bound(start);i<int(size());++i)if((*this)[i]==x)return i;return -1;}
-    Array splice(double start,double count=INFINITY){const auto a=bound(start),n=std::isinf(count)?int(size())-a:std::max(0,std::min(int(count),int(size())-a));auto out=slice(a,a+n);storage->erase(begin()+a,begin()+a+n);return out;}
-    Array concat(const Array&a)const{auto out=slice();for(const auto &v:a)out.push(v);return out;}
+    double indexOf(const T &x,double start=0)const{for(int i=bound(start);i<int(size());++i)if(hasIndex(i)&&(*this)[i]==x)return i;return -1;}
+    Array splice(double start,double count=INFINITY){const auto a=bound(start),n=std::isinf(count)?int(size())-a:std::max(0,std::min(int(count),int(size())-a));auto out=slice(a,a+n);storage->erase(begin()+a,begin()+a+n);if constexpr(!Typed)if(!slots->empty())slots->erase(slots->begin()+offset+a,slots->begin()+offset+a+n);return out;}
+    Array concat(const Array&a)const{auto out=slice();const auto base=out.size();out.resize(base+a.size());for(size_t i=0;i<a.size();++i)if(a.hasIndex(i))out.write(base+i,a[i]);return out;}
     Array concat(const T&value)const{auto out=slice();out.push(value);return out;}
-    Array &copyWithin(double target,double start,double end=INFINITY){auto source=slice(start,end);int dest=bound(target);for(size_t i=0;i<source.size()&&dest+int(i)<int(size());++i)(*this)[dest+i]=source[i];return *this;}
+    Array &copyWithin(double target,double start,double end=INFINITY){auto source=slice(start,end);int dest=bound(target);for(size_t i=0;i<source.size()&&dest+int(i)<int(size());++i){if(source.hasIndex(i))write(dest+i,source[i]);else if constexpr(!Typed){if(slots->empty())slots->resize(storage->size(),1);(*slots)[offset+dest+i]=0;(*this)[dest+i]=absent<T>();}}return *this;}
     bool operator==(const Array&a)const{return storage==a.storage&&offset==a.offset&&extent==a.extent;}
     bool operator!=(const Array&a)const{return !(*this==a);}
 };
@@ -94,8 +109,8 @@ template<class T,bool B> struct Missing<Array<T,B>>{static Array<T,B> get(){Arra
 template<class T,bool B> bool truth(const Array<T,B>&a){return bool(a.storage);}
 template<class T,bool B> bool present(const Array<T,B>&a){return bool(a.storage);}
 template<class T,bool B> decltype(auto) at(const Array<T,B>&a,double n){if constexpr(std::is_arithmetic_v<T>){using R=std::conditional_t<std::is_same_v<T,bool>,bool,double>;if(!std::isfinite(n)||n<0||n>=a.size()||std::floor(n)!=n)return absent<R>();return R(a[size_t(n)]);}else{static T missing=absent<T>();if(!std::isfinite(n)||n<0||n>=a.size()||std::floor(n)!=n)return (missing);return (a[size_t(n)]);}}
-template<class T,bool B> bool has(const Array<T,B>&a,double n){return std::isfinite(n)&&n>=0&&n<a.size()&&std::floor(n)==n;}
-template<class T,bool B,class U> U put(const Array<T,B>&ref,double n,U v){auto a=ref;if(!std::isfinite(n)||n<0||std::floor(n)!=n)return v;if(size_t(n)>=a.size()){if constexpr(B)return v;else a.resize(size_t(n)+1);}a[size_t(n)]=cast<T>(v);return v;}
+template<class T,bool B> bool has(const Array<T,B>&a,double n){return std::isfinite(n)&&n>=0&&n<a.size()&&std::floor(n)==n&&a.hasIndex(size_t(n));}
+template<class T,bool B,class U> U put(const Array<T,B>&ref,double n,U v){auto a=ref;if(!std::isfinite(n)||n<0||std::floor(n)!=n)return v;if(size_t(n)>=a.size()){if constexpr(B)return v;else a.resize(size_t(n)+1);}a.write(size_t(n),cast<T>(v));return v;}
 template<class T,size_t N> decltype(auto) at(const std::array<T,N>&a,double n){if constexpr(std::is_arithmetic_v<T>)return n>=0&&n<N&&std::floor(n)==n?double(a[size_t(n)]):nan;else{static const T missing=absent<T>();if(n<0||n>=N||std::floor(n)!=n)return (missing);return (a[size_t(n)]);}}
 template<class T,size_t N> bool has(const std::array<T,N>&,double n){return n>=0&&n<N&&std::floor(n)==n;}
 template<class T,size_t N,class U> U put(std::array<T,N>&a,double n,U v){if(has(a,n))a[size_t(n)]=cast<T>(v);return v;}
@@ -107,18 +122,18 @@ template<class T,bool B> bool isArray(const Array<T,B>&){return true;}
 template<class T,size_t N> bool isArray(const std::array<T,N>&){return true;}
 template<class...A> bool isArray(const std::variant<A...>&v){return std::visit([](const auto &a){return isArray(a);},v);}
 template<class F,class T,class A> decltype(auto) invoke(F &f,const T &v,double i,const A &a){if constexpr(std::is_invocable_v<F,T,double,A>)return f(v,i,a);else if constexpr(std::is_invocable_v<F,T,double>)return f(v,i);else if constexpr(std::is_invocable_v<F,T>)return f(v);else return f();}
-template<class T,bool B,class F> auto map(const Array<T,B>&a,F f){using R=std::decay_t<decltype(invoke(f,at(a,0),0,a))>;std::conditional_t<B,Array<T,true>,Array<R>> out;out.storage->reserve(a.size());for(size_t i=0;i<a.size();++i)out.push(invoke(f,at(a,i),i,a));return out;}
-template<class T,bool B,class F> void forEach(const Array<T,B>&a,F f){for(size_t i=0;i<a.size();++i)invoke(f,at(a,i),i,a);}
-template<class T,bool B,class F> Array<T,B> filter(const Array<T,B>&a,F f){Array<T,B> out;for(size_t i=0;i<a.size();++i)if(truth(invoke(f,at(a,i),i,a)))out.push(a[i]);return out;}
+template<class T,bool B,class F> auto map(const Array<T,B>&a,F f){using R=std::decay_t<decltype(invoke(f,at(a,0),0,a))>;std::conditional_t<B,Array<T,true>,Array<R>> out(a.size());for(size_t i=0;i<out.size();++i)if(a.hasIndex(i))out.write(i,cast<typename decltype(out)::value_type>(invoke(f,at(a,i),i,a)));return out;}
+template<class T,bool B,class F> void forEach(const Array<T,B>&a,F f){const auto length=a.size();for(size_t i=0;i<length;++i)if(a.hasIndex(i))invoke(f,at(a,i),i,a);}
+template<class T,bool B,class F> Array<T,B> filter(const Array<T,B>&a,F f){Array<T,B> out;const auto length=a.size();for(size_t i=0;i<length;++i)if(a.hasIndex(i)&&truth(invoke(f,at(a,i),i,a)))out.push(a[i]);return out;}
 template<class T,bool B,class F> std::optional<T> find(const Array<T,B>&a,F f){for(size_t i=0;i<a.size();++i)if(truth(invoke(f,at(a,i),i,a)))return T(a[i]);return std::nullopt;}
 template<class T,bool B,class F> double findIndex(const Array<T,B>&a,F f){for(size_t i=0;i<a.size();++i)if(truth(invoke(f,at(a,i),i,a)))return i;return -1;}
-template<class T,bool B,class F> bool some(const Array<T,B>&a,F f){return findIndex(a,f)>=0;}
-template<class T,bool B,class F> bool every(const Array<T,B>&a,F f){for(size_t i=0;i<a.size();++i)if(!truth(invoke(f,at(a,i),i,a)))return false;return true;}
-template<class T,bool B,class F,class R> R reduce(const Array<T,B>&a,F f,R r){for(size_t i=0;i<a.size();++i){if constexpr(std::is_invocable_v<F,R,T,double>)r=f(r,at(a,i),double(i));else r=f(r,at(a,i));}return r;}
-template<class T,bool B,class F> auto reduce(const Array<T,B>&a,F f){if(a.empty())throw std::runtime_error("Empty array reduction");auto r=at(a,0);for(size_t i=1;i<a.size();++i)r=f(r,at(a,i));return r;}
+template<class T,bool B,class F> bool some(const Array<T,B>&a,F f){const auto length=a.size();for(size_t i=0;i<length;++i)if(a.hasIndex(i)&&truth(invoke(f,at(a,i),i,a)))return true;return false;}
+template<class T,bool B,class F> bool every(const Array<T,B>&a,F f){const auto length=a.size();for(size_t i=0;i<length;++i)if(a.hasIndex(i)&&!truth(invoke(f,at(a,i),i,a)))return false;return true;}
+template<class T,bool B,class F,class R> R reduce(const Array<T,B>&a,F f,R r){const auto length=a.size();for(size_t i=0;i<length;++i)if(a.hasIndex(i)){if constexpr(std::is_invocable_v<F,R,T,double>)r=f(r,at(a,i),double(i));else r=f(r,at(a,i));}return r;}
+template<class T,bool B,class F> auto reduce(const Array<T,B>&a,F f){const auto length=a.size();size_t i=0;while(i<length&&!a.hasIndex(i))++i;if(i==length)throw std::runtime_error("Empty array reduction");auto r=at(a,i++);for(;i<length;++i)if(a.hasIndex(i))r=f(r,at(a,i));return r;}
 template<class T,bool B> auto flat(const Array<T,B>&a){using U=typename T::value_type;Array<U> out;for(auto &row:a)for(auto &x:row)out.push(x);return out;}
 template<class T,bool B,class F> auto flatMap(const Array<T,B>&a,F f){return flat(map(a,f));}
-template<class F> auto from(double n,F f){Array<Nil> items(size_t(std::max(0.,n)));return map(items,f);}
+template<class F> auto from(double n,F f){Array<Nil> items(size_t(std::max(0.,n)));items.fill(Nil{});return map(items,f);}
 inline String string(const String &s){return s;}inline String string(char16_t c){return String(1,c);}inline String string(const char16_t *s){return s;}inline String string(Nil){return u"undefined";}inline String string(bool b){return b?u"true":u"false";}
 inline String string(double x){if(std::isnan(x))return u"NaN";if(std::isinf(x))return x<0?u"-Infinity":u"Infinity";if(x==0)return u"0";char b[64];auto r=std::to_chars(b,b+64,x);return utf16(std::string(b,r.ptr));}
 template<class T> String string(const std::optional<T>&v){return v?string(*v):u"undefined";}

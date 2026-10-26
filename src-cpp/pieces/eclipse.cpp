@@ -64,7 +64,7 @@ double _n_cols_8563{};
 double _n_rows_8564{};
 double _n_n_8565{};
 std::function<double()> _n_rand_8566{};
-d::Array<std::array<double,3>,false> _n_limb_8569{};
+d::Array<d::Array<double,false>,false> _n_limb_8569{};
 d::Array<float,true> _n_corona_8571{};
 d::Array<float,true> _n_ring_8572{};
 d::Array<float,true> _n_angle_8573{};
@@ -77,7 +77,7 @@ double _n_Y_8568(double _a0){double _n_r_8583=_a0;
 return (((this->_n_rows_8564/2.0)-_n_r_8583)/_n_R_8551);}
 
 double _n_moonR_8570(double _a0){double _n_a_8586=_a0;
-return (_n_MOON_8552+d::reduce(this->_n_limb_8569,[&]( double _a0,std::array<double,3> _a1) mutable ->double{double _n_s_8587=_a0;
+return (_n_MOON_8552+d::reduce(this->_n_limb_8569,[&]( double _a0,d::Array<double,false> _a1) mutable ->double{double _n_s_8587=_a0;
 auto _n_binding_8715=_a1;
 double _n_k_8588=d::at(_n_binding_8715,0.0);
 double _n_p_8589=d::at(_n_binding_8715,1.0);
@@ -90,8 +90,8 @@ this->_n_cols_8563=_n_binding_8660->_p_cols;
 this->_n_rows_8564=_n_binding_8660->_p_rows;
 this->_n_n_8565=(double(_n_RAMP_8550.size())-1.0);
 this->_n_rand_8566=_n_mulberry32_8560(11.0);
-this->_n_limb_8569=d::Array<std::array<double,3>,false>(d::from(5.0,[&]( d::Nil _a0,double _a1) mutable ->std::array<double,3>{double _n_k_8585=_a1;
-return std::array<double,3>{((3.0+(4.0*_n_k_8585))+std::floor((this->_n_rand_8566()*3.0))),(this->_n_rand_8566()*6.283),(0.006/(1.0+(_n_k_8585*0.4)))};}));
+this->_n_limb_8569=d::Array<d::Array<double,false>,false>(d::from(5.0,[&]( d::Nil _a0,double _a1) mutable ->d::Array<double,false>{double _n_k_8585=_a1;
+return d::Array<double,false>{((3.0+(4.0*_n_k_8585))+std::floor((this->_n_rand_8566()*3.0))),(this->_n_rand_8566()*6.283),(0.006/(1.0+(_n_k_8585*0.4)))};}));
 this->_n_corona_8571=d::Array<float,true>(size_t((this->_n_cols_8563*this->_n_rows_8564)));
 this->_n_ring_8572=d::Array<float,true>(size_t((this->_n_cols_8563*this->_n_rows_8564)));
 this->_n_angle_8573=d::Array<float,true>(size_t((this->_n_cols_8563*this->_n_rows_8564)));

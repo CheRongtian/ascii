@@ -40,6 +40,7 @@ final class PlayerModel: ObservableObject {
     @Published var error: String?
     @Published private(set) var isLoading = true
     @Published private(set) var elapsedLabel = "00:00"
+    @Published private(set) var generation = 0
 
     var isSleeping = false
     private var ticker: DispatchSourceTimer?
@@ -47,9 +48,7 @@ final class PlayerModel: ObservableObject {
     private var advanceTime: Double = 0
     private var lastTick = ProcessInfo.processInfo.systemUptime
     private var nextFrameAt: Double = 0
-    private var generation = 0
     private var inFlight = false
-    private var pendingReset = true
     private var needsFrame = true
     private var history: [String] = []
     private var historyIndex = -1
@@ -123,13 +122,19 @@ final class PlayerModel: ObservableObject {
 
     func togglePlayback() { isPlaying.toggle() }
 
+    func preparationDidWait(for generation: Int) {
+        guard generation == self.generation, isLoading, let selectedID else { return }
+        engine.cachePreparedPiece(selectedID)
+    }
+
     func restart() {
         engine.cancel()
+        if let selectedID { engine.removeCachedPiece(selectedID) }
         elapsed = 0
         advanceTime = 0
         elapsedLabel = "00:00"
-        pendingReset = true
         error = nil
+        surface.publish(nil)
         isLoading = true
         invalidateFrame()
     }
@@ -169,8 +174,18 @@ final class PlayerModel: ObservableObject {
             history.append(selectedID)
             historyIndex = history.count - 1
         }
-        surface.publish(nil)
-        restart()
+        engine.cancel()
+        let cached = selectedPiece.flatMap {
+            engine.cachedPlayback(for: $0, mono: mono, paper: background.isLight)
+        }
+        elapsed = cached?.time ?? 0
+        advanceTime = 0
+        let seconds = Int(elapsed)
+        elapsedLabel = String(format: "%02d:%02d", seconds / 60, seconds % 60)
+        error = nil
+        surface.publish(cached?.frame)
+        isLoading = cached?.frame == nil
+        invalidateFrame()
     }
 
     private func invalidateFrame() {
@@ -185,7 +200,7 @@ final class PlayerModel: ObservableObject {
         lastTick = now
         guard !isSleeping, !NSApp.isHidden, let window = surface.view?.window,
               window.isVisible, !window.isMiniaturized else { return }
-        if isPlaying {
+        if isPlaying && !isLoading {
             elapsed += delta
             advanceTime += delta
             let seconds = Int(elapsed)
@@ -204,8 +219,7 @@ final class PlayerModel: ObservableObject {
     private func requestFrame(at now: Double) {
         guard let piece = selectedPiece else { return }
         let stamp = generation
-        let request = FrameRequest(piece: piece, time: elapsed, mono: mono, paper: background.isLight, reset: pendingReset)
-        pendingReset = false
+        let request = FrameRequest(piece: piece, time: elapsed, mono: mono, paper: background.isLight)
         needsFrame = false
         inFlight = true
         if effectiveFPS > 0 {

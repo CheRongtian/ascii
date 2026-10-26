@@ -40,13 +40,13 @@ double _n_hi_8066{};
 d::Array<int16_t,true> _n_row_8067{};
 d::Array<int8_t,true> _n_steep_8068{};
 std::function<d::String(double,std::shared_ptr<_n_Record_8114>)> _render;
-std::array<double,3> _n_at_8069(double _a0,double _a1,double _a2){double _n_x_8070=_a0;
+d::Array<double,false> _n_at_8069(double _a0,double _a1,double _a2){double _n_x_8070=_a0;
 double _n_s_8071=_a1;
 double _n_a_8072=_a2;
 {
 double _n_th_8073=(((_n_K_8054*(_n_x_8070-(this->_n_cols_8060/2.0)))-_n_a_8072)-(_n_s_8071*_n_GROOVE_8055));
 double _n_c_8074=std::cos(_n_th_8073);
-return std::array<double,3>{((this->_n_rows_8061/2.0)+(_n_A_8052*_n_c_8074)),(-d::number(std::sin(_n_th_8073))),((this->_n_rows_8061/2.0)+(d::truth((_n_c_8074>0.0))?_n_A_8052:(-d::number(_n_A_8052))))};
+return d::Array<double,false>{((this->_n_rows_8061/2.0)+(_n_A_8052*_n_c_8074)),(-d::number(std::sin(_n_th_8073))),((this->_n_rows_8061/2.0)+(d::truth((_n_c_8074>0.0))?_n_A_8052:(-d::number(_n_A_8052))))};
 
 }
 }

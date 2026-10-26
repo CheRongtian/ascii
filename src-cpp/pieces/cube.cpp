@@ -19,8 +19,8 @@ std::optional<d::Array<uint8_t,true>> _p_color{};
 static std::shared_ptr<_n_Record_6412> decode(const ascii::Json &j){auto out=std::make_shared<_n_Record_6412>();out->_p_paper=d::decode<std::optional<bool>>(j["paper"]);out->_p_color=d::decode<std::optional<d::Array<uint8_t,true>>>(j["color"]);return out;}
 };
 d::Array<double,false> _n_unit_6304(d::Array<double,false> _a0);
-void _n_line_6306(std::array<double,2> _a0,std::array<double,2> _a1,std::function<d::Unknown(double,double,d::String)> _a2);
-bool _n_inside_6307(d::Array<std::array<double,2>,false> _a0,double _a1,double _a2,double _a3);
+void _n_line_6306(d::Array<double,false> _a0,d::Array<double,false> _a1,std::function<d::Unknown(double,double,d::String)> _a2);
+bool _n_inside_6307(d::Array<d::Array<double,false>,false> _a0,double _a1,double _a2,double _a3);
 std::shared_ptr<_n_Record_6293> _n_meta_6292=[](){return ([&](){auto _n_object_6415=std::make_shared<_n_Record_6293>();_n_object_6415->_p_name=d::String(u"cube");_n_object_6415->_p_category=d::String(u"shapes");_n_object_6415->_p_note=d::String(u"a stippled hidden-line cube turning a quarter at a time");_n_object_6415->_p_cols=32.0;_n_object_6415->_p_rows=18.0;_n_object_6415->_p_fps=24.0;return _n_object_6415;})();}();
 const double _n_CW_6294=[](){return 0.5;}();
 const double _n_S_6295=[](){return 4.95;}();
@@ -35,16 +35,16 @@ double _n_r_6315=_a1;
 return (d::truth(double(d::i32((_n_c_6314+_n_r_6315))&d::i32(1.0)))?d::String(u"."):d::String(u" "));},[=]( double _a0,double _a1) mutable ->d::String{double _n_c_6316=_a0;
 double _n_r_6317=_a1;
 return (d::truth(double(d::i32((_n_c_6316+_n_r_6317))&d::i32(1.0)))?d::String(u":"):d::String(u" "));}};}();
-d::Array<std::array<double,3>,false> _n_V_6301=[](){return d::Array<std::array<double,3>,false>{};}();
-d::Array<std::array<double,2>,false> _n_E_6302=[](){return d::Array<std::array<double,2>,false>{};}();
+d::Array<d::Array<double,false>,false> _n_V_6301=[](){return d::Array<d::Array<double,false>,false>{};}();
+d::Array<d::Array<double,false>,false> _n_E_6302=[](){return d::Array<d::Array<double,false>,false>{};}();
 d::Array<std::shared_ptr<std::tuple<double,double,d::Array<double,false>>>,false> _n_F_6303=[](){return d::Array<std::shared_ptr<std::tuple<double,double,d::Array<double,false>>>,false>{};}();
 d::Array<double,false> _n_LIGHT_6305=[](){return _n_unit_6304(d::Array<double,false>{(-d::number(0.35)),0.6,(-d::number(0.72))});}();
 const bool _n_init_6416=[](){{double _n_i_6318=0.0;
-for(;d::truth((_n_i_6318<8.0));(void)((_n_i_6318++))){d::check_cancel();(void)(_n_V_6301.push(std::array<double,3>{(d::truth(double(d::i32(_n_i_6318)&d::i32(1.0)))?1.0:(-d::number(1.0))),(d::truth(double(d::i32(_n_i_6318)&d::i32(2.0)))?1.0:(-d::number(1.0))),(d::truth(double(d::i32(_n_i_6318)&d::i32(4.0)))?1.0:(-d::number(1.0)))}));
+for(;d::truth((_n_i_6318<8.0));(void)((_n_i_6318++))){d::check_cancel();(void)(_n_V_6301.push(d::Array<double,false>{(d::truth(double(d::i32(_n_i_6318)&d::i32(1.0)))?1.0:(-d::number(1.0))),(d::truth(double(d::i32(_n_i_6318)&d::i32(2.0)))?1.0:(-d::number(1.0))),(d::truth(double(d::i32(_n_i_6318)&d::i32(4.0)))?1.0:(-d::number(1.0)))}));
 }}
 {double _n_i_6319=0.0;
 for(;d::truth((_n_i_6319<8.0));(void)((_n_i_6319++))){d::check_cancel();for(auto &&_n_item_6417:d::Array<double,false>{1.0,2.0,4.0}){d::check_cancel();double _n_b_6320=_n_item_6417;
-if(d::truth((!d::truth(double(d::i32(_n_i_6319)&d::i32(_n_b_6320)))))){d::check_cancel();(void)(_n_E_6302.push(std::array<double,2>{_n_i_6319,double(d::i32(_n_i_6319)|d::i32(_n_b_6320))}));
+if(d::truth((!d::truth(double(d::i32(_n_i_6319)&d::i32(_n_b_6320)))))){d::check_cancel();(void)(_n_E_6302.push(d::Array<double,false>{_n_i_6319,double(d::i32(_n_i_6319)|d::i32(_n_b_6320))}));
 }
 }
 }}
@@ -67,7 +67,7 @@ d::Array<double,false> _n_unit_6304(d::Array<double,false> _a0){d::Array<double,
 return d::map(_n_v_6328,[&]( double _a0) mutable ->double{double _n_c_6329=_a0;
 return (_n_c_6329/d::hypot(_n_v_6328));});}
 
-void _n_line_6306(std::array<double,2> _a0,std::array<double,2> _a1,std::function<d::Unknown(double,double,d::String)> _a2){auto _n_binding_6420=_a0;
+void _n_line_6306(d::Array<double,false> _a0,d::Array<double,false> _a1,std::function<d::Unknown(double,double,d::String)> _a2){auto _n_binding_6420=_a0;
 double _n_c0_6330=d::at(_n_binding_6420,0.0);
 double _n_r0_6331=d::at(_n_binding_6420,1.0);
 auto _n_binding_6421=_a1;
@@ -75,7 +75,7 @@ double _n_c1_6332=d::at(_n_binding_6421,0.0);
 double _n_r1_6333=d::at(_n_binding_6421,1.0);
 std::function<d::Unknown(double,double,d::String)> _n_put_6334=_a2;
 {
-if(d::truth((_n_r1_6333<_n_r0_6331))){d::check_cancel();(void)(([&](){auto _n_unpack_6422=std::array<double,4>{_n_c1_6332,_n_r1_6333,_n_c0_6330,_n_r0_6331};_n_c0_6330=d::at(_n_unpack_6422,0.0);_n_r0_6331=d::at(_n_unpack_6422,1.0);_n_c1_6332=d::at(_n_unpack_6422,2.0);_n_r1_6333=d::at(_n_unpack_6422,3.0);return _n_unpack_6422;})());
+if(d::truth((_n_r1_6333<_n_r0_6331))){d::check_cancel();(void)(([&](){auto _n_unpack_6422=d::Array<double,false>{_n_c1_6332,_n_r1_6333,_n_c0_6330,_n_r0_6331};_n_c0_6330=d::at(_n_unpack_6422,0.0);_n_r0_6331=d::at(_n_unpack_6422,1.0);_n_c1_6332=d::at(_n_unpack_6422,2.0);_n_r1_6333=d::at(_n_unpack_6422,3.0);return _n_unpack_6422;})());
 }
 double _n_dc_6338=(_n_c1_6332-_n_c0_6330);
 double _n_dr_6339=(_n_r1_6333-_n_r0_6331);
@@ -99,7 +99,7 @@ for(;d::truth((((_n_at_6343((_n_r_6345+1.0))-_n_c_6346)*_n_s_6340)>0.0));(void)(
 }
 }
 
-bool _n_inside_6307(d::Array<std::array<double,2>,false> _a0,double _a1,double _a2,double _a3){d::Array<std::array<double,2>,false> _n_q_6347=_a0;
+bool _n_inside_6307(d::Array<d::Array<double,false>,false> _a0,double _a1,double _a2,double _a3){d::Array<d::Array<double,false>,false> _n_q_6347=_a0;
 double _n_c_6348=_a1;
 double _n_r_6349=_a2;
 double _n_m_6350=_a3;
@@ -149,22 +149,22 @@ double _n_cy_6365=std::cos(_n_yaw_6364);
 double _n_sy_6366=std::sin(_n_yaw_6364);
 double _n_cp_6367=std::cos(_n_PITCH_6297);
 double _n_sp_6368=std::sin(_n_PITCH_6297);
-auto _n_turn_6369=[&]( d::Array<double,false> _a0) mutable ->std::array<double,3>{auto _n_binding_6435=_a0;
+auto _n_turn_6369=[&]( d::Array<double,false> _a0) mutable ->d::Array<double,false>{auto _n_binding_6435=_a0;
 double _n_x_6370=d::at(_n_binding_6435,0.0);
 double _n_y_6371=d::at(_n_binding_6435,1.0);
 double _n_z_6372=d::at(_n_binding_6435,2.0);
 {
 double _n_z1_6373=((_n_z_6372*_n_cy_6365)-(_n_x_6370*_n_sy_6366));
-return std::array<double,3>{((_n_x_6370*_n_cy_6365)+(_n_z_6372*_n_sy_6366)),((_n_y_6371*_n_cp_6367)-(_n_z1_6373*_n_sp_6368)),((_n_y_6371*_n_sp_6368)+(_n_z1_6373*_n_cp_6367))};
+return d::Array<double,false>{((_n_x_6370*_n_cy_6365)+(_n_z_6372*_n_sy_6366)),((_n_y_6371*_n_cp_6367)-(_n_z1_6373*_n_sp_6368)),((_n_y_6371*_n_sp_6368)+(_n_z1_6373*_n_cp_6367))};
 
 }
 };
-d::Array<std::array<double,2>,false> _n_P_6374=d::map(_n_V_6301,[&]( std::array<double,3> _a0) mutable ->std::array<double,2>{auto&& _n_v_6375=_a0;
+d::Array<d::Array<double,false>,false> _n_P_6374=d::map(_n_V_6301,[&]( d::Array<double,false> _a0) mutable ->d::Array<double,false>{d::Array<double,false> _n_v_6375=_a0;
 {
-auto _n_binding_6436=_n_turn_6369(d::Array<double,false>(_n_v_6375));
+auto _n_binding_6436=_n_turn_6369(_n_v_6375);
 double _n_x_6376=d::at(_n_binding_6436,0.0);
 double _n_y_6377=d::at(_n_binding_6436,1.0);
-return std::array<double,2>{d::round((((this->_n_cols_6308/2.0)-0.5)+((_n_x_6376*_n_S_6295)/_n_CW_6294))),d::round((((this->_n_rows_6309/2.0)-0.5)-(_n_y_6377*_n_S_6295)))};
+return d::Array<double,false>{d::round((((this->_n_cols_6308/2.0)-0.5)+((_n_x_6376*_n_S_6295)/_n_CW_6294))),d::round((((this->_n_rows_6309/2.0)-0.5)-(_n_y_6377*_n_S_6295)))};
 
 }
 });
@@ -175,24 +175,24 @@ auto _n_put_6379=[=]( double _a0,double _a1,d::String _a2) mutable ->std::varian
 double _n_r_6381=_a1;
 d::String _n_ch_6382=_a2;
 return ([&]()->std::variant<d::String,bool>{auto _n_logical_6438=([&]()->bool{auto _n_logical_6442=([&]()->bool{auto _n_logical_6443=([&]()->bool{auto _n_logical_6444=(_n_r_6381>=0.0);return d::truth(_n_logical_6444)?(_n_r_6381<this->_n_rows_6309):_n_logical_6444;})();return d::truth(_n_logical_6443)?(_n_c_6380>=0.0):_n_logical_6443;})();return d::truth(_n_logical_6442)?(_n_c_6380<this->_n_cols_6308):_n_logical_6442;})();return d::truth(_n_logical_6438)?std::variant<d::String,bool>(([&](){auto&& _n_array_6439=d::at(this->_n_grid_6311,_n_r_6381);auto _n_index_6440=_n_c_6380;auto _n_value_6441=_n_ch_6382;d::put(_n_array_6439,_n_index_6440,_n_value_6441);return _n_value_6441;})()):std::variant<d::String,bool>(_n_logical_6438);})();};
-d::Array<std::array<double,3>,false> _n_shown_6383=d::map(_n_F_6303,[&]( std::shared_ptr<std::tuple<double,double,d::Array<double,false>>> _a0) mutable ->std::array<double,3>{auto _n_binding_6445=_a0;
+d::Array<d::Array<double,false>,false> _n_shown_6383=d::map(_n_F_6303,[&]( std::shared_ptr<std::tuple<double,double,d::Array<double,false>>> _a0) mutable ->d::Array<double,false>{auto _n_binding_6445=_a0;
 double _n_k_6384=std::get<0>(*_n_binding_6445);
 double _n_s_6385=std::get<1>(*_n_binding_6445);
 return _n_turn_6369(d::map(d::Array<double,false>{0.0,1.0,2.0},[&]( double _a0) mutable ->double{double _n_j_6386=_a0;
 return (d::truth((_n_j_6386==_n_k_6384))?_n_s_6385:0.0);}));});
-d::Array<bool,false> _n_seen_6387=d::map(_n_E_6302,[&]( std::array<double,2> _a0) mutable ->bool{auto _n_binding_6446=_a0;
+d::Array<bool,false> _n_seen_6387=d::map(_n_E_6302,[&]( d::Array<double,false> _a0) mutable ->bool{auto _n_binding_6446=_a0;
 double _n_a_6388=d::at(_n_binding_6446,0.0);
 double _n_b_6389=d::at(_n_binding_6446,1.0);
 return d::some(_n_F_6303,[&]( std::shared_ptr<std::tuple<double,double,d::Array<double,false>>> _a0,double _a1) mutable ->bool{auto _n_binding_6447=_a0;
 d::Array<double,false> _n_q_6390=std::get<2>(*_n_binding_6447);
 double _n_f_6391=_a1;
 return ([&]()->bool{auto _n_logical_6448=([&]()->bool{auto _n_logical_6449=(d::at(d::at(_n_shown_6383,_n_f_6391),2.0)<(-d::number(0.12)));return d::truth(_n_logical_6449)?_n_q_6390.includes(_n_a_6388):_n_logical_6449;})();return d::truth(_n_logical_6448)?_n_q_6390.includes(_n_b_6389):_n_logical_6448;})();});});
-(void)(d::forEach(_n_E_6302,[&]( std::array<double,2> _a0,double _a1) mutable ->std::optional<bool>{auto _n_binding_6450=_a0;
+(void)(d::forEach(_n_E_6302,[&]( d::Array<double,false> _a0,double _a1) mutable ->std::optional<bool>{auto _n_binding_6450=_a0;
 double _n_a_6392=d::at(_n_binding_6450,0.0);
 double _n_b_6393=d::at(_n_binding_6450,1.0);
 double _n_i_6394=_a1;
 return ([&]()->std::optional<bool>{auto _n_logical_6451=d::at(_n_seen_6387,_n_i_6394);return d::truth(_n_logical_6451)?(_n_line_6306(d::at(_n_P_6374,_n_a_6392),d::at(_n_P_6374,_n_b_6393),[_n_callable_6452=_n_put_6379](double _p0,double _p1,d::String _p2)mutable->d::Unknown{return std::visit([&](const auto &_v)->d::Unknown{return d::Unknown(_v);},_n_callable_6452(_p0,_p1,_p2));}),std::optional<bool>{}):std::optional<bool>(_n_logical_6451);})();}));
-(void)(d::forEach(_n_E_6302,[&]( std::array<double,2> _a0,double _a1) mutable ->std::variant<d::String,bool>{auto _n_binding_6453=_a0;
+(void)(d::forEach(_n_E_6302,[&]( d::Array<double,false> _a0,double _a1) mutable ->std::variant<d::String,bool>{auto _n_binding_6453=_a0;
 double _n_a_6395=d::at(_n_binding_6453,0.0);
 double _n_b_6396=d::at(_n_binding_6453,1.0);
 double _n_i_6397=_a1;
@@ -206,11 +206,11 @@ if(d::truth((d::at(d::at(_n_shown_6383,_n_f_6399),2.0)>=(-d::number(0.12))))){d:
 double _n_lit_6400=d::maximum({0.0,(((d::at(d::at(_n_shown_6383,_n_f_6399),0.0)*d::at(_n_LIGHT_6305,0.0))+(d::at(d::at(_n_shown_6383,_n_f_6399),1.0)*d::at(_n_LIGHT_6305,1.0)))+(d::at(d::at(_n_shown_6383,_n_f_6399),2.0)*d::at(_n_LIGHT_6305,2.0)))});
 double _n_k_6401=([&](){auto _n_argument_6458=2.0;auto _n_argument_6459=std::floor((_n_lit_6400*3.0));return d::minimum({_n_argument_6458,_n_argument_6459});})();
 std::function<d::String(double,double)> _n_tone_6402=d::at(_n_TONES_6300,(d::truth(_n_paper_6362)?(2.0-_n_k_6401):_n_k_6401));
-d::Array<std::array<double,2>,false> _n_quad_6403=d::map(_n_q_6398,[&]( double _a0) mutable ->std::array<double,2>{double _n_i_6404=_a0;
+d::Array<d::Array<double,false>,false> _n_quad_6403=d::map(_n_q_6398,[&]( double _a0) mutable ->d::Array<double,false>{double _n_i_6404=_a0;
 return d::at(_n_P_6374,_n_i_6404);});
-d::Array<double,false> _n_ys_6405=d::map(_n_quad_6403,[&]( std::array<double,2> _a0) mutable ->double{auto&& _n_p_6406=_a0;
+d::Array<double,false> _n_ys_6405=d::map(_n_quad_6403,[&]( d::Array<double,false> _a0) mutable ->double{d::Array<double,false> _n_p_6406=_a0;
 return d::at(_n_p_6406,1.0);});
-d::Array<double,false> _n_xs_6407=d::map(_n_quad_6403,[&]( std::array<double,2> _a0) mutable ->double{auto&& _n_p_6408=_a0;
+d::Array<double,false> _n_xs_6407=d::map(_n_quad_6403,[&]( d::Array<double,false> _a0) mutable ->double{d::Array<double,false> _n_p_6408=_a0;
 return d::at(_n_p_6408,0.0);});
 {double _n_r_6409=([&](){d::Array<double> _n_numbers_6460;for(auto _x:_n_ys_6405)_n_numbers_6460.push(_x);return d::minimum(_n_numbers_6460);})();
 for(;d::truth((_n_r_6409<=([&](){d::Array<double> _n_numbers_6461;for(auto _x:_n_ys_6405)_n_numbers_6461.push(_x);return d::maximum(_n_numbers_6461);})()));(void)((_n_r_6409++))){d::check_cancel();{double _n_c_6410=([&](){d::Array<double> _n_numbers_6462;for(auto _x:_n_xs_6407)_n_numbers_6462.push(_x);return d::minimum(_n_numbers_6462);})();

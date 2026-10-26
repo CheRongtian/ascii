@@ -74,7 +74,7 @@ const double _n_LM_1048=[](){return d::hypot(std::initializer_list<double>{(-d::
 double _n_LX_1049{};
 double _n_LY_1050{};
 double _n_LZ_1051{};
-const bool _n_unpack_init_1152=[](){auto _n_binding_1153=std::array<double,3>{((-d::number(0.5))/_n_LM_1048),(0.6/_n_LM_1048),(0.62/_n_LM_1048)};
+const bool _n_unpack_init_1152=[](){auto _n_binding_1153=d::Array<double,false>{((-d::number(0.5))/_n_LM_1048),(0.6/_n_LM_1048),(0.62/_n_LM_1048)};
 _n_LX_1049=d::at(_n_binding_1153,0.0);
 _n_LY_1050=d::at(_n_binding_1153,1.0);
 _n_LZ_1051=d::at(_n_binding_1153,2.0);
@@ -109,12 +109,12 @@ double _n_y_1073=_a1;
 d::String _n_ch_1074=_a2;
 return ([&](){auto _n_argument_1189=std::floor((this->_n_cx_1060+_n_x_1072));auto _n_argument_1190=std::floor((this->_n_cy_1061-(_n_y_1073/2.0)));auto _n_argument_1191=_n_ch_1074;return this->_n_set_1064(_n_argument_1189,_n_argument_1190,_n_argument_1191);})();}
 
-std::optional<std::array<double,2>> _n_hand_1066(double _a0,double _a1,double _a2,std::shared_ptr<_n_Record_1053> _a3){double _n_a_1075=_a0;
+std::optional<d::Array<double,false>> _n_hand_1066(double _a0,double _a1,double _a2,std::shared_ptr<_n_Record_1053> _a3){double _n_a_1075=_a0;
 double _n_r0_1076=_a1;
 double _n_r1_1077=_a2;
 std::shared_ptr<_n_Record_1053> _n_st_1078=_a3;
 {
-std::optional<std::array<double,2>> _n_end_1079=std::optional<std::array<double,2>>{};
+std::optional<d::Array<double,false>> _n_end_1079=std::optional<d::Array<double,false>>{};
 double _n_sx_1080=std::sin(_n_a_1075);
 double _n_sy_1081=std::cos(_n_a_1075);
 bool _n_steep_1082=([&](){auto _n_left_1192=std::fabs(_n_sy_1081);auto _n_right_1193=(4.0*std::fabs(_n_sx_1080));return (_n_left_1192>_n_right_1193);})();
@@ -146,7 +146,7 @@ if(d::truth((!d::truth(_n_runs_1084)))){d::check_cancel();double _n_c_1102=std::
 (void)(this->_n_set_1064(_n_c_1102,_n_r_1091,(d::truth(_n_steep_1082)?_n_st_1078->_p_up:(d::truth(_n_rise_1083)?_n_st_1078->_p_rise:_n_st_1078->_p_fall))));
 if((d::truth(_n_st_1078->_p_wide)&&d::truth((!d::truth(_n_steep_1082))))){d::check_cancel();(void)(this->_n_set_1064((d::truth(((_n_mid_1100-_n_c_1102)<0.5))?(_n_c_1102-1.0):(_n_c_1102+1.0)),_n_r_1091,(d::truth(_n_rise_1083)?_n_st_1078->_p_rise:_n_st_1078->_p_fall)));
 }
-if(d::truth(_n_last_1101)){d::check_cancel();(void)((_n_end_1079=std::array<double,2>{_n_c_1102,_n_r_1091}));
+if(d::truth(_n_last_1101)){d::check_cancel();(void)((_n_end_1079=d::Array<double,false>{_n_c_1102,_n_r_1091}));
 }
 continue;
 }
@@ -158,7 +158,7 @@ double _n_c1_1107=std::floor((_n_hi_1099-0.000001));
 {double _n_c_1108=_n_c0_1106;
 for(;d::truth((_n_c_1108<=_n_c1_1107));(void)((_n_c_1108++))){d::check_cancel();(void)(this->_n_set_1064(_n_c_1108,_n_r_1091,_n_ch_1105));
 }}
-if(d::truth(_n_last_1101)){d::check_cancel();(void)((_n_end_1079=std::array<double,2>{([&](){auto _n_argument_1202=_n_c0_1106;auto _n_argument_1203=([&](){auto _n_argument_1204=_n_c1_1107;auto _n_argument_1205=std::floor(_n_xAt_1087(_n_r1_1077));return d::minimum({_n_argument_1204,_n_argument_1205});})();return d::maximum({_n_argument_1202,_n_argument_1203});})(),_n_r_1091}));
+if(d::truth(_n_last_1101)){d::check_cancel();(void)((_n_end_1079=d::Array<double,false>{([&](){auto _n_argument_1202=_n_c0_1106;auto _n_argument_1203=([&](){auto _n_argument_1204=_n_c1_1107;auto _n_argument_1205=std::floor(_n_xAt_1087(_n_r1_1077));return d::minimum({_n_argument_1204,_n_argument_1205});})();return d::maximum({_n_argument_1202,_n_argument_1203});})(),_n_r_1091}));
 }
 if(d::truth(_n_st_1078->_p_wide)){d::check_cancel();continue;
 }
@@ -244,8 +244,8 @@ double _n_am_1137=((_n_min_1127*ascii::PI)/30.0);
 double _n_as_1138=((_n_sec_1126*ascii::PI)/30.0);
 (void)(this->_n_hand_1066(_n_ah_1136,1.5,9.5,_n_HOUR_1052));
 (void)(this->_n_hand_1066(_n_am_1137,1.5,15.5,_n_MINUTE_1054));
-std::optional<std::variant<bool,std::array<double,2>>> _n_tip_1139=([&]()->std::optional<std::variant<bool,std::array<double,2>>>{auto _n_logical_1181=this->_n_seconds_1057;return d::truth(_n_logical_1181)?([&]()->std::optional<std::variant<bool,std::array<double,2>>>{auto _n_nullable_1182=this->_n_hand_1066(_n_as_1138,1.5,14.8,_n_SECOND_1055);if(!d::present(_n_nullable_1182))return {};return std::variant<bool,std::array<double,2>>(d::read(_n_nullable_1182));})():std::optional<std::variant<bool,std::array<double,2>>>(std::variant<bool,std::array<double,2>>(_n_logical_1181));})();
-if(d::truth(this->_n_seconds_1057)){d::check_cancel();std::optional<std::array<double,2>> _n_w_1140=this->_n_hand_1066((_n_as_1138+ascii::PI),1.5,4.4,_n_SECOND_1055);
+std::optional<std::variant<bool,d::Array<double,false>>> _n_tip_1139=([&]()->std::optional<std::variant<bool,d::Array<double,false>>>{auto _n_logical_1181=this->_n_seconds_1057;return d::truth(_n_logical_1181)?([&]()->std::optional<std::variant<bool,d::Array<double,false>>>{auto _n_nullable_1182=this->_n_hand_1066(_n_as_1138,1.5,14.8,_n_SECOND_1055);if(!d::present(_n_nullable_1182))return {};return std::variant<bool,d::Array<double,false>>(d::read(_n_nullable_1182));})():std::optional<std::variant<bool,d::Array<double,false>>>(std::variant<bool,d::Array<double,false>>(_n_logical_1181));})();
+if(d::truth(this->_n_seconds_1057)){d::check_cancel();std::optional<d::Array<double,false>> _n_w_1140=this->_n_hand_1066((_n_as_1138+ascii::PI),1.5,4.4,_n_SECOND_1055);
 double _n_f_1141=(this->_n_cy_1061+(std::cos(_n_as_1138)*2.2));
 if(d::truth(_n_w_1140)){d::check_cancel();(void)(([&](){auto _n_argument_1183=d::at(d::read(_n_w_1140),0.0);auto _n_argument_1184=d::at(d::read(_n_w_1140),1.0);auto _n_argument_1185=(d::truth(((_n_f_1141-std::floor(_n_f_1141))<0.5))?d::String(u"▀"):d::String(u"▄"));return this->_n_set_1064(_n_argument_1183,_n_argument_1184,_n_argument_1185);})());
 }
@@ -256,7 +256,7 @@ if(d::truth(this->_n_numerals_1056)){d::check_cancel();(void)(this->_n_put_1065(
 (void)(this->_n_put_1065(0.0,(-d::number(15.6)),d::String(u"6")));
 (void)(this->_n_put_1065((-d::number(15.2)),0.0,d::String(u"9")));
 }
-if(d::truth(_n_tip_1139)){d::check_cancel();(void)(this->_n_set_1064(d::at(std::get<std::array<double,2>>(d::read(_n_tip_1139)),0.0),d::at(std::get<std::array<double,2>>(d::read(_n_tip_1139)),1.0),d::String(u"o")));
+if(d::truth(_n_tip_1139)){d::check_cancel();(void)(this->_n_set_1064(d::at(std::get<d::Array<double,false>>(d::read(_n_tip_1139)),0.0),d::at(std::get<d::Array<double,false>>(d::read(_n_tip_1139)),1.0),d::String(u"o")));
 }
 (void)(this->_n_put_1065(0.0,0.0,d::String(u"@")));
 return d::join(d::map(this->_n_g_1063,[&]( d::Array<d::String,false> _a0) mutable ->d::String{d::Array<d::String,false> _n_row_1142=_a0;

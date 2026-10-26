@@ -142,13 +142,13 @@ std::function<d::String(double,std::shared_ptr<_n_Record_7989>)> _render;
 d::Array<d::Array<double,false>,false> _n_glyph_7892(d::String _a0){d::String _n_ch_7919=_a0;
 return ([&]()->d::Array<d::Array<double,false>,false>{auto _n_logical_8034=_n_STROKES_7872.get(_n_ch_7919);return d::truth(_n_logical_8034)?_n_logical_8034:(d::truth((_n_ch_7919==d::String(u" ")))?d::Array<d::Array<double,false>,false>{}:_n_STROKES_7872.get(d::String(u"?")));})();}
 
-std::array<double,2> _n_span_7893(d::Array<d::Array<double,false>,false> _a0){d::Array<d::Array<double,false>,false> _n_g_7920=_a0;
+d::Array<double,false> _n_span_7893(d::Array<d::Array<double,false>,false> _a0){d::Array<d::Array<double,false>,false> _n_g_7920=_a0;
 {
 d::Array<double,false> _n_xs_7921=d::flatMap(_n_g_7920,[&]( d::Array<double,false> _a0) mutable ->d::Array<double,false>{d::Array<double,false> _n_p_7922=_a0;
 return d::filter(_n_p_7922,[&]( double _a0,double _a1) mutable ->bool{double _n___7923=_a0;
 double _n_i_7924=_a1;
 return (d::mod(_n_i_7924,2.0)==0.0);});});
-return (d::truth(double(_n_xs_7921.size()))?std::array<double,2>{([&](){d::Array<double> _n_numbers_8035;for(auto _x:_n_xs_7921)_n_numbers_8035.push(_x);return d::minimum(_n_numbers_8035);})(),([&](){d::Array<double> _n_numbers_8036;for(auto _x:_n_xs_7921)_n_numbers_8036.push(_x);return d::maximum(_n_numbers_8036);})()}:std::array<double,2>{0.0,2.0});
+return (d::truth(double(_n_xs_7921.size()))?d::Array<double,false>{([&](){d::Array<double> _n_numbers_8035;for(auto _x:_n_xs_7921)_n_numbers_8035.push(_x);return d::minimum(_n_numbers_8035);})(),([&](){d::Array<double> _n_numbers_8036;for(auto _x:_n_xs_7921)_n_numbers_8036.push(_x);return d::maximum(_n_numbers_8036);})()}:d::Array<double,false>{0.0,2.0});
 
 }
 }

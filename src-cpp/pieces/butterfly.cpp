@@ -27,7 +27,7 @@ std::optional<bool> _p_paper{};
 std::optional<d::Array<uint8_t,true>> _p_color{};
 static std::shared_ptr<_n_Record_3453> decode(const ascii::Json &j){auto out=std::make_shared<_n_Record_3453>();out->_p_paper=d::decode<std::optional<bool>>(j["paper"]);out->_p_color=d::decode<std::optional<d::Array<uint8_t,true>>>(j["color"]);return out;}
 };
-std::array<double,3> _n_drop_3383(std::shared_ptr<_n_Record_3380> _a0,double _a1,double _a2);
+d::Array<double,false> _n_drop_3383(std::shared_ptr<_n_Record_3380> _a0,double _a1,double _a2);
 double _n_wing_3384(double _a0,double _a1);
 std::shared_ptr<_n_Record_3374> _n_meta_3373=[](){return ([&](){auto _n_object_3456=std::make_shared<_n_Record_3374>();_n_object_3456->_p_name=d::String(u"butterfly");_n_object_3456->_p_category=d::String(u"creatures");_n_object_3456->_p_note=d::String(u"a butterfly flapping and gliding along a wandering path");_n_object_3456->_p_cols=64.0;_n_object_3456->_p_rows=24.0;_n_object_3456->_p_fps=30.0;return _n_object_3456;})();}();
 const d::String _n_RAMP_3375=[](){return d::String(u" .:-=+*#%@");}();
@@ -36,7 +36,7 @@ const double _n_BEAT_3377=[](){return 2.5;}();
 const double _n_EYE_3378=[](){return 120.0;}();
 std::shared_ptr<_n_Record_3380> _n_FORE_3379=[](){return ([&](){auto _n_object_3458=std::make_shared<_n_Record_3380>();_n_object_3458->_p_x=9.6;_n_object_3458->_p_y=5.6;_n_object_3458->_p_a=11.6;_n_object_3458->_p_b=7.2;_n_object_3458->_p_r=0.5;return _n_object_3458;})();}();
 std::shared_ptr<_n_Record_3380> _n_HIND_3381=[](){return ([&](){auto _n_object_3460=std::make_shared<_n_Record_3380>();_n_object_3460->_p_x=7.0;_n_object_3460->_p_y=(-d::number(4.6));_n_object_3460->_p_a=8.8;_n_object_3460->_p_b=7.4;_n_object_3460->_p_r=(-d::number(0.62));return _n_object_3460;})();}();
-std::array<double,3> _n_drop_3383(std::shared_ptr<_n_Record_3380> _a0,double _a1,double _a2){std::shared_ptr<_n_Record_3380> _n_w_3389=_a0;
+d::Array<double,false> _n_drop_3383(std::shared_ptr<_n_Record_3380> _a0,double _a1,double _a2){std::shared_ptr<_n_Record_3380> _n_w_3389=_a0;
 double _n_x_3390=_a1;
 double _n_y_3391=_a2;
 {
@@ -46,7 +46,7 @@ double _n_c_3394=std::cos(_n_w_3389->_p_r);
 double _n_s_3395=std::sin(_n_w_3389->_p_r);
 double _n_p_3396=(((_n_dx_3392*_n_c_3394)+(_n_dy_3393*_n_s_3395))/_n_w_3389->_p_a);
 double _n_q_3397=(((_n_dy_3393*_n_c_3394)-(_n_dx_3392*_n_s_3395))/(_n_w_3389->_p_b*(0.58+(0.42*([&](){auto _n_argument_3461=1.0;auto _n_argument_3462=d::maximum({0.0,((_n_p_3396+1.0)/2.0)});return d::minimum({_n_argument_3461,_n_argument_3462});})()))));
-return std::array<double,3>{_n_p_3396,_n_q_3397,((_n_p_3396*_n_p_3396)+(_n_q_3397*_n_q_3397))};
+return d::Array<double,false>{_n_p_3396,_n_q_3397,((_n_p_3396*_n_p_3396)+(_n_q_3397*_n_q_3397))};
 
 }
 }
@@ -119,8 +119,8 @@ double _n_th_3417=((_n_flap_3415*(0.6-(0.72*_n_beat_3416)))-(0.06*(1.0-_n_flap_3
 double _n_bx_3418=(d::round(([&](){auto _n_left_3471=((this->_n_cols_3385/2.0)+(9.0*std::sin((_n_w_3413*_n_u_3412))));auto _n_right_3472=(2.0*std::sin((((3.0*_n_w_3413)*_n_u_3412)+0.6)));return (_n_left_3471+_n_right_3472);})())-0.5);
 double _n_by_3419=([&](){auto _n_left_3473=(((this->_n_rows_3386/2.0)+0.6)+(1.4*std::sin((((2.0*_n_w_3413)*_n_u_3412)+1.0))));auto _n_right_3474=((0.35*_n_flap_3415)*std::sin((((2.0*ascii::PI)*_n_BEAT_3377)*_n_u_3412)));return (_n_left_3473+_n_right_3474);})();
 double _n_bank_3420=(((0.16-(0.1*_n_flap_3415))*([&](){auto _n_left_3475=std::cos((_n_w_3413*_n_u_3412));auto _n_right_3476=(0.67*std::cos((((3.0*_n_w_3413)*_n_u_3412)+0.6)));return (_n_left_3475+_n_right_3476);})())/1.67);
-d::Array<std::array<double,2>,false> _n_tilt_3421=d::map(d::Array<double,false>{(_n_th_3417-_n_bank_3420),(_n_th_3417+_n_bank_3420)},[&]( double _a0) mutable ->std::array<double,2>{double _n_a_3422=_a0;
-return std::array<double,2>{std::cos(_n_a_3422),std::sin(_n_a_3422)};});
+d::Array<d::Array<double,false>,false> _n_tilt_3421=d::map(d::Array<double,false>{(_n_th_3417-_n_bank_3420),(_n_th_3417+_n_bank_3420)},[&]( double _a0) mutable ->d::Array<double,false>{double _n_a_3422=_a0;
+return d::Array<double,false>{std::cos(_n_a_3422),std::sin(_n_a_3422)};});
 double _n_dim_3423=(0.82+(0.18*std::cos(_n_th_3417)));
 auto _n_sample_3424=[&]( double _a0,double _a1) mutable ->double{double _n_X_3425=_a0;
 double _n_Y_3426=_a1;

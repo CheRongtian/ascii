@@ -55,13 +55,16 @@ const AsciiPieceMeta *ascii_piece_meta_at(size_t index);
 const AsciiPieceMeta *ascii_piece_find(const char *id);
 
 // Creation starts at the original initial state, including simulation warmup.
-// Use an instance on one serial queue, and destroy it when switching/restarting.
+// Use an instance on one serial queue. It may be retained between selections.
+// Destroy it when evicting it from the cache or restarting from the beginning.
 // Pass NULL options to use the registered defaults for this piece.
 AsciiPiece *ascii_piece_create(const char *id, const AsciiPieceOptions *options);
 AsciiCancellation *ascii_cancellation_create(void);
 void ascii_cancellation_cancel(AsciiCancellation *cancellation);
 void ascii_cancellation_destroy(AsciiCancellation *cancellation);
 void ascii_piece_destroy(AsciiPiece *piece);
+// Rebind cancellation on the instance's serial queue, between render calls.
+void ascii_piece_set_cancellation(AsciiPiece *piece, AsciiCancellation *cancellation);
 int32_t ascii_piece_render(AsciiPiece *piece, double time, int32_t paper,
                            int32_t colored, AsciiFrame *output);
 

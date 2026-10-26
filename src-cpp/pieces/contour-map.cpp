@@ -82,7 +82,7 @@ if(d::truth((!d::truth(_n_L_5884)))){d::check_cancel();continue;
 }
 double _n_r_5885=double(d::i32((_n_i_5883/this->_n_cols_5850))|d::i32(0.0));
 double _n_c_5886=d::mod(_n_i_5883,this->_n_cols_5850);
-auto _n_binding_6029=(d::truth(this->_n_steep_5868(_n_i_5883))?std::array<double,2>{(d::truth((_n_c_5886>0.0))?(_n_i_5883-1.0):(-d::number(1.0))),(d::truth((_n_c_5886<(this->_n_cols_5850-1.0)))?(_n_i_5883+1.0):(-d::number(1.0)))}:std::array<double,2>{(d::truth((_n_r_5885>0.0))?(_n_i_5883-this->_n_cols_5850):(-d::number(1.0))),(d::truth((_n_r_5885<(this->_n_rows_5851-1.0)))?(_n_i_5883+this->_n_cols_5850):(-d::number(1.0)))});
+auto _n_binding_6029=(d::truth(this->_n_steep_5868(_n_i_5883))?d::Array<double,false>{(d::truth((_n_c_5886>0.0))?(_n_i_5883-1.0):(-d::number(1.0))),(d::truth((_n_c_5886<(this->_n_cols_5850-1.0)))?(_n_i_5883+1.0):(-d::number(1.0)))}:d::Array<double,false>{(d::truth((_n_r_5885>0.0))?(_n_i_5883-this->_n_cols_5850):(-d::number(1.0))),(d::truth((_n_r_5885<(this->_n_rows_5851-1.0)))?(_n_i_5883+this->_n_cols_5850):(-d::number(1.0)))});
 double _n_p_5887=d::at(_n_binding_6029,0.0);
 double _n_q_5888=d::at(_n_binding_6029,1.0);
 auto _n_beaten_5889=[&]( double _a0) mutable ->bool{double _n_j_5890=_a0;

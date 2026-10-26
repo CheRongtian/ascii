@@ -21,6 +21,30 @@ for(const file of files){const sf=program.getSourceFile(file),changes=[];const v
 const host=ts.createCompilerHost(compilerOptions),read=host.readFile;
 host.readFile=file=>rewritten.get(file)??read(file);
 program=ts.createProgram(files,compilerOptions,host);checker=program.getTypeChecker();
+// A tuple passed as an ordinary JS array must keep shared storage. Copying
+// it into a temporary vector would lose writes through a function parameter.
+const sharedTuples=new Set();
+const markSharedArrays=(actual,expected)=>{
+  if(!actual||!expected)return;
+  if(checker.isTupleType(actual)&&checker.isArrayType(expected)){sharedTuples.add(actual);return;}
+  if(checker.isArrayType(actual)&&checker.isArrayType(expected))
+    markSharedArrays(checker.getTypeArguments(actual)[0],checker.getTypeArguments(expected)[0]);
+};
+for(const file of files){
+  const visit=n=>{
+    if(ts.isCallExpression(n)){
+      const signature=checker.getResolvedSignature(n);
+      if(signature)n.arguments.forEach((arg,i)=>{
+        const parameter=signature.parameters[i];
+        if(parameter&&!ts.isSpreadElement(arg))markSharedArrays(checker.getTypeAtLocation(arg),checker.getTypeOfSymbolAtLocation(parameter,n));
+      });
+    }
+    if(ts.isVariableDeclaration(n)&&n.initializer&&n.type)markSharedArrays(checker.getTypeAtLocation(n.initializer),checker.getTypeAtLocation(n.name));
+    if(ts.isBinaryExpression(n)&&n.operatorToken.kind===ts.SyntaxKind.EqualsToken)markSharedArrays(checker.getTypeAtLocation(n.right),checker.getTypeAtLocation(n.left));
+    if(ts.isAsExpression(n))markSharedArrays(checker.getTypeAtLocation(n.expression),checker.getTypeAtLocation(n));
+    ts.forEachChild(n,visit);
+  };visit(program.getSourceFile(file));
+}
 const quote=s=>'u'+JSON.stringify(s).replace(/\\u([dD][89aAbB][0-9a-fA-F]{2})\\u([dD][c-fC-F][0-9a-fA-F]{2})/g,(_,a,b)=>String.fromCodePoint(0x10000+((parseInt(a,16)-0xd800)<<10)+parseInt(b,16)-0xdc00));
 let serial=0;const fresh=p=>'_n_'+p.replace(/[^A-Za-z0-9_]/g,'_')+'_'+(++serial);
 const num=n=>Number.isFinite(n)?String(n)+(!/[.eE]/.test(String(n))?'.0':''):n<0?'-INFINITY':'INFINITY';
@@ -64,7 +88,7 @@ class Types {
     if(checker.isTupleType(t)){
       const elements=checker.getTypeArguments(t).map(x=>this.of(x));const flags=t.target.elementFlags??[];
       for(let i=0;i<elements.length;++i)if(flags[i]&ts.ElementFlags.Optional)elements[i]=this.optional(elements[i]);
-      if(elements.length&&elements.every(x=>x.kind==='number'))return {kind:'fixed',element:elements[0],length:elements.length};if(elements.length&&elements.every(x=>this.cpp(x)===this.cpp(elements[0])))return {kind:'array',element:elements[0]};
+      if(!sharedTuples.has(t)&&elements.length&&elements.every(x=>x.kind==='number'))return {kind:'fixed',element:elements[0],length:elements.length};if(elements.length&&elements.every(x=>this.cpp(x)===this.cpp(elements[0])))return {kind:'array',element:elements[0]};
       return {kind:'tuple',elements};
     }
     if(checker.isArrayType(t)||name==='ReadonlyArray'||name==='ArrayLike')return {kind:'array',element:this.of(checker.getTypeArguments(t)[0]??checker.getIndexTypeOfType(t,ts.IndexKind.Number))};
@@ -96,6 +120,51 @@ class Emitter {
       if(binding.role==='global'&&binding.node.initializer&&(ts.isArrowFunction(binding.node.initializer)||ts.isFunctionExpression(binding.node.initializer))){binding.role='global-function';binding.fn=binding.node.initializer;}
       if(binding.role==='member')this.members.push(binding);if(binding.role==='member-function')this.methods.push(binding);
     }
+    this.escapingClosures=this.closureLifetimes();
+  }
+  closureLifetimes(){
+    const isClosure=n=>ts.isArrowFunction(n)||ts.isFunctionExpression(n)||ts.isFunctionDeclaration(n);
+    const immediateUse=n=>{
+      const parent=n.parent;
+      return ts.isCallExpression(parent)&&(parent.expression===n||ts.isPropertyAccessExpression(parent.expression)&&['map','forEach','filter','find','some','every','reduce','from','flatMap','sort'].includes(parent.expression.name.text));
+    };
+    const functions=[],bindings=new Map(),references=new Map(),escaped=new Set();
+    const collect=n=>{if(isClosure(n)){functions.push(n);references.set(n,[]);}ts.forEachChild(n,collect);};collect(this.sf);
+    for(const binding of this.symbols.values()){
+      const fn=binding.fn??binding.node.initializer;
+      if(fn&&isClosure(fn))bindings.set(fn,binding);
+    }
+    const uses=n=>{
+      if(ts.isIdentifier(n)){
+        const binding=this.binding(n),fn=binding&&(binding.fn??binding.node.initializer);
+        if(references.has(fn)&&n!==binding.node.name&&n!==fn.name)references.get(fn).push(n);
+      }
+      ts.forEachChild(n,uses);
+    };uses(this.sf);
+    for(const fn of functions){
+      const binding=bindings.get(fn);
+      if(binding?!['local','local-function'].includes(binding.role)||references.get(fn).some(ref=>!immediateUse(ref)):!immediateUse(fn))escaped.add(fn);
+    }
+    // A local helper also escapes when a retained callback calls it. Follow
+    // this dependency transitively so copying a callback never preserves
+    // references into a constructor's expired stack frame.
+    let changed=true;
+    while(changed){
+      changed=false;
+      for(const [fn,binding] of bindings){
+        if(escaped.has(fn))continue;
+        let owner=binding.node.parent;while(owner&&!isClosure(owner))owner=owner.parent;
+        for(const ref of references.get(fn)){
+          let escapes=false;
+          for(let at=ref.parent;at&&at!==owner;at=at.parent){
+            if(at===fn)break;
+            if(isClosure(at)&&escaped.has(at)){escapes=true;break;}
+          }
+          if(escapes){escaped.add(fn);changed=true;break;}
+        }
+      }
+    }
+    return escaped;
   }
   fail(n,why){const p=this.sf.getLineAndCharacterOfPosition(n.getStart(this.sf));throw new Error(`${this.id}:${p.line+1}: ${why}: ${n.getText(this.sf).slice(0,140)}`);}
   declare(name,role,node){if(!name)return;const symbol=checker.getSymbolAtLocation(name);if(!symbol)return;if(this.symbols.has(symbol))return this.symbols.get(symbol);const b={symbol,node,name:fresh(name.text??'binding'),role,type:this.inferredBindingType(name,node),fn:ts.isFunctionDeclaration(node)?node:null};this.symbols.set(symbol,b);return b;}
@@ -278,13 +347,13 @@ class Emitter {
   }
   statement(n,ctx={}){if(!n)return '';const E=x=>this.expr(x,null,ctx),S=x=>this.statement(x,ctx);if(ts.isBlock(n))return `{\n${n.statements.map(S).join('')}\n}\n`;if(ts.isVariableStatement(n))return n.declarationList.declarations.map(d=>this.variable(d,ctx)).join('');if(ts.isExpressionStatement(n)){const expression=n.expression,assignment=ts.isBinaryExpression(expression)&&expression.operatorToken.kind>=ts.SyntaxKind.FirstAssignment&&expression.operatorToken.kind<=ts.SyntaxKind.LastAssignment;return `(void)(${assignment?this.assignment(expression,ctx,true):E(expression)});\n`;}if(ts.isReturnStatement(n))return `return${n.expression?' '+this.expr(n.expression,ctx.result,ctx):''};\n`;if(ts.isIfStatement(n))return `if(${this.condition(n.expression,ctx)})${this.block(n.thenStatement,ctx)}${n.elseStatement?'else '+this.block(n.elseStatement,ctx):''}\n`;if(ts.isForStatement(n)){let init='';if(n.initializer)init=ts.isVariableDeclarationList(n.initializer)?n.initializer.declarations.map(d=>this.variable(d,ctx)).join(''):`(void)(${E(n.initializer)});`;return `{${init}for(;${n.condition?this.condition(n.condition,ctx):'true'};${n.incrementor?`(void)(${E(n.incrementor)})`:''})${this.block(n.statement,{...ctx,breakLabel:null})}}\n`;}
     if(ts.isForOfStatement(n)||ts.isForInStatement(n)){const item=fresh('item'),type=this.base(this.type(n.expression));if(ts.isForInStatement(n))this.fail(n,'for-in needs record keys');const pattern=n.initializer.declarations?.[0]?.name??n.initializer;let source=E(n.expression),element=type.element??type;if(type.kind==='map'){source+='.entries()';element=this.cpp(type.key)===this.cpp(type.value)?{kind:'array',element:type.key}:{kind:'tuple',elements:[type.key,type.value]};}if(type.kind==='set')source+='.values()';if(type.kind==='string'){source=`d::chars(${source})`;element={kind:'string'};}return `for(auto &&${item}:${source}){d::check_cancel();${this.bind(pattern,item,element,ctx)}${this.statement(n.statement,{...ctx,breakLabel:null})}}\n`;}
-    if(ts.isWhileStatement(n))return `while(${this.condition(n.expression,ctx)})${this.block(n.statement,{...ctx,breakLabel:null})}\n`;if(ts.isDoStatement(n))return `do ${this.block(n.statement,{...ctx,breakLabel:null})}while(${this.condition(n.expression,ctx)});\n`;if(ts.isBreakStatement(n))return ctx.breakLabel?`goto ${ctx.breakLabel};\n`:'break;\n';if(ts.isContinueStatement(n))return 'continue;\n';if(ts.isEmptyStatement(n)||ts.isInterfaceDeclaration(n)||ts.isTypeAliasDeclaration(n)||ts.isImportDeclaration(n))return '';if(ts.isFunctionDeclaration(n)){const b=this.binding(n.name);if(['global-function','member-function'].includes(b.role))return '';return `${this.cpp(b.type)} ${b.name};${b.name}=${this.lambda(n,b.type,{...ctx,immediate:true})};\n`;}
+    if(ts.isWhileStatement(n))return `while(${this.condition(n.expression,ctx)})${this.block(n.statement,{...ctx,breakLabel:null})}\n`;if(ts.isDoStatement(n))return `do ${this.block(n.statement,{...ctx,breakLabel:null})}while(${this.condition(n.expression,ctx)});\n`;if(ts.isBreakStatement(n))return ctx.breakLabel?`goto ${ctx.breakLabel};\n`:'break;\n';if(ts.isContinueStatement(n))return 'continue;\n';if(ts.isEmptyStatement(n)||ts.isInterfaceDeclaration(n)||ts.isTypeAliasDeclaration(n)||ts.isImportDeclaration(n))return '';if(ts.isFunctionDeclaration(n)){const b=this.binding(n.name);if(['global-function','member-function'].includes(b.role))return '';return `${this.cpp(b.type)} ${b.name};${b.name}=${this.lambda(n,b.type,{...ctx,immediate:!this.escapingClosures.has(n)})};\n`;}
     if(ts.isSwitchStatement(n)){const value=fresh('switch'),which=fresh('case'),end=fresh('end');let s=`{auto ${value}=${E(n.expression)};int ${which}=-1;`;let fallback=-1;n.caseBlock.clauses.forEach((c,i)=>{if(ts.isCaseClause(c))s+=`if(${which}<0&&${value}==${E(c.expression)})${which}=${i};`;else fallback=i;});if(fallback>=0)s+=`if(${which}<0)${which}=${fallback};`;n.caseBlock.clauses.forEach((c,i)=>{s+=`if(${which}>=0&&${which}<=${i}){${c.statements.map(x=>this.statement(x,{...ctx,breakLabel:end})).join('')}}`;});return s+`${end}:;}`;}
     this.fail(n,'Unsupported statement '+ts.SyntaxKind[n.kind]);
   }
   block(n,ctx){return `{d::check_cancel();${ts.isBlock(n)?n.statements.map(x=>this.statement(x,ctx)).join(''):this.statement(n,ctx)}}`;}
   variable(n,ctx){const first=ts.isIdentifier(n.name)?this.binding(n.name):null;if(first?.role==='member-function'||first?.role==='global-function'||n.initializer?.getText(this.sf)==='String.raw')return '';if(!n.initializer){if(first?.role==='local')return `${this.cpp(first.type)} ${first.name}{};\n`;return '';}
-    if(ts.isArrowFunction(n.initializer)||ts.isFunctionExpression(n.initializer)){let escapes=false,recursive=false;const scan=x=>{if(ts.isIdentifier(x)&&checker.getSymbolAtLocation(x)===first.symbol&&x!==n.name&&x!==n.initializer.name){let at=x;while(at&&at!==n.initializer)at=at.parent;if(at===n.initializer)recursive=true;const parent=x.parent;if(!(ts.isCallExpression(parent)&&parent.expression===x)&&!(ts.isCallExpression(parent)&&ts.isPropertyAccessExpression(parent.expression)&&['map','forEach','filter','find','some','every','reduce','from','flatMap','sort'].includes(parent.expression.name.text)))escapes=true;}ts.forEachChild(x,scan);};scan(this.sf);if(first.role==='local'&&recursive)return `${this.cpp(first.type)} ${first.name}=${this.lambda(n.initializer,first.type,{...ctx,immediate:true})};\n`;if(first.role==='local')return `auto ${first.name}=${this.lambda(n.initializer,first.type,{...ctx,immediate:!escapes})};\n`;}if(n.initializer.typeParameters?.length)return `auto ${first.name}=${this.lambda(n.initializer,first.type,ctx)};\n`;return this.bind(n.name,this.expr(n.initializer,first?.type??this.type(n.name),ctx),first?.type??this.type(n.name),ctx);
+    if(ts.isArrowFunction(n.initializer)||ts.isFunctionExpression(n.initializer)){let recursive=false;const scan=x=>{if(ts.isIdentifier(x)&&checker.getSymbolAtLocation(x)===first.symbol&&x!==n.initializer.name)recursive=true;ts.forEachChild(x,scan);};scan(n.initializer);if(first.role==='local'&&recursive)return `${this.cpp(first.type)} ${first.name}=${this.lambda(n.initializer,first.type,{...ctx,immediate:true})};\n`;if(first.role==='local')return `auto ${first.name}=${this.lambda(n.initializer,first.type,{...ctx,immediate:!this.escapingClosures.has(n.initializer)})};\n`;}if(n.initializer.typeParameters?.length)return `auto ${first.name}=${this.lambda(n.initializer,first.type,ctx)};\n`;return this.bind(n.name,this.expr(n.initializer,first?.type??this.type(n.name),ctx),first?.type??this.type(n.name),ctx);
   }
   method(b,prototype=false){const fn=b.fn??b.node,type=this.base(b.type);const args=type.params.map((p,i)=>`${this.cpp(p.type)} _a${i}`).join(',');const head=`${this.cpp(type.result)} ${b.name}(${args})`;if(prototype)return head+';';let body='';for(let i=0;i<fn.parameters.length;++i){const p=fn.parameters[i],pt=type.params[i].type,t=this.type(p.name);let v=`_a${i}`;if(p.initializer)v=`(d::present(${v})?${this.convert(v,pt,t)}:${this.expr(p.initializer,t)})`;else v=this.convert(v,pt,t);body+=this.bind(p.name,v,t,{});}
     body+=ts.isBlock(fn.body)?this.statement(fn.body,{result:type.result}):`return ${this.expr(fn.body,type.result)};`;return head+'{'+body+'}\n';

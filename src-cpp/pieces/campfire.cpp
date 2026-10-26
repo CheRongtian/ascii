@@ -189,7 +189,7 @@ if(d::truth((_n_lift_3589>=1.0))){d::check_cancel();continue;
 double _n_sway_3590=([&](){auto _n_left_3656=((1.4*std::pow(_n_lift_3589,1.4))*std::sin((((_n_h_3581*0.55)-(_n_t_3568*5.5))+_n_ph_3588)));auto _n_right_3657=((0.5*_n_lift_3589)*std::sin(((_n_t_3568*8.3)+(_n_ph_3588*2.0))));return (_n_left_3656+_n_right_3657);})();
 double _n_q_3591=(((_n_x_3578-(_n_x0_3585*(1.0-(0.45*_n_lift_3589))))-_n_sway_3590)/((_n_w0_3587*std::pow((1.0-_n_lift_3589),0.6))+0.5));
 double _n_f_3592=((1.0-(_n_q_3591*_n_q_3591))*(1.0-(_n_lift_3589*0.6)));
-if(d::truth((_n_f_3592>_n_m_3583))){d::check_cancel();(void)(([&](){auto _n_unpack_3658=std::array<double,2>{_n_f_3592,_n_lift_3589};_n_m_3583=d::at(_n_unpack_3658,0.0);_n_top_3584=d::at(_n_unpack_3658,1.0);return _n_unpack_3658;})());
+if(d::truth((_n_f_3592>_n_m_3583))){d::check_cancel();(void)(([&](){auto _n_unpack_3658=d::Array<double,false>{_n_f_3592,_n_lift_3589};_n_m_3583=d::at(_n_unpack_3658,0.0);_n_top_3584=d::at(_n_unpack_3658,1.0);return _n_unpack_3658;})());
 }
 
 }

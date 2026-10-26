@@ -28,6 +28,13 @@ add_library(AsciiEngine STATIC
     ${ASCII_PIECES}
 )
 
+target_precompile_headers(AsciiEngine PRIVATE "${ASCII_CPP_ROOT}/direct.hpp")
+# Clang PCH support for the ccache compiler entry used by this build.
+target_compile_options(AsciiEngine PRIVATE -Xclang -fno-pch-timestamp)
+set_property(TARGET AsciiEngine PROPERTY CXX_COMPILER_LAUNCHER
+    "${CMAKE_COMMAND};-E;env;CCACHE_SLOPPINESS=pch_defines,time_macros"
+)
+
 # SDK utilities are built only when their target is requested.
 file(GLOB ASCII_TOOLKIT_MODULES CONFIGURE_DEPENDS "${ASCII_CPP_ROOT}/compiled/*.cpp")
 add_library(AsciiToolkit STATIC EXCLUDE_FROM_ALL

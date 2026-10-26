@@ -43,7 +43,7 @@ double _p_i{};
 d::String _p_g{};
 static std::shared_ptr<_n_Record_9439> decode(const ascii::Json &j){auto out=std::make_shared<_n_Record_9439>();out->_p_c=d::decode<double>(j["c"]);out->_p_r=d::decode<double>(j["r"]);out->_p_i=d::decode<double>(j["i"]);out->_p_g=d::decode<d::String>(j["g"]);return out;}
 };
-d::Array<std::array<double,2>,false> _n_star_9242(double _a0);
+d::Array<d::Array<double,false>,false> _n_star_9242(double _a0);
 d::String _n_pen_9243(double _a0,double _a1,std::optional<double> _a2);
 std::shared_ptr<_n_Record_9232> _n_meta_9231=[](){return ([&](){auto _n_object_9382=std::make_shared<_n_Record_9232>();_n_object_9382->_p_name=d::String(u"epicycles");_n_object_9382->_p_category=d::String(u"generative");_n_object_9382->_p_note=d::String(u"a chain of turning circles whose tip traces a star");_n_object_9382->_p_cols=60.0;_n_object_9382->_p_rows=24.0;_n_object_9382->_p_fps=30.0;return _n_object_9382;})();}();
 const double _n_TERMS_9233=[](){return 16.0;}();
@@ -55,23 +55,23 @@ const double _n_ASPECT_9238=[](){return 0.5;}();
 d::Array<double,false> _n_RIMS_9239=[](){return d::Array<double,false>{1.0};}();
 const double _n_JOINT_9240=[](){return 1.5;}();
 const double _n_PHASE_9241=[](){return 0.12;}();
-d::Array<std::array<double,2>,false> _n_star_9242(double _a0){double _n_n_9270=_a0;
+d::Array<d::Array<double,false>,false> _n_star_9242(double _a0){double _n_n_9270=_a0;
 {
-d::Array<std::array<double,2>,false> _n_v_9271=d::Array<std::array<double,2>,false>{};
+d::Array<d::Array<double,false>,false> _n_v_9271=d::Array<d::Array<double,false>,false>{};
 {double _n_j_9272=0.0;
 for(;d::truth((_n_j_9272<10.0));(void)((_n_j_9272++))){d::check_cancel();double _n_a_9273=((ascii::PI/2.0)+((_n_j_9272*ascii::PI)/5.0));
 double _n_r_9274=(d::truth(d::mod(_n_j_9272,2.0))?0.4:1.0);
-(void)(_n_v_9271.push(std::array<double,2>{(_n_r_9274*std::cos(_n_a_9273)),(_n_r_9274*std::sin(_n_a_9273))}));
+(void)(_n_v_9271.push(d::Array<double,false>{(_n_r_9274*std::cos(_n_a_9273)),(_n_r_9274*std::sin(_n_a_9273))}));
 }}
-d::Array<std::array<double,2>,false> _n_pts_9275=d::Array<std::array<double,2>,false>{};
+d::Array<d::Array<double,false>,false> _n_pts_9275=d::Array<d::Array<double,false>,false>{};
 {double _n_i_9276=0.0;
 for(;d::truth((_n_i_9276<_n_n_9270));(void)((_n_i_9276++))){d::check_cancel();double _n_d_9277=((_n_i_9276/_n_n_9270)*10.0);
 double _n_j_9278=std::floor(_n_d_9277);
 double _n_f_9279=(_n_d_9277-_n_j_9278);
-auto _n_binding_9383=d::Array<std::array<double,2>,false>{d::at(_n_v_9271,_n_j_9278),d::at(_n_v_9271,d::mod((_n_j_9278+1.0),10.0))};
-auto&& _n_a_9280=d::at(_n_binding_9383,0.0);
-auto&& _n_b_9281=d::at(_n_binding_9383,1.0);
-(void)(_n_pts_9275.push(std::array<double,2>{(d::at(_n_a_9280,0.0)+((d::at(_n_b_9281,0.0)-d::at(_n_a_9280,0.0))*_n_f_9279)),(d::at(_n_a_9280,1.0)+((d::at(_n_b_9281,1.0)-d::at(_n_a_9280,1.0))*_n_f_9279))}));
+auto _n_binding_9383=d::Array<d::Array<double,false>,false>{d::at(_n_v_9271,_n_j_9278),d::at(_n_v_9271,d::mod((_n_j_9278+1.0),10.0))};
+d::Array<double,false> _n_a_9280=d::at(_n_binding_9383,0.0);
+d::Array<double,false> _n_b_9281=d::at(_n_binding_9383,1.0);
+(void)(_n_pts_9275.push(d::Array<double,false>{(d::at(_n_a_9280,0.0)+((d::at(_n_b_9281,0.0)-d::at(_n_a_9280,0.0))*_n_f_9279)),(d::at(_n_a_9280,1.0)+((d::at(_n_b_9281,1.0)-d::at(_n_a_9280,1.0))*_n_f_9279))}));
 }}
 return _n_pts_9275;
 
@@ -98,11 +98,11 @@ return (d::truth((_n_a_9285<80.0))?d::String(u"/"):(d::truth((_n_a_9285<100.0))?
 struct Native_epicycles final:ascii::Piece{
 double _n_cols_9244{};
 double _n_rows_9245{};
-d::Array<std::array<double,2>,false> _n_pts_9246{};
+d::Array<d::Array<double,false>,false> _n_pts_9246{};
 double _n_N_9247{};
 d::Array<std::shared_ptr<_n_Record_9249>,false> _n_terms_9248{};
 d::Array<std::shared_ptr<_n_Record_9249>,false> _n_chain_9250{};
-d::Array<std::array<double,2>,false> _n_path_9252{};
+d::Array<d::Array<double,false>,false> _n_path_9252{};
 double _n_x0_9253{};
 double _n_x1_9254{};
 double _n_y0_9255{};
@@ -110,12 +110,12 @@ double _n_y1_9256{};
 double _n_S_9257{};
 double _n_mx_9258{};
 double _n_my_9259{};
-d::Array<std::array<double,2>,false> _n_P_9262{};
+d::Array<d::Array<double,false>,false> _n_P_9262{};
 d::Array<std::shared_ptr<_n_Record_9264>,false> _n_cells_9263{};
 d::Set<double> _n_figure_9265{};
 d::Array<d::String,false> _n_grid_9267{};
 std::function<d::String(double,std::shared_ptr<_n_Record_9379>)> _render;
-std::array<double,2> _n_sum_9251(double _a0,double _a1){double _n_theta_9296=_a0;
+d::Array<double,false> _n_sum_9251(double _a0,double _a1){double _n_theta_9296=_a0;
 double _n_upto_9297=_a1;
 {
 double _n_x_9298=0.0;
@@ -130,7 +130,7 @@ double _n_s_9305=std::sin((_n_k_9301*_n_theta_9296));
 (void)((_n_x_9298=(_n_x_9298+((_n_re_9302*_n_c_9304)-(_n_im_9303*_n_s_9305)))));
 (void)((_n_y_9299=(_n_y_9299+((_n_re_9302*_n_s_9305)+(_n_im_9303*_n_c_9304)))));
 }}
-return std::array<double,2>{_n_x_9298,_n_y_9299};
+return d::Array<double,false>{_n_x_9298,_n_y_9299};
 
 }
 }
@@ -202,7 +202,7 @@ double _n_y_9293=d::at(_n_binding_9385,1.0);
 std::shared_ptr<_n_Record_9249> _n_b_9295=_a1;
 return (_n_b_9295->_p_r-_n_a_9294->_p_r);}));
 this->_n_chain_9250=this->_n_terms_9248.slice(0.0,_n_TERMS_9233);
-this->_n_path_9252=d::Array<std::array<double,2>,false>{};
+this->_n_path_9252=d::Array<d::Array<double,false>,false>{};
 this->_n_x0_9253=1.0;
 this->_n_x1_9254=(-d::number(1.0));
 this->_n_y0_9255=1.0;
@@ -211,16 +211,16 @@ this->_n_y1_9256=(-d::number(1.0));
 for(;d::truth((_n_i_9306<_n_SAMPLES_9237));(void)((_n_i_9306++))){d::check_cancel();auto _n_binding_9392=this->_n_sum_9251((((_n_i_9306/_n_SAMPLES_9237)*2.0)*ascii::PI),_n_TERMS_9233);
 double _n_x_9307=d::at(_n_binding_9392,0.0);
 double _n_y_9308=d::at(_n_binding_9392,1.0);
-(void)(this->_n_path_9252.push(std::array<double,2>{_n_x_9307,_n_y_9308}));
+(void)(this->_n_path_9252.push(d::Array<double,false>{_n_x_9307,_n_y_9308}));
 (void)(((((this->_n_x0_9253=d::minimum({this->_n_x0_9253,_n_x_9307})),(this->_n_x1_9254=d::maximum({this->_n_x1_9254,_n_x_9307}))),(this->_n_y0_9255=d::minimum({this->_n_y0_9255,_n_y_9308}))),(this->_n_y1_9256=d::maximum({this->_n_y1_9256,_n_y_9308}))));
 }}
 this->_n_S_9257=d::minimum({((this->_n_cols_9244-8.0)/(this->_n_x1_9254-this->_n_x0_9253)),(((this->_n_rows_9245-2.3)/_n_ASPECT_9238)/(this->_n_y1_9256-this->_n_y0_9255))});
 this->_n_mx_9258=((this->_n_x0_9253+this->_n_x1_9254)/2.0);
 this->_n_my_9259=((this->_n_y0_9255+this->_n_y1_9256)/2.0);
-this->_n_P_9262=d::map(this->_n_path_9252,[&]( std::array<double,2> _a0) mutable ->std::array<double,2>{auto _n_binding_9393=_a0;
+this->_n_P_9262=d::map(this->_n_path_9252,[&]( d::Array<double,false> _a0) mutable ->d::Array<double,false>{auto _n_binding_9393=_a0;
 double _n_x_9311=d::at(_n_binding_9393,0.0);
 double _n_y_9312=d::at(_n_binding_9393,1.0);
-return std::array<double,2>{this->_n_toCol_9260(_n_x_9311),this->_n_toRow_9261(_n_y_9312)};});
+return d::Array<double,false>{this->_n_toCol_9260(_n_x_9311),this->_n_toRow_9261(_n_y_9312)};});
 this->_n_cells_9263=d::Array<std::shared_ptr<_n_Record_9264>,false>{};
 this->_n_figure_9265=d::Set<double>();
 {double _n_i_9319=0.0;
@@ -237,7 +237,7 @@ auto _n_binding_9397=d::at(this->_n_P_9262,d::mod((_n_i_9319+3.0),_n_SAMPLES_923
 double _n_nx_9326=d::at(_n_binding_9397,0.0);
 double _n_ny_9327=d::at(_n_binding_9397,1.0);
 bool _n_steep_9328=([&](){auto _n_left_9398=std::fabs((_n_by_9323-_n_ay_9321));auto _n_right_9399=std::fabs((_n_bx_9322-_n_ax_9320));return (_n_left_9398>_n_right_9399);})();
-auto _n_binding_9400=(d::truth(_n_steep_9328)?std::array<double,2>{_n_ay_9321,_n_by_9323}:std::array<double,2>{_n_ax_9320,_n_bx_9322});
+auto _n_binding_9400=(d::truth(_n_steep_9328)?d::Array<double,false>{_n_ay_9321,_n_by_9323}:d::Array<double,false>{_n_ax_9320,_n_bx_9322});
 double _n_a_9329=d::at(_n_binding_9400,0.0);
 double _n_b_9330=d::at(_n_binding_9400,1.0);
 {double _n_k_9331=std::ceil((d::minimum({_n_a_9329,_n_b_9330})-0.5));

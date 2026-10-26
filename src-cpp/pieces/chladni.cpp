@@ -35,11 +35,11 @@ std::optional<bool> _p_paper{};
 std::optional<d::Array<uint8_t,true>> _p_color{};
 static std::shared_ptr<_n_Record_4541> decode(const ascii::Json &j){auto out=std::make_shared<_n_Record_4541>();out->_p_paper=d::decode<std::optional<bool>>(j["paper"]);out->_p_color=d::decode<std::optional<d::Array<uint8_t,true>>>(j["color"]);return out;}
 };
-std::array<double,3> _n_wave_4401(std::array<double,3> _a0,double _a1,double _a2);
+d::Array<double,false> _n_wave_4401(d::Array<double,false> _a0,double _a1,double _a2);
 std::function<double()> _n_mulberry32_4402(double _a0);
-std::shared_ptr<_n_Record_4404> _n_figure_4403(std::array<double,3> _a0,double _a1,double _a2);
+std::shared_ptr<_n_Record_4404> _n_figure_4403(d::Array<double,false> _a0,double _a1,double _a2);
 std::shared_ptr<_n_Record_4392> _n_meta_4391=[](){return ([&](){auto _n_object_4544=std::make_shared<_n_Record_4392>();_n_object_4544->_p_name=d::String(u"chladni plate");_n_object_4544->_p_category=d::String(u"physics");_n_object_4544->_p_note=d::String(u"sand travelling to the nodal lines of a ringing plate");_n_object_4544->_p_cols=45.0;_n_object_4544->_p_rows=23.0;_n_object_4544->_p_fps=12.0;return _n_object_4544;})();}();
-d::Array<std::array<double,3>,false> _n_MODES_4393=[](){return d::Array<std::array<double,3>,false>{std::array<double,3>{1.0,3.0,(-d::number(1.0))},std::array<double,3>{1.0,5.0,(-d::number(1.0))},std::array<double,3>{3.0,5.0,(-d::number(1.0))},std::array<double,3>{3.0,7.0,(-d::number(1.0))},std::array<double,3>{5.0,7.0,(-d::number(1.0))},std::array<double,3>{3.0,7.0,1.0},std::array<double,3>{3.0,5.0,1.0},std::array<double,3>{1.0,5.0,1.0}};}();
+d::Array<d::Array<double,false>,false> _n_MODES_4393=[](){return d::Array<d::Array<double,false>,false>{d::Array<double,false>{1.0,3.0,(-d::number(1.0))},d::Array<double,false>{1.0,5.0,(-d::number(1.0))},d::Array<double,false>{3.0,5.0,(-d::number(1.0))},d::Array<double,false>{3.0,7.0,(-d::number(1.0))},d::Array<double,false>{5.0,7.0,(-d::number(1.0))},d::Array<double,false>{3.0,7.0,1.0},d::Array<double,false>{3.0,5.0,1.0},d::Array<double,false>{1.0,5.0,1.0}};}();
 const double _n_MOVE_4394=[](){return 2.8;}();
 const double _n_HOLD_4395=[](){return 2.2;}();
 const double _n_CYCLE_4396=[](){return (_n_MOVE_4394+_n_HOLD_4395);}();
@@ -47,7 +47,7 @@ const double _n_START_4397=[](){return ((4.0*_n_CYCLE_4396)-0.2);}();
 const double _n_GRAINS_4398=[](){return 1000.0;}();
 const double _n_LOOSE_4399=[](){return 0.1;}();
 const double _n_P_4400=[](){return ascii::PI;}();
-std::array<double,3> _n_wave_4401(std::array<double,3> _a0,double _a1,double _a2){auto _n_binding_4545=_a0;
+d::Array<double,false> _n_wave_4401(d::Array<double,false> _a0,double _a1,double _a2){auto _n_binding_4545=_a0;
 double _n_n_4418=d::at(_n_binding_4545,0.0);
 double _n_m_4419=d::at(_n_binding_4545,1.0);
 double _n_s_4420=d::at(_n_binding_4545,2.0);
@@ -58,7 +58,7 @@ double _n_a_4423=std::cos(((_n_n_4418*_n_P_4400)*_n_x_4421));
 double _n_b_4424=std::cos(((_n_m_4419*_n_P_4400)*_n_y_4422));
 double _n_c_4425=std::cos(((_n_m_4419*_n_P_4400)*_n_x_4421));
 double _n_d_4426=std::cos(((_n_n_4418*_n_P_4400)*_n_y_4422));
-return std::array<double,3>{((_n_a_4423*_n_b_4424)+((_n_s_4420*_n_c_4425)*_n_d_4426)),((-d::number(_n_P_4400))*([&](){auto _n_left_4546=((_n_n_4418*std::sin(((_n_n_4418*_n_P_4400)*_n_x_4421)))*_n_b_4424);auto _n_right_4547=(((_n_s_4420*_n_m_4419)*std::sin(((_n_m_4419*_n_P_4400)*_n_x_4421)))*_n_d_4426);return (_n_left_4546+_n_right_4547);})()),((-d::number(_n_P_4400))*([&](){auto _n_left_4548=((_n_m_4419*_n_a_4423)*std::sin(((_n_m_4419*_n_P_4400)*_n_y_4422)));auto _n_right_4549=(((_n_s_4420*_n_n_4418)*_n_c_4425)*std::sin(((_n_n_4418*_n_P_4400)*_n_y_4422)));return (_n_left_4548+_n_right_4549);})())};
+return d::Array<double,false>{((_n_a_4423*_n_b_4424)+((_n_s_4420*_n_c_4425)*_n_d_4426)),((-d::number(_n_P_4400))*([&](){auto _n_left_4546=((_n_n_4418*std::sin(((_n_n_4418*_n_P_4400)*_n_x_4421)))*_n_b_4424);auto _n_right_4547=(((_n_s_4420*_n_m_4419)*std::sin(((_n_m_4419*_n_P_4400)*_n_x_4421)))*_n_d_4426);return (_n_left_4546+_n_right_4547);})()),((-d::number(_n_P_4400))*([&](){auto _n_left_4548=((_n_m_4419*_n_a_4423)*std::sin(((_n_m_4419*_n_P_4400)*_n_y_4422)));auto _n_right_4549=(((_n_s_4420*_n_n_4418)*_n_c_4425)*std::sin(((_n_n_4418*_n_P_4400)*_n_y_4422)));return (_n_left_4548+_n_right_4549);})())};
 
 }
 }
@@ -77,7 +77,7 @@ return (double(d::u32(double(d::i32(_n_t_4428)^d::i32(double(d::u32(_n_t_4428)>>
 }
 }
 
-std::shared_ptr<_n_Record_4404> _n_figure_4403(std::array<double,3> _a0,double _a1,double _a2){auto&& _n_mode_4429=_a0;
+std::shared_ptr<_n_Record_4404> _n_figure_4403(d::Array<double,false> _a0,double _a1,double _a2){d::Array<double,false> _n_mode_4429=_a0;
 double _n_ic_4430=_a1;
 double _n_ir_4431=_a2;
 {
@@ -181,7 +181,7 @@ this->_n_IC_4407=(this->_n_cols_4405-2.0);
 this->_n_IR_4408=(this->_n_rows_4406-2.0);
 this->_n_N_4409=(this->_n_IC_4407*this->_n_IR_4408);
 this->_n_rnd_4410=_n_mulberry32_4402(18.0);
-this->_n_figs_4411=d::map(_n_MODES_4393,[&]( std::array<double,3> _a0) mutable ->std::shared_ptr<_n_Record_4404>{auto&& _n_m_4464=_a0;
+this->_n_figs_4411=d::map(_n_MODES_4393,[&]( d::Array<double,false> _a0) mutable ->std::shared_ptr<_n_Record_4404>{d::Array<double,false> _n_m_4464=_a0;
 return _n_figure_4403(_n_m_4464,this->_n_IC_4407,this->_n_IR_4408);});
 this->_n_rest_4412=d::map(this->_n_figs_4411,[&]( std::shared_ptr<_n_Record_4404> _a0) mutable ->d::Array<double,true>{auto _n_binding_4596=_a0;
 d::Array<d::String,false> _n_marks_4465=_n_binding_4596->_p_marks;
@@ -194,7 +194,7 @@ double _n_i_4470=_a1;
 return ([&]()->std::variant<double,d::String>{auto _n_logical_4597=_n_m_4469;return d::truth(_n_logical_4597)?std::variant<double,d::String>(_n_on_4468.push(_n_i_4470)):std::variant<double,d::String>(_n_logical_4597);})();}));
 {double _n_i_4471=(double(_n_on_4468.size())-1.0);
 for(;d::truth((_n_i_4471>0.0));(void)((_n_i_4471--))){d::check_cancel();double _n_j_4472=std::floor((this->_n_rnd_4410()*(_n_i_4471+1.0)));
-(void)(([&](){auto _n_unpack_4598=std::array<double,2>{d::at(_n_on_4468,_n_j_4472),d::at(_n_on_4468,_n_i_4471)};d::put(_n_on_4468,_n_i_4471,d::at(_n_unpack_4598,0.0));d::put(_n_on_4468,_n_j_4472,d::at(_n_unpack_4598,1.0));return _n_unpack_4598;})());
+(void)(([&](){auto _n_unpack_4598=d::Array<double,false>{d::at(_n_on_4468,_n_j_4472),d::at(_n_on_4468,_n_i_4471)};d::put(_n_on_4468,_n_i_4471,d::at(_n_unpack_4598,0.0));d::put(_n_on_4468,_n_j_4472,d::at(_n_unpack_4598,1.0));return _n_unpack_4598;})());
 }}
 d::Array<double,true> _n_xy_4473=d::Array<double,true>(size_t((2.0*_n_GRAINS_4398)));
 {double _n_g_4474=0.0;
@@ -220,7 +220,7 @@ return _n_xy_4473;
 
 }
 });
-this->_n_trips_4413=d::map(_n_MODES_4393,[&]( std::array<double,3> _a0,double _a1) mutable ->std::shared_ptr<_n_Record_4414>{auto&& _n___4482=_a0;
+this->_n_trips_4413=d::map(_n_MODES_4393,[&]( d::Array<double,false> _a0,double _a1) mutable ->std::shared_ptr<_n_Record_4414>{d::Array<double,false> _n___4482=_a0;
 double _n_k_4483=_a1;
 {
 d::Array<double,true> _n_a_4484=d::at(this->_n_rest_4412,d::mod(((_n_k_4483+double(_n_MODES_4393.size()))-1.0),double(_n_MODES_4393.size())));
@@ -231,7 +231,7 @@ d::Array<double,false> _n_order_4488=d::Array<double,false>(d::from(_n_GRAINS_43
 return _n_g_4490;}));
 {double _n_g_4491=(_n_GRAINS_4398-1.0);
 for(;d::truth((_n_g_4491>0.0));(void)((_n_g_4491--))){d::check_cancel();double _n_j_4492=std::floor((this->_n_rnd_4410()*(_n_g_4491+1.0)));
-(void)(([&](){auto _n_unpack_4615=std::array<double,2>{d::at(_n_order_4488,_n_j_4492),d::at(_n_order_4488,_n_g_4491)};d::put(_n_order_4488,_n_g_4491,d::at(_n_unpack_4615,0.0));d::put(_n_order_4488,_n_j_4492,d::at(_n_unpack_4615,1.0));return _n_unpack_4615;})());
+(void)(([&](){auto _n_unpack_4615=d::Array<double,false>{d::at(_n_order_4488,_n_j_4492),d::at(_n_order_4488,_n_g_4491)};d::put(_n_order_4488,_n_g_4491,d::at(_n_unpack_4615,0.0));d::put(_n_order_4488,_n_j_4492,d::at(_n_unpack_4615,1.0));return _n_unpack_4615;})());
 }}
 for(auto &&_n_item_4616:_n_order_4488){d::check_cancel();double _n_g_4493=_n_item_4616;
 {

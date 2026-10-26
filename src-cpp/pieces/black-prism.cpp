@@ -27,8 +27,8 @@ double _n_clamp_2582(double _a0);
 double _n_smooth_2583(double _a0,double _a1,double _a2);
 double _n_mix_2584(double _a0,double _a1,double _a2);
 d::Array<double,false> _n_hex_2585(d::String _a0);
-std::array<double,2> _n_seg_2586(double _a0,double _a1,double _a2,double _a3,double _a4,double _a5);
-std::array<double,3> _n_spectrum_2588(double _a0);
+d::Array<double,false> _n_seg_2586(double _a0,double _a1,double _a2,double _a3,double _a4,double _a5);
+d::Array<double,false> _n_spectrum_2588(double _a0);
 std::shared_ptr<_n_Record_2566> _n_meta_2565=[](){return ([&](){auto _n_object_2819=std::make_shared<_n_Record_2566>();_n_object_2819->_p_name=d::String(u"black prism");_n_object_2819->_p_category=d::String(u"scenes");_n_object_2819->_p_note=d::String(u"the vercel triangle as a glass prism, splitting white light to a rainbow");_n_object_2819->_p_cols=200.0;_n_object_2819->_p_rows=100.0;_n_object_2819->_p_cell=1.0;_n_object_2819->_p_fps=15.0;_n_object_2819->_p_ground=d::String(u"#000000");_n_object_2819->_p_palette=d::Array<d::String,false>{d::String(u"#161616"),d::String(u"#242424"),d::String(u"#363636"),d::String(u"#4a4a4a"),d::String(u"#636363"),d::String(u"#7e7e7e"),d::String(u"#9c9c9c"),d::String(u"#bcbcbc"),d::String(u"#dcdcdc"),d::String(u"#ffffff"),d::String(u"#ff2a3c"),d::String(u"#9a1c28"),d::String(u"#ff7417"),d::String(u"#a04a10"),d::String(u"#ffdf2e"),d::String(u"#a08c1c"),d::String(u"#38f56a"),d::String(u"#1f9a42"),d::String(u"#24dcff"),d::String(u"#16879e"),d::String(u"#3a64ff"),d::String(u"#233f9e"),d::String(u"#9a4cff"),d::String(u"#5f2f9e"),d::String(u"#fff4c8"),d::String(u"#d4f6ff"),d::String(u"#ffd2d6")};return _n_object_2819;})();}();
 const d::String _n_INK_2567=[](){return d::String(u"\n                               00\n                             000000\n                            00000000\n                           0000000000\n                          000000000000\n                         00000000000000\n                        0000000000000000\n                       000000000000000000\n                     0000000000000000000000\n                    000000000000000000000000\n                   00000000000000000000000000\n                  0000000000000000000000000000\n                 000000000000000000000000000000\n                00000000000000000000000000000000\n              000000000000000000000000000000000000\n             00000000000000000000000000000000000000\n            0000000000000000000000000000000000000000\n           000000000000000000000000000000000000000000\n          00000000000000000000000000000000000000000000\n         0000000000000000000000000000000000000000000000\n        000000000000000000000000000000000000000000000000\n      0000000000000000000000000000000000000000000000000000\n     000000000000000000000000000000000000000000000000000000\n    00000000000000000000000000000000000000000000000000000000\n   0000000000000000000000000000000000000000000000000000000000\n  000000000000000000000000000000000000000000000000000000000000\n");}();
 const double _n_W_2568=[](){return 200.0;}();
@@ -95,7 +95,7 @@ d::Array<double,false> _n_hex_2585(d::String _a0){d::String _n_s_2657=_a0;
 return d::map(d::Array<double,false>{1.0,3.0,5.0},[&]( double _a0) mutable ->double{double _n_i_2658=_a0;
 return (([&](){auto _n_argument_2822=d::slice(_n_s_2657,_n_i_2658,(_n_i_2658+2.0));auto _n_argument_2823=16.0;return d::parseInt(_n_argument_2822,_n_argument_2823);})()/255.0);});}
 
-std::array<double,2> _n_seg_2586(double _a0,double _a1,double _a2,double _a3,double _a4,double _a5){double _n_px_2659=_a0;
+d::Array<double,false> _n_seg_2586(double _a0,double _a1,double _a2,double _a3,double _a4,double _a5){double _n_px_2659=_a0;
 double _n_py_2660=_a1;
 double _n_ax_2661=_a2;
 double _n_ay_2662=_a3;
@@ -107,19 +107,19 @@ double _n_dy_2666=(_n_by_2664-_n_ay_2662);
 double _n_s_2667=_n_clamp_2582(((((_n_px_2659-_n_ax_2661)*_n_dx_2665)+((_n_py_2660-_n_ay_2662)*_n_dy_2666))/((_n_dx_2665*_n_dx_2665)+(_n_dy_2666*_n_dy_2666))));
 double _n_ex_2668=((_n_ax_2661+(_n_dx_2665*_n_s_2667))-_n_px_2659);
 double _n_ey_2669=((_n_ay_2662+(_n_dy_2666*_n_s_2667))-_n_py_2660);
-return std::array<double,2>{std::sqrt(((_n_ex_2668*_n_ex_2668)+(_n_ey_2669*_n_ey_2669))),_n_s_2667};
+return d::Array<double,false>{std::sqrt(((_n_ex_2668*_n_ex_2668)+(_n_ey_2669*_n_ey_2669))),_n_s_2667};
 
 }
 }
 
-std::array<double,3> _n_spectrum_2588(double _a0){double _n_u_2670=_a0;
+d::Array<double,false> _n_spectrum_2588(double _a0){double _n_u_2670=_a0;
 {
 double _n_f_2671=(_n_clamp_2582(_n_u_2670)*(double(_n_BANDS_2587.size())-1.0));
 double _n_i_2672=([&](){auto _n_argument_2824=(double(_n_BANDS_2587.size())-2.0);auto _n_argument_2825=std::floor(_n_f_2671);return d::minimum({_n_argument_2824,_n_argument_2825});})();
 double _n_k_2673=(_n_f_2671-_n_i_2672);
 d::Array<double,false> _n_a_2674=d::at(_n_BANDS_2587,_n_i_2672);
 d::Array<double,false> _n_b_2675=d::at(_n_BANDS_2587,(_n_i_2672+1.0));
-return std::array<double,3>{_n_mix_2584(d::at(_n_a_2674,0.0),d::at(_n_b_2675,0.0),_n_k_2673),_n_mix_2584(d::at(_n_a_2674,1.0),d::at(_n_b_2675,1.0),_n_k_2673),_n_mix_2584(d::at(_n_a_2674,2.0),d::at(_n_b_2675,2.0),_n_k_2673)};
+return d::Array<double,false>{_n_mix_2584(d::at(_n_a_2674,0.0),d::at(_n_b_2675,0.0),_n_k_2673),_n_mix_2584(d::at(_n_a_2674,1.0),d::at(_n_b_2675,1.0),_n_k_2673),_n_mix_2584(d::at(_n_a_2674,2.0),d::at(_n_b_2675,2.0),_n_k_2673)};
 
 }
 }
@@ -209,9 +209,9 @@ return (((_n_a_2700+((_n_b_2701-_n_a_2700)*_n_fx_2698))+((_n_c_2702-_n_a_2700)*_
 }
 }
 
-std::array<double,2> _n_toGrid_2604(double _a0,double _a1){double _n_x_2704=_a0;
+d::Array<double,false> _n_toGrid_2604(double _a0,double _a1){double _n_x_2704=_a0;
 double _n_y_2705=_a1;
-return std::array<double,2>{(this->_n_c0_2597+((_n_x_2704-this->_n_left_2601)/_n_SCALE_2570)),((_n_y_2705-_n_TOP_2571)/(2.0*_n_SCALE_2570))};}
+return d::Array<double,false>{(this->_n_c0_2597+((_n_x_2704-this->_n_left_2601)/_n_SCALE_2570)),((_n_y_2705-_n_TOP_2571)/(2.0*_n_SCALE_2570))};}
 
 double _n_coverAt_2605(double _a0,double _a1){double _n_x_2706=_a0;
 double _n_y_2707=_a1;
